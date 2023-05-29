@@ -1,2 +1,2 @@
 # MeteoApp
-bonjour
+bonjourapp
