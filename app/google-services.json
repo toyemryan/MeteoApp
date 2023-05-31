@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1002003246122",
+    "project_id": "meteoapp-59f58",
+    "storage_bucket": "meteoapp-59f58.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002003246122:android:9f44539eed976928d36753",
+        "android_client_info": {
+          "package_name": "com.example.meteoapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGV4t8_h2Ub_C26JWFdPBpRJ8nj0AfNzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
