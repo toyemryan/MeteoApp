@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".login.LoginFragment">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".login.LoginFragment">
 
         <EditText
             android:id="@+id/userNameTextField2"
@@ -18,9 +16,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="20dp"
-            android:ems="10"
             android:hint="Email"
-            android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:text=""
             android:textSize="14sp"
@@ -29,7 +25,8 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userNameTextView"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            />
 
         <TextView
             android:id="@+id/userNameTextView2"
@@ -39,7 +36,6 @@
             android:layout_marginTop="188dp"
             android:layout_marginEnd="40dp"
             android:text="Email"
-            android:textAlignment="viewStart"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +66,6 @@
             android:layout_marginTop="73dp"
             android:layout_marginEnd="40dp"
             android:text="Username"
-            android:textAlignment="viewStart"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -87,7 +82,6 @@
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="20dp"
             android:text="Password"
-            android:textAlignment="viewStart"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/passwordTextField"
@@ -104,9 +98,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="20dp"
-            android:ems="10"
             android:hint="Username"
-            android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:text=""
             android:textSize="14sp"
@@ -122,8 +114,6 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="40dp"
-            android:ems="10"
-            android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:text=""
             android:hint="Password"
@@ -140,9 +130,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
-            android:onClick=""
+
             android:text="Registratti"
-            android:textSize="25dp"
+            android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.485"
             app:layout_constraintStart_toStartOf="parent"
@@ -153,7 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:onClick=""
+
             android:text="Accedi"
             android:textSize="34sp"
             android:textStyle="bold"
@@ -164,3 +154,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+</layout>
