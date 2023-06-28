@@ -2,4 +2,10 @@
     <string name="app_name">MeteoApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_your_email">enter your email</string>
+    <string name="enter_your_password">enter your password</string>
+    <string name="login">login</string>
+    <string name="instructions">login to your Account</string>
+    <string name="instructions2">don\'t have an account?</string>
+    <string name="Create_an_account">Create an account</string>
 </resources>

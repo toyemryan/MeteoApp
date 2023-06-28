@@ -1,26 +1,36 @@
 {
   "project_info": {
-    "project_number": "1002003246122",
-    "project_id": "meteoapp-59f58",
-    "storage_bucket": "meteoapp-59f58.appspot.com"
+    "project_number": "532570663372",
+    "project_id": "meteoapp-313da",
+    "storage_bucket": "meteoapp-313da.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1002003246122:android:9f44539eed976928d36753",
+        "mobilesdk_app_id": "1:532570663372:android:d7d1c770fb6cd593f79569",
         "android_client_info": {
           "package_name": "com.example.meteoapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "532570663372-3v6uk2c0t528n7r6d5og0bpk6hl7icqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCGV4t8_h2Ub_C26JWFdPBpRJ8nj0AfNzc"
+          "current_key": "AIzaSyCSIyN5ImDnwxUcDmHMdxTFuQLLZetQnxQ"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532570663372-3v6uk2c0t528n7r6d5og0bpk6hl7icqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
