@@ -39,8 +39,8 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.1.1'
-    implementation 'androidx.appcompat:appcompat:1.2.1'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.airbnb.android:lottie:6.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -59,7 +59,6 @@ dependencies {
     def navigationVersion = "2.3.0"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.20"
-    implementation 'androidx.appcompat:appcompat:1.2.1'
     implementation 'androidx.core:core-ktx:1.1.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 

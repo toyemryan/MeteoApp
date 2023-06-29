@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/userInformation"
+        android:icon="@drawable/user_information"
+        android:title="User"/>
+    <item
+        android:id="@+id/setting"
+        android:icon="@drawable/setting"
+        android:title="Setting"/>
+    <item
+        android:id="@+id/aboutMeteoApp"
+        android:icon="@drawable/about_meteoapp"
+        android:title="About"/>
+</menu>

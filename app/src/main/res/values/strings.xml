@@ -5,6 +5,7 @@
     <string name="enter_your_email">enter your email</string>
     <string name="enter_your_password">enter your password</string>
     <string name="confirm_your_password">confirm your password</string>
+    <string name="logo_description">particular cloud</string>
     <string name="login">login</string>
     <string name="create">create</string>
     <string name="instructions">login to your Account</string>
