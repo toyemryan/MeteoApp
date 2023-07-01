@@ -49,15 +49,15 @@ class MainMeteoFragment : Fragment() {
     private fun hide (){
         val window = (activity as AppCompatActivity).window
         val appBarLayout = (activity as AppCompatActivity).findViewById<AppBarLayout>(R.id.appbarlayout)
-        appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+        appBarLayout.addOnOffsetChangedListener { AppBarLayout, verticalOffset ->
 
-            if (abs(verticalOffset) == appBarLayout.totalScrollRange) {
+            if (abs(verticalOffset) == AppBarLayout.totalScrollRange) {
 
                 // Collapsed
                 /*appBarLayout.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         or View.SYSTEM_UI_FLAG_FULLSCREEN) //this one changed*/
                 WindowCompat.setDecorFitsSystemWindows(window, false)
-                WindowInsetsControllerCompat(window, appBarLayout).let { controller ->
+                WindowInsetsControllerCompat(window, AppBarLayout).let { controller ->
                     controller.hide(WindowInsetsCompat.Type.systemBars())
                     controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
                 }
@@ -68,13 +68,8 @@ class MainMeteoFragment : Fragment() {
                         or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         /*or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN*/) */
                 WindowCompat.setDecorFitsSystemWindows(window, true)
-                WindowInsetsControllerCompat(window, appBarLayout).show(WindowInsetsCompat.Type.systemBars())
+                WindowInsetsControllerCompat(window, AppBarLayout).show(WindowInsetsCompat.Type.systemBars())
 
-
-            } else {
-                // Somewhere in between
-                // We could optionally dim icons in this step by adding the flag:
-                // View.SYSTEM_UI_FLAG_LOW_PROFILE
             }
         }
     }
