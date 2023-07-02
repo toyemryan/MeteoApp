@@ -69,7 +69,6 @@ class MainMeteoFragment : Fragment() {
                         /*or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN*/) */
                 WindowCompat.setDecorFitsSystemWindows(window, true)
                 WindowInsetsControllerCompat(window, AppBarLayout).show(WindowInsetsCompat.Type.systemBars())
-
             }
         }
     }
