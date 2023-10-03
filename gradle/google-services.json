@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "871281848331",
+    "project_id": "meteotest-874ed",
+    "storage_bucket": "meteotest-874ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871281848331:android:ee606e3eb73d243432d70e",
+        "android_client_info": {
+          "package_name": "com.example.meteoapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMtT7aLzgRfh1ENn8v6tV_H98OWjrASCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871281848331:android:ecadaae18c93c0c832d70e",
+        "android_client_info": {
+          "package_name": "com.lionel.meteotest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMtT7aLzgRfh1ENn8v6tV_H98OWjrASCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
