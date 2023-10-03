@@ -14,7 +14,7 @@
             android:id="@+id/register"
             android:layout_width="166dp"
             android:layout_height="48dp"
-            android:layout_marginTop="170dp"
+            android:layout_marginTop="250dp"
             android:layout_marginBottom="368dp"
             android:text="@string/Register"
             android:textColor="@color/md_theme_dark_background"
@@ -65,6 +65,7 @@
             app:layout_constraintBottom_toTopOf="@+id/conferma_password_confirm"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:passwordToggleEnabled="true"
             app:layout_constraintTop_toBottomOf="@+id/edit_email">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -87,6 +88,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="40dp"
             android:hint="@string/confirm_password"
+            app:passwordToggleEnabled="true"
             app:errorIconDrawable="@drawable/ic_error"
             app:helperTextTextAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintEnd_toEndOf="parent"
