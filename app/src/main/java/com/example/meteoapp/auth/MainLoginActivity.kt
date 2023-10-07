@@ -27,6 +27,5 @@ class MainLoginActivity : AppCompatActivity(), Coordinator {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
-        val r = 33
     }
 }
