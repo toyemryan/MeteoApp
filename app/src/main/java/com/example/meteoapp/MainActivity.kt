@@ -1,6 +1,9 @@
 package com.example.meteoapp
 
+<<<<<<< HEAD
 import android.content.Intent
+=======
+>>>>>>> 66331d2c6b518470ccecdcd76e1d77bda278a5ee
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -10,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
+<<<<<<< HEAD
 import com.example.meteoapp.auth.MainLoginActivity
 import com.example.meteoapp.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -21,10 +25,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var firebaseAuth: FirebaseAuth
+=======
+import com.example.meteoapp.databinding.ActivityMainBinding
+
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var binding : ActivityMainBinding
+>>>>>>> 66331d2c6b518470ccecdcd76e1d77bda278a5ee
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+<<<<<<< HEAD
+=======
+        @Suppress("UNUSED_VARIABLE")
+>>>>>>> 66331d2c6b518470ccecdcd76e1d77bda278a5ee
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
@@ -38,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         // configurate the toolbar with the navView to be used by the navController
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
+<<<<<<< HEAD
         firebaseAuth = FirebaseAuth.getInstance()
         val currentUser : FirebaseUser? = firebaseAuth.currentUser
 
@@ -48,6 +67,8 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+=======
+>>>>>>> 66331d2c6b518470ccecdcd76e1d77bda278a5ee
     }
 
     //button di ritorno nella toolbar
