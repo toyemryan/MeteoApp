@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 <!--<?xml version="1.0" encoding="utf-8"?>-->
 
-=======
-<?xml version="1.0" encoding="utf-8"?>
->>>>>>> 66331d2c6b518470ccecdcd76e1d77bda278a5ee
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navHeader"
