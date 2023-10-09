@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#3949AB"/> <!-- La couleur de fond de la carte -->
+    <corners android:radius="12dp"/> <!-- Le rayon des coins, ajustez la valeur selon vos préférences -->
+</shape>
