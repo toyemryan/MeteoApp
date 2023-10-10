@@ -37,7 +37,6 @@
                     app:defaultNavHost="true"
                     app:navGraph="@navigation/navigation"/>
 
-
             </com.google.android.material.appbar.AppBarLayout>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -47,9 +46,21 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-
             app:headerLayout="@layout/nav_header"
-            app:menu="@menu/navdrawer_menu" />
+            app:menu="@menu/navdrawer_menu">
+
+            <Button
+                android:id="@+id/btn_sing_in"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"
+                android:layout_marginBottom="48dp"
+                android:onClick="logout"
+                android:text="@string/logout" />
+        </com.google.android.material.navigation.NavigationView>
+
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

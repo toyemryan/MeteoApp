@@ -12,9 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/rounded_card" />
+
 
         <activity
             android:name=".auth.MainLoginActivity"

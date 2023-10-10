@@ -2,6 +2,7 @@ package com.example.meteoapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var firebaseAuth: FirebaseAuth
+    private var currentUser : FirebaseUser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        val currentUser : FirebaseUser? = firebaseAuth.currentUser
+        currentUser = firebaseAuth.currentUser
 
         if(currentUser == null){
             val intent = Intent(this, MainLoginActivity::class.java)
@@ -54,6 +56,13 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.myNavHostFragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+   fun logout (view: View){
+       currentUser = null
+       val intent = Intent(this, MainLoginActivity::class.java)
+       startActivity(intent)
+       finish()
     }
 
 }
