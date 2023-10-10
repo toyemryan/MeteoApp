@@ -62,4 +62,6 @@
     <color name="md_theme_dark_outlineVariant">#49454F</color>
     <color name="md_theme_dark_scrim">#000000</color>
     <color name="font_color">#6BC4EF</color>
+    <color name="text">#FFFFFF</color>
+    <color name="home">#6D96AA</color>
 </resources>
