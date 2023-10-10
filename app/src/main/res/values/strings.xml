@@ -2,7 +2,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
 
-    <string name="app_name">Meteo</string>
+    <string name="app_name">MeteoApp</string>
     <!-- Strings related to login -->
     <string name="login">Login</string>
     <string name="email">Email</string>
