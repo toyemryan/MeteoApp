@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 
    fun logout (view: View){
+       firebaseAuth.signOut()
        currentUser = null
        val intent = Intent(this, MainLoginActivity::class.java)
        startActivity(intent)
