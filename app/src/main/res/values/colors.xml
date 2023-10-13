@@ -64,4 +64,6 @@
     <color name="font_color">#6BC4EF</color>
     <color name="text">#FFFFFF</color>
     <color name="home">#6D96AA</color>
+    <color name="write">#F8F6FA</color>
+    <color name="black">#000000</color>
 </resources>
