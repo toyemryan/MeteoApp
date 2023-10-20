@@ -2,27 +2,25 @@ package com.example.meteoapp.mainMeteo
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.meteoapp.R
 import com.example.meteoapp.databinding.FragmentMainMeteoBinding
-import kotlin.math.abs
-import android.view.View
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.material.appbar.AppBarLayout
+import kotlin.math.abs
 
 
 class MainMeteoFragment : Fragment() {
 
 
   //  private lateinit var viewModel: MainMeteoViewModel
-
-    //private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,21 +29,13 @@ class MainMeteoFragment : Fragment() {
 
         val binding = DataBindingUtil.inflate<FragmentMainMeteoBinding>(inflater,
             R.layout.fragment_main_meteo,container,false)
-
         hide()
 
-        val toolbar = (activity as AppCompatActivity).findViewById<Toolbar>(R.id.toolbar)
+       /* val toolbar = (activity as AppCompatActivity).findViewById<Toolbar>(R.id.toolbar)
+        toolbar.title = "Ancona" */
 
-        toolbar.title = "Ancona"
-
-       /* firebaseAuth = FirebaseAuth.getInstance()
-
-        val currentUser : FirebaseUser? = firebaseAuth.currentUser
-
-        if(currentUser == null){
-
-            findNavController().navigate(R.id.action_fragment_to_navigation_login)
-        } */
+        val toolbarTitle = (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_title)
+        toolbarTitle.text = "Ancona"
 
         return binding.root
     }

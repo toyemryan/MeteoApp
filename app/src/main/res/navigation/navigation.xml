@@ -1,4 +1,4 @@
-<!-- <?xml version="1.0" encoding="utf-8"?> -->
+<!-- <?xml version="1.0" encoding="utf-8"?> android:label="fragment_main_meteo" -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +8,29 @@
     <fragment
         android:id="@+id/mainMeteoFragment"
         android:name="com.example.meteoapp.mainMeteo.MainMeteoFragment"
-        android:label="fragment_main_meteo"
-        tools:layout="@layout/fragment_main_meteo"/>
+        tools:layout="@layout/fragment_main_meteo">
+        <action
+            android:id="@+id/action_mainMeteoFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
+        <action
+            android:id="@+id/action_mainMeteoFragment_to_placeFragment"
+            app:destination="@id/placeFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.meteoapp.setting.AboutFragment"
+        tools:layout="@layout/fragment_about"/>
+    <fragment
+        android:id="@+id/placeFragment"
+        android:name="com.example.meteoapp.setting.PlaceFragment"
+        tools:layout="@layout/fragment_place" />
 
 </navigation>

@@ -3,15 +3,29 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/userInformation"
-        android:icon="@drawable/user_information"
-        android:title="User"/>
+        android:id="@+id/placeFragment"
+        android:icon="@android:drawable/ic_menu_mylocation"
+        android:title="@string/favorite_place"/>
+
     <item
         android:id="@+id/setting"
         android:icon="@drawable/setting"
-        android:title="Setting"/>
+        android:title="@string/setting"/>
+
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/exit_to_app_black_24dp"
+        android:title="@string/logout"/>
+
     <item
         android:id="@+id/aboutMeteoApp"
-        android:icon="@drawable/about_meteoapp"
-        android:title="About"/>
+        android:title="@string/developer">
+        <menu>
+            <item
+                android:id="@+id/aboutFragment"
+                android:icon="@drawable/about_meteoapp"
+                android:title="@string/about"/>
+        </menu>
+    </item>
+
 </menu>

@@ -19,8 +19,7 @@
                 android:id="@+id/appbarlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                tools:ignore="ExtraText">
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -29,19 +28,16 @@
                     app:layout_scrollFlags="scroll|enterAlways"
                     tools:ignore="MissingConstraints">
 
-
-                    <androidx.appcompat.widget.SearchView
-                        android:id="@+id/search_bar"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="300dp"/>
+                    <TextView
+                        android:id="@+id/toolbar_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:clickable="true"/>
 
                 </androidx.appcompat.widget.Toolbar>
-
-
-
-
 
 
                 <androidx.fragment.app.FragmentContainerView
@@ -64,16 +60,6 @@
             app:headerLayout="@layout/nav_header"
             app:menu="@menu/navdrawer_menu">
 
-            <Button
-                android:id="@+id/btn_sing_in"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
-                android:layout_marginBottom="48dp"
-                android:onClick="logout"
-                android:text="@string/logout" />
         </com.google.android.material.navigation.NavigationView>
 
 

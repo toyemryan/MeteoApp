@@ -2,21 +2,26 @@ package com.example.meteoapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.example.meteoapp.auth.MainLoginActivity
 import com.example.meteoapp.databinding.ActivityMainBinding
+import com.example.meteoapp.setting.SettingActivity
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
@@ -40,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         // configurate the toolbar with the navView to be used by the navController
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
+        NavigationUI.setupWithNavController(binding.navView, navController)
+
         firebaseAuth = FirebaseAuth.getInstance()
         currentUser = firebaseAuth.currentUser
 
@@ -49,6 +56,8 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
+        // cet appel prepare les menu du NavView à d'éventuel changement en occurence onNavigationItemSelected
+        binding.navView.setNavigationItemSelectedListener(this)
 
     }
 
@@ -58,12 +67,34 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-   fun logout (view: View){
-       firebaseAuth.signOut()
-       currentUser = null
-       val intent = Intent(this, MainLoginActivity::class.java)
-       startActivity(intent)
-       finish()
+
+    // cette fonction permet de linker les menu du navView afin d'implementer un clickListener
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        when (item.itemId) {
+            R.id.logout -> {
+                firebaseAuth.signOut()
+                currentUser = null
+                val intent = Intent(this, MainLoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            R.id.setting -> {
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.placeFragment -> {
+                navController.navigate(R.id.action_mainMeteoFragment_to_placeFragment)
+            }
+            R.id.aboutFragment -> {
+                navController.navigate(R.id.action_mainMeteoFragment_to_aboutFragment)
+            }
+        }
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
+        return true
     }
 
 }

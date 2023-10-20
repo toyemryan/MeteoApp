@@ -15,7 +15,7 @@ android {
     defaultConfig {
         applicationId "com.example.meteoapp"
         minSdk 29
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -48,7 +48,7 @@ android {
     }
     packaging {
         resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            it.excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
 }
@@ -119,6 +119,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
+    //Preferences
+    implementation "androidx.preference:preference-ktx:1.2.0"
 
     implementation("com.google.code.gson:gson:2.9.0")
     implementation ("com.google.code.gson:gson:2.9.0")
