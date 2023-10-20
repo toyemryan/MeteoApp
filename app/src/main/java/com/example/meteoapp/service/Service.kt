@@ -1,4 +1,4 @@
-package com.lionel.mameteo.service
+package com.example.meteoapp.service
 
 import com.example.meteoapp.Utility
 import com.example.meteoapp.modal.ForeCast
