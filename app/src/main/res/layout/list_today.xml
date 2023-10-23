@@ -1,55 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TableLayout android:layout_width="match_parent"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/md_theme_light_primary"
+    android:layout_width="90dp"
     android:layout_height="wrap_content"
-    android:stretchColumns="*"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="3dp">
 
-    <TableRow>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/hourstoday"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="11:00"
-            android:gravity="center"
-
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp"
-            android:id="@+id/timeDisplay" />
+            android:textSize="14sp"
+            android:layout_margin="8dp"
+            android:textColor="@color/text"
+            android:textAlignment="center"
+            android:text="Text"/>
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/cloud"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:id="@+id/imageDisplay" />
+            android:id="@+id/imagetemptoday"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/cloudy_sunny"/>
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="21"
-            android:gravity="center"
-
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp"
-            android:id="@+id/tempDisplay" />
-
-    </TableRow>
-
-    <TableRow>
-
-        <View
+            android:id="@+id/temperaturetoday"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_span="3"
-            android:background="@android:color/darker_gray" />
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_margin="8dp"
+            android:textColor="@color/text"
+            android:textAlignment="center"
+            android:text="20°"/>
 
-    </TableRow>
 
-</TableLayout>
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

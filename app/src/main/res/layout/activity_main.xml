@@ -9,17 +9,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appbarlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -39,18 +40,17 @@
 
                 </androidx.appcompat.widget.Toolbar>
 
-
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/myNavHostFragment"
                     android:name="androidx.navigation.fragment.NavHostFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     app:defaultNavHost="true"
                     app:navGraph="@navigation/navigation"/>
 
             </com.google.android.material.appbar.AppBarLayout>
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </ScrollView>
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navView"

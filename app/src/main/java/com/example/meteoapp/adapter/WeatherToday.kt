@@ -1,5 +1,6 @@
 package com.example.meteoapp.adapter
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,7 @@ class WeatherToday : RecyclerView.Adapter<TodayHolder>() {
 
 
     // Metodo chiamato per visualizzare i dati in una posizione specifica
+    @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: TodayHolder, position: Int) {
         val todayForeCast = listOfTodayWeather[position]
 
@@ -92,12 +94,12 @@ class WeatherToday : RecyclerView.Adapter<TodayHolder>() {
 class TodayHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     // ImageView per visualizzare l'icona del tempo
-    val imageDisplay: ImageView = itemView.findViewById(R.id.imageDisplay)
+    val imageDisplay: ImageView = itemView.findViewById(R.id.imagetemptoday)
 
     // TextView per visualizzare la temperatura
-    val tempDisplay: TextView = itemView.findViewById(R.id.tempDisplay)
+    val tempDisplay: TextView = itemView.findViewById(R.id.temperaturetoday)
 
     // TextView per visualizzare l'orario
-    val timeDisplay: TextView = itemView.findViewById(R.id.timeDisplay)
+    val timeDisplay: TextView = itemView.findViewById(R.id.hourstoday)
 }
 
