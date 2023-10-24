@@ -1,7 +1,6 @@
 package com.example.meteoapp
 
 import android.app.Application
-import kotlinx.coroutines.selects.SelectInstance
 
 class MyApplication: Application() {
     //compagion object per avere un riferimento all'istanza dell'applicazione

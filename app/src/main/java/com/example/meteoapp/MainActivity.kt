@@ -16,10 +16,12 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.example.meteoapp.auth.MainLoginActivity
 import com.example.meteoapp.databinding.ActivityMainBinding
+import com.example.meteoapp.mainMeteo.MainMeteoFragment
 import com.example.meteoapp.setting.SettingActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         @Suppress("DEPRECATION")
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -42,6 +45,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
+
+        // Instancier le fragment
+        val mainMeteoFragment = MainMeteoFragment()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.myNavHostFragment, mainMeteoFragment)
+            .commit()
+
 
         //put all the drawerlayout into the appbarconfiguration
         //with layout_gravity we don't have the superposition of the view
@@ -64,6 +75,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // cet appel prepare les menu du NavView à d'éventuel changement en occurence onNavigationItemSelected
         binding.navView.setNavigationItemSelectedListener(this)
+
 
     }
 
@@ -102,6 +114,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
+
+
+
 
 
 }

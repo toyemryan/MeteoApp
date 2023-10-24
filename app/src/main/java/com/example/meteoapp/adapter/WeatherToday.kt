@@ -26,6 +26,12 @@ class WeatherToday : RecyclerView.Adapter<TodayHolder>() {
     }
 
 
+    // Restituisce il numero totale di elementi nell'elenco delle previsioni meteorologiche di oggi
+    override fun getItemCount(): Int{
+        return listOfTodayWeather.size
+    }
+
+
     // Metodo chiamato per visualizzare i dati in una posizione specifica
     @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: TodayHolder, position: Int) {
@@ -49,7 +55,8 @@ class WeatherToday : RecyclerView.Adapter<TodayHolder>() {
 
 
         // Estrae l'orario dalle previsioni meteorologiche fornite dall'API
-
+        val timeofapi = todayForeCast.dtTxt!!.split(" ")
+        val partafterspace = timeofapi[1]
 
         // Logga l'orario attuale e l'orario dalle previsioni meteorologiche
 
@@ -82,11 +89,6 @@ class WeatherToday : RecyclerView.Adapter<TodayHolder>() {
         this.listOfTodayWeather = listOfToday
     }
 
-
-    // Restituisce il numero totale di elementi nell'elenco delle previsioni meteorologiche di oggi
-    override fun getItemCount(): Int {
-        return listOfTodayWeather.size
-    }
 }
 
 

@@ -22,756 +22,755 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/mainplace"
+                android:id="@+id/cityName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="Ancona"
+                android:text="@{viewmodel.cityName}"
                 android:textAlignment="center"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/Tempeffectif"
+                android:id="@+id/tempffectif"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:alpha="0.75"
-                android:text="nuvoloso"
                 android:textAlignment="center"
                 android:textSize="18sp" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="18dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginBottom="3dp"
-                app:cardBackgroundColor="@color/md_theme_light_primary"
-                app:cardCornerRadius="20dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/today"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_weight="1"
-                            android:text="Oggi"
-                            android:textColor="@color/text"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/dateoftheday"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="14dp"
-                            android:layout_marginEnd="25dp"
-                            android:text="Sabato 22 agosto"
-                            android:textColor="@color/text" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/temperature"
-                                android:layout_width="wrap_content"
-                                android:layout_height="73dp"
-                                android:layout_marginStart="25dp"
-                                android:text="25°"
-                                android:textColor="@color/text"
-                                android:textSize="63sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/feel"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="25dp"
-                                android:alpha="0.4"
-                                android:text="Feels like 25°C"
-                                android:textColor="@color/text"
-                                android:textStyle="italic" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:layout_marginStart="25dp"
-                                    app:srcCompat="@drawable/location" />
-
-                                <TextView
-                                    android:id="@+id/mainplace2"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:text="Ancona"
-                                    android:textColor="@color/text" />
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="8dp"
-                            android:layout_weight="0.333"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/Imagetempeffectic"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/cloudy" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="14dp"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="8dp"
-                            android:layout_weight="0.333"
-                            android:orientation="vertical">
-
-
-                            <ImageView
-                                android:id="@+id/imageparam1"
-                                android:layout_width="34dp"
-                                android:layout_height="34dp"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/rain" />
-
-                            <TextView
-                                android:id="@+id/textparam11"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="22%"
-                                android:textAlignment="center"
-                                android:textColor="@color/text"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/textparam12"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="pioggia"
-                                android:textAlignment="center"
-                                android:textColor="@color/text" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="8dp"
-                            android:layout_weight="0.333"
-                            android:orientation="vertical">
-
-
-                            <ImageView
-                                android:id="@+id/imageparam2"
-                                android:layout_width="34dp"
-                                android:layout_height="34dp"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/wind" />
-
-                            <TextView
-                                android:id="@+id/textparam21"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="12 km/h"
-                                android:textAlignment="center"
-                                android:textColor="@color/text"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/textparam22"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="velocità del vento"
-                                android:textAlignment="center"
-                                android:textColor="@color/text" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="8dp"
-                            android:layout_weight="0.333"
-                            android:orientation="vertical">
-
-
-                            <ImageView
-                                android:id="@+id/imageparam3"
-                                android:layout_width="34dp"
-                                android:layout_height="34dp"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/humidity" />
-
-                            <TextView
-                                android:id="@+id/textparam31"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="18%"
-                                android:textAlignment="center"
-                                android:textColor="@color/text"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/textparam32"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Humidità"
-                                android:textAlignment="center"
-                                android:textColor="@color/text" />
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/alltoday"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="durante la giornata"
-                android:alpha="0.4"
-                android:textAlignment="center"
-                android:textSize="15sp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="18dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
-                android:clipToPadding="false"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp" />
-
-            <TextView
-                android:id="@+id/fiveday"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="5 prossimi giorni"
-                android:alpha="0.4"
-                android:textAlignment="center"
-                android:textSize="15sp" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="18dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
-                app:cardBackgroundColor="@color/md_theme_light_primary"
-                app:cardCornerRadius="20dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/day"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="Oggi"
-                            android:textColor="@color/text"/>
-                        <ImageView
-                            android:id="@+id/Imagetempparamone"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/sunny" />
-
-                        <TextView
-                            android:id="@+id/tempparamone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="soleggiato"
-                            android:textColor="@color/text"/>
-
-                        <TextView
-                            android:id="@+id/ressenti"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_weight="1"
-                            android:textAlignment="textEnd"
-                            android:text="27°  12°"
-                            android:textColor="@color/text"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/dayplusone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="Oggi"
-                            android:textColor="@color/text"/>
-                        <ImageView
-                            android:id="@+id/Imagetempparamtwo"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/sunny" />
-
-                        <TextView
-                            android:id="@+id/tempparamtwo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="soleggiato"
-                            android:textColor="@color/text"/>
-
-                        <TextView
-                            android:id="@+id/ressentitwo"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_weight="1"
-                            android:textAlignment="textEnd"
-                            android:text="27°  12°"
-                            android:textColor="@color/text"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/dayplustwo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="Oggi"
-                            android:textColor="@color/text"/>
-                        <ImageView
-                            android:id="@+id/Imagetempparamtree"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/sunny" />
-
-                        <TextView
-                            android:id="@+id/tempparamtree"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="soleggiato"
-                            android:textColor="@color/text"/>
-
-                        <TextView
-                            android:id="@+id/ressentitree"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_weight="1"
-                            android:textAlignment="textEnd"
-                            android:text="27°  12°"
-                            android:textColor="@color/text"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/dayplustree"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="Oggi"
-                            android:textColor="@color/text"/>
-                        <ImageView
-                            android:id="@+id/Imagetempparamfour"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/sunny" />
-
-                        <TextView
-                            android:id="@+id/tempparamfour"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="soleggiato"
-                            android:textColor="@color/text"/>
-
-                        <TextView
-                            android:id="@+id/ressentifour"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_weight="1"
-                            android:textAlignment="textEnd"
-                            android:text="27°  12°"
-                            android:textColor="@color/text"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/dayplusfour"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="Oggi"
-                            android:textColor="@color/text"/>
-                        <ImageView
-                            android:id="@+id/Imagetempparamfive"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/sunny" />
-
-                        <TextView
-                            android:id="@+id/tempparamfive"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="soleggiato"
-                            android:textColor="@color/text"/>
-
-                        <TextView
-                            android:id="@+id/ressentifive"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_weight="1"
-                            android:textAlignment="textEnd"
-                            android:text="27°  12°"
-                            android:textColor="@color/text"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/dayplusfive"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="Oggi"
-                            android:textColor="@color/text"/>
-                        <ImageView
-                            android:id="@+id/Imagetempparamsix"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/sunny" />
-
-                        <TextView
-                            android:id="@+id/tempparamsix"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="soleggiato"
-                            android:textColor="@color/text"/>
-
-                        <TextView
-                            android:id="@+id/ressentisix"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_weight="1"
-                            android:textAlignment="textEnd"
-                            android:text="27°  12°"
-                            android:textColor="@color/text"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/moreparamday"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="maggiori informazioni sulla giornata"
-                android:textAlignment="center"
-                android:alpha="0.4"
-                android:textSize="15sp" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="18dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="8dp"
-                app:cardBackgroundColor="@color/md_theme_light_primary"
-                app:cardCornerRadius="20dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="25dp"
-                            app:srcCompat="@drawable/uv_logo" />
-
-                        <TextView
-                            android:id="@+id/uvparam"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="indice UV"
-                            android:textColor="@color/text"/>
-
-                        <TextView
-                            android:id="@+id/uvvalue"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_weight="1"
-                            android:textAlignment="textEnd"
-                            android:text="faible"
-                            android:textColor="@color/text" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="25dp"
-                            app:srcCompat="@drawable/sunrise_com" />
-
-                        <TextView
-                            android:id="@+id/sunriseparam"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="lever de soleil"
-                            android:textColor="@color/text"/>
-
-                        <TextView
-                            android:id="@+id/sunrisevalue"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_weight="1"
-                            android:textAlignment="textEnd"
-                            android:text="07:00"
-                            android:textColor="@color/text" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="25dp"
-                            app:srcCompat="@drawable/sunset_com" />
-
-                        <TextView
-                            android:id="@+id/sunsetparam"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="coucher de soleil"
-                            android:textColor="@color/text"/>
-
-                        <TextView
-                            android:id="@+id/sunsetvalue"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_weight="1"
-                            android:textAlignment="textEnd"
-                            android:text="18:51"
-                            android:textColor="@color/text" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="25dp"
-                            app:srcCompat="@drawable/running_com" />
-
-                        <TextView
-                            android:id="@+id/runparam"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:text="course"
-                            android:textColor="@color/text"/>
-
-                        <TextView
-                            android:id="@+id/runvalue"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_weight="1"
-                            android:textAlignment="textEnd"
-                            android:text="satisfaisant"
-                            android:textColor="@color/text" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-    </ScrollView>
+            <!--  android:text="nuvoloso" -->
+
+          <androidx.cardview.widget.CardView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginEnd="18dp"
+              android:layout_marginStart="18dp"
+              android:layout_marginTop="18dp"
+              android:layout_marginBottom="3dp"
+              app:cardBackgroundColor="@color/md_theme_light_primary"
+              app:cardCornerRadius="20dp">
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:orientation="horizontal">
+
+                      <TextView
+                          android:id="@+id/today"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginTop="14dp"
+                          android:layout_weight="1"
+                          android:text="Oggi"
+                          android:textColor="@color/text"
+                          android:textStyle="bold" />
+
+                      <TextView
+                          android:id="@+id/dateoftheday"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="14dp"
+                          android:layout_marginEnd="25dp"
+
+                          android:textColor="@color/text" />
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"
+                      android:baselineAligned="false">
+
+                      <LinearLayout
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+
+                          android:orientation="vertical">
+
+                          <TextView
+                              android:id="@+id/temperature"
+                              android:layout_width="wrap_content"
+                              android:layout_height="73dp"
+                              android:layout_marginStart="25dp"
+                              android:text="25°"
+                              android:textColor="@color/text"
+                              android:textSize="63sp"
+                              android:textStyle="bold" />
+
+                          <TextView
+                              android:id="@+id/feel"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginStart="25dp"
+                              android:alpha="0.4"
+                              android:text="Feels like 25°C"
+                              android:textColor="@color/text"
+                              android:textStyle="italic" />
+
+                          <LinearLayout
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="5dp"
+                              android:orientation="horizontal">
+
+                              <ImageView
+                                  android:layout_width="20dp"
+                                  android:layout_height="20dp"
+                                  android:layout_marginStart="25dp"
+                                  app:srcCompat="@drawable/location" />
+
+                              <TextView
+                                  android:id="@+id/mainplace2"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_marginStart="8dp"
+                                  android:text="@{viewmodel.cityName}"
+                                  android:textColor="@color/text" />
+                          </LinearLayout>
+
+                      </LinearLayout>
+
+                      <LinearLayout
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent"
+                          android:layout_margin="8dp"
+                          android:layout_weight="0.333"
+                          android:orientation="vertical">
+
+                          <ImageView
+                              android:id="@+id/ImageMain"
+                              android:layout_width="100dp"
+                              android:layout_height="100dp"
+                              android:layout_gravity="center"
+                              app:srcCompat="@drawable/cloudy" />
+                      </LinearLayout>
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginBottom="14dp"
+                      android:orientation="horizontal"
+                      android:baselineAligned="false">
+
+                      <LinearLayout
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent"
+                          android:layout_margin="8dp"
+                          android:layout_weight="0.333"
+                          android:orientation="vertical">
+
+
+                          <ImageView
+                              android:id="@+id/imageparam1"
+                              android:layout_width="34dp"
+                              android:layout_height="34dp"
+                              android:layout_gravity="center"
+                              app:srcCompat="@drawable/rain" />
+
+                          <TextView
+                              android:id="@+id/rain"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:text="22%"
+                              android:textAlignment="center"
+                              android:textColor="@color/text"
+                              android:textStyle="bold" />
+
+                          <TextView
+                              android:id="@+id/textparam12"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:text="pioggia"
+                              android:textAlignment="center"
+                              android:textColor="@color/text" />
+
+                      </LinearLayout>
+
+                      <LinearLayout
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent"
+                          android:layout_margin="8dp"
+                          android:layout_weight="0.333"
+                          android:orientation="vertical">
+
+
+                          <ImageView
+                              android:id="@+id/imageparam2"
+                              android:layout_width="34dp"
+                              android:layout_height="34dp"
+                              android:layout_gravity="center"
+                              app:srcCompat="@drawable/wind" />
+
+                          <TextView
+                              android:id="@+id/windSpeed"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:text="12 km/h"
+                              android:textAlignment="center"
+                              android:textColor="@color/text"
+                              android:textStyle="bold" />
+
+                          <TextView
+
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:text="velocità del vento"
+                              android:textAlignment="center"
+                              android:textColor="@color/text" />
+
+                      </LinearLayout>
+
+                      <LinearLayout
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent"
+                          android:layout_margin="8dp"
+                          android:layout_weight="0.333"
+                          android:orientation="vertical">
+
+
+                          <ImageView
+                              android:id="@+id/imageparam3"
+                              android:layout_width="34dp"
+                              android:layout_height="34dp"
+                              android:layout_gravity="center"
+                              app:srcCompat="@drawable/humidity" />
+
+                          <TextView
+                              android:id="@+id/humidity"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:text="18%"
+                              android:textAlignment="center"
+                              android:textColor="@color/text"
+                              android:textStyle="bold" />
+
+                          <TextView
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:text="Humidità"
+                              android:textAlignment="center"
+                              android:textColor="@color/text" />
+
+                      </LinearLayout>
+
+
+                  </LinearLayout>
+
+              </LinearLayout>
+
+
+          </androidx.cardview.widget.CardView>
+
+          <TextView
+              android:id="@+id/alltoday"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="durante la giornata"
+              android:alpha="0.4"
+              android:textAlignment="center"
+              android:textSize="15sp" />
+
+          <androidx.recyclerview.widget.RecyclerView
+              android:id="@+id/recycler_view1"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginEnd="18dp"
+              android:layout_marginStart="18dp"
+              android:layout_marginTop="3dp"
+              android:layout_marginBottom="3dp"
+              android:clipToPadding="false"
+              android:paddingStart="16dp"
+              android:paddingEnd="16dp" />
+
+          <TextView
+              android:id="@+id/fiveday"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="5 prossimi giorni"
+              android:alpha="0.4"
+              android:textAlignment="center"
+              android:textSize="15sp" />
+
+          <androidx.cardview.widget.CardView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginEnd="18dp"
+              android:layout_marginStart="18dp"
+              android:layout_marginTop="3dp"
+              android:layout_marginBottom="3dp"
+              app:cardBackgroundColor="@color/md_theme_light_primary"
+              app:cardCornerRadius="20dp">
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginTop="8dp"
+                      android:layout_marginBottom="8dp"
+                      android:orientation="horizontal">
+
+                      <TextView
+                          android:id="@+id/day"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="Oggi"
+                          android:textColor="@color/text"/>
+                      <ImageView
+                          android:id="@+id/Imagetempparamone"
+                          android:layout_width="40dp"
+                          android:layout_height="40dp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/sunny" />
+
+                      <TextView
+                          android:id="@+id/tempparamone"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="soleggiato"
+                          android:textColor="@color/text"/>
+
+                      <TextView
+                          android:id="@+id/ressenti"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:layout_weight="1"
+                          android:textAlignment="textEnd"
+                          android:text="27°  12°"
+                          android:textColor="@color/text"
+                          android:textStyle="bold" />
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginBottom="8dp"
+                      android:orientation="horizontal">
+
+                      <TextView
+                          android:id="@+id/dayplusone"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="Oggi"
+                          android:textColor="@color/text"/>
+                      <ImageView
+                          android:id="@+id/Imagetempparamtwo"
+                          android:layout_width="40dp"
+                          android:layout_height="40dp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/sunny" />
+
+                      <TextView
+                          android:id="@+id/tempparamtwo"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="soleggiato"
+                          android:textColor="@color/text"/>
+
+                      <TextView
+                          android:id="@+id/ressentitwo"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:layout_weight="1"
+                          android:textAlignment="textEnd"
+                          android:text="27°  12°"
+                          android:textColor="@color/text"
+                          android:textStyle="bold" />
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginBottom="8dp"
+                      android:orientation="horizontal">
+
+                      <TextView
+                          android:id="@+id/dayplustwo"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="Oggi"
+                          android:textColor="@color/text"/>
+                      <ImageView
+                          android:id="@+id/Imagetempparamtree"
+                          android:layout_width="40dp"
+                          android:layout_height="40dp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/sunny" />
+
+                      <TextView
+                          android:id="@+id/tempparamtree"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="soleggiato"
+                          android:textColor="@color/text"/>
+
+                      <TextView
+                          android:id="@+id/ressentitree"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:layout_weight="1"
+                          android:textAlignment="textEnd"
+                          android:text="27°  12°"
+                          android:textColor="@color/text"
+                          android:textStyle="bold" />
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginBottom="8dp"
+                      android:orientation="horizontal">
+
+                      <TextView
+                          android:id="@+id/dayplustree"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="Oggi"
+                          android:textColor="@color/text"/>
+                      <ImageView
+                          android:id="@+id/Imagetempparamfour"
+                          android:layout_width="40dp"
+                          android:layout_height="40dp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/sunny" />
+
+                      <TextView
+                          android:id="@+id/tempparamfour"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="soleggiato"
+                          android:textColor="@color/text"/>
+
+                      <TextView
+                          android:id="@+id/ressentifour"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:layout_weight="1"
+                          android:textAlignment="textEnd"
+                          android:text="27°  12°"
+                          android:textColor="@color/text"
+                          android:textStyle="bold" />
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginBottom="8dp"
+                      android:orientation="horizontal">
+
+                      <TextView
+                          android:id="@+id/dayplusfour"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="Oggi"
+                          android:textColor="@color/text"/>
+                      <ImageView
+                          android:id="@+id/Imagetempparamfive"
+                          android:layout_width="40dp"
+                          android:layout_height="40dp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/sunny" />
+
+                      <TextView
+                          android:id="@+id/tempparamfive"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="soleggiato"
+                          android:textColor="@color/text"/>
+
+                      <TextView
+                          android:id="@+id/ressentifive"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:layout_weight="1"
+                          android:textAlignment="textEnd"
+                          android:text="27°  12°"
+                          android:textColor="@color/text"
+                          android:textStyle="bold" />
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginBottom="8dp"
+                      android:orientation="horizontal">
+
+                      <TextView
+                          android:id="@+id/dayplusfive"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="Oggi"
+                          android:textColor="@color/text"/>
+                      <ImageView
+                          android:id="@+id/Imagetempparamsix"
+                          android:layout_width="40dp"
+                          android:layout_height="40dp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/sunny" />
+
+                      <TextView
+                          android:id="@+id/tempparamsix"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="soleggiato"
+                          android:textColor="@color/text"/>
+
+                      <TextView
+                          android:id="@+id/ressentisix"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:layout_weight="1"
+                          android:textAlignment="textEnd"
+                          android:text="27°  12°"
+                          android:textColor="@color/text"
+                          android:textStyle="bold" />
+
+                  </LinearLayout>
+
+              </LinearLayout>
+
+          </androidx.cardview.widget.CardView>
+
+          <TextView
+              android:id="@+id/moreparamday"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="maggiori informazioni sulla giornata"
+              android:textAlignment="center"
+              android:alpha="0.4"
+              android:textSize="15sp" />
+
+          <androidx.cardview.widget.CardView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginEnd="18dp"
+              android:layout_marginStart="18dp"
+              android:layout_marginTop="3dp"
+              android:layout_marginBottom="8dp"
+              app:cardBackgroundColor="@color/md_theme_light_primary"
+              app:cardCornerRadius="20dp">
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginTop="8dp"
+                      android:layout_marginBottom="8dp"
+                      android:orientation="horizontal">
+
+                      <ImageView
+                          android:layout_width="40dp"
+                          android:layout_height="40dp"
+                          android:layout_gravity="center"
+                          android:layout_marginStart="25dp"
+                          app:srcCompat="@drawable/uv_logo" />
+
+                      <TextView
+                          android:id="@+id/uvparam"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="indice UV"
+                          android:textColor="@color/text"/>
+
+                      <TextView
+                          android:id="@+id/uvvalue"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:layout_weight="1"
+                          android:textAlignment="textEnd"
+                          android:text="faible"
+                          android:textColor="@color/text" />
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginTop="8dp"
+                      android:layout_marginBottom="8dp"
+                      android:orientation="horizontal">
+
+                      <ImageView
+                          android:layout_width="40dp"
+                          android:layout_height="40dp"
+                          android:layout_gravity="center"
+                          android:layout_marginStart="25dp"
+                          app:srcCompat="@drawable/sunrise_com" />
+
+                      <TextView
+                          android:id="@+id/sunriseparam"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="lever de soleil"
+                          android:textColor="@color/text"/>
+
+                      <TextView
+                          android:id="@+id/sunrisevalue"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:layout_weight="1"
+                          android:textAlignment="textEnd"
+                          android:text="07:00"
+                          android:textColor="@color/text" />
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginTop="8dp"
+                      android:layout_marginBottom="8dp"
+                      android:orientation="horizontal">
+
+                      <ImageView
+                          android:layout_width="40dp"
+                          android:layout_height="40dp"
+                          android:layout_gravity="center"
+                          android:layout_marginStart="25dp"
+                          app:srcCompat="@drawable/sunset_com" />
+
+                      <TextView
+                          android:id="@+id/sunsetparam"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="coucher de soleil"
+                          android:textColor="@color/text"/>
+
+                      <TextView
+                          android:id="@+id/sunsetvalue"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:layout_weight="1"
+                          android:textAlignment="textEnd"
+                          android:text="18:51"
+                          android:textColor="@color/text" />
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginTop="8dp"
+                      android:layout_marginBottom="8dp"
+                      android:orientation="horizontal">
+
+                      <ImageView
+                          android:layout_width="40dp"
+                          android:layout_height="40dp"
+                          android:layout_gravity="center"
+                          android:layout_marginStart="25dp"
+                          app:srcCompat="@drawable/running_com" />
+
+                      <TextView
+                          android:id="@+id/runparam"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="25dp"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:text="course"
+                          android:textColor="@color/text"/>
+
+                      <TextView
+                          android:id="@+id/runvalue"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:layout_weight="1"
+                          android:textAlignment="textEnd"
+                          android:text="satisfaisant"
+                          android:textColor="@color/text" />
+
+                  </LinearLayout>
+
+              </LinearLayout>
+
+          </androidx.cardview.widget.CardView>
+
+      </LinearLayout>
+  </ScrollView>
 </layout>

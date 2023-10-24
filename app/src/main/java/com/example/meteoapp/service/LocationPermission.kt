@@ -1,16 +1,16 @@
 package com.example.meteoapp.service
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import android.location.Location
 import android.Manifest
+import android.content.Context
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.FusedLocationProviderClient
 
 
-class LocationPermission (private val context: Context){
+class LocationPermission(private val context: Context){
 
     // Inizializzazione di FusedLocationProviderClient utilizzando LocationServices per ottenere l'ultima posizione conosciuta del dispositivo
     private var fusedLocationClient: FusedLocationProviderClient =

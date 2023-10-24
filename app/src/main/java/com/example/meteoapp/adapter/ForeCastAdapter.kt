@@ -111,6 +111,9 @@ class ForeCastAdapter(forecastObject: Any) : RecyclerView.Adapter<ForeCastHolder
                 }
             }
         }
+        fun setList(newList: List<WeatherList>){
+            this.listofforecast = newList
+        }
     }
 }
 
