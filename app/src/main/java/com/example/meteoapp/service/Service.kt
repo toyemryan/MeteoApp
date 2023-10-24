@@ -20,4 +20,5 @@ interface Service {
         @Query("q") city:String,
         @Query("appid") appid: String = Utility.API_KEY
     ):Call<ForeCast>
+
 }
