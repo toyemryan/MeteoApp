@@ -4,10 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <ScrollView
             android:id="@+id/scrollView"
@@ -40,6 +46,9 @@
 
                 </androidx.appcompat.widget.Toolbar>
 
+
+
+
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/myNavHostFragment"
                     android:name="androidx.navigation.fragment.NavHostFragment"
@@ -48,9 +57,13 @@
                     app:defaultNavHost="true"
                     app:navGraph="@navigation/navigation"/>
 
+
+
             </com.google.android.material.appbar.AppBarLayout>
 
         </ScrollView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navView"
@@ -64,4 +77,5 @@
 
 
     </androidx.drawerlayout.widget.DrawerLayout>
+
 </layout>

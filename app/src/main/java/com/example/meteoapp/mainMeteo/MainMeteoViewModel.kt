@@ -155,25 +155,27 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                 Log.e("Connection error", "Error: ${e.message}")
                 return@launch
             }
+
             val response = call.execute()
             if (response.isSuccessful && response.body() != null) {
                 withContext(Dispatchers.Main) {
 
                     val data = response.body()!!
 
-                        _cityName.value= data.city!!.name.toString()// name
+                    _cityName.value= data.city!!.name.toString()// name
 
-                        val temperatureKelvin = data.weatherList[0].main?.temp
-                        val temperatureCelsius = (temperatureKelvin?.minus(273.15))
-                        if (temperatureCelsius != null) {
-                            _maintemperature.value = "${temperatureCelsius.toInt()}°C" // main temperature
-                        }
+                    val temperatureKelvin = data.weatherList[0].main?.temp
+                    val temperatureCelsius = (temperatureKelvin?.minus(273.15))
+                    if (temperatureCelsius != null) {
+                        _maintemperature.value = "${temperatureCelsius.toInt()}°C" // main temperature
+                    }
 
 
 
 
                 }
             }
+
 
         }
 

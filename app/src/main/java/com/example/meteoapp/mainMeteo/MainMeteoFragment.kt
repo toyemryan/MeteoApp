@@ -1,8 +1,10 @@
 package com.example.meteoapp.mainMeteo
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,21 +15,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.meteoapp.R
 import com.example.meteoapp.adapter.WeatherToday
 import com.example.meteoapp.databinding.FragmentMainMeteoBinding
 import com.example.meteoapp.service.LocationPermission
-import com.example.meteoapp.service.RetrofitInstance
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
-import java.io.IOException
-import java.text.SimpleDateFormat
 import java.util.*
-import java.util.Locale
 
 
 class MainMeteoFragment : Fragment() {
@@ -53,8 +46,8 @@ class MainMeteoFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_meteo, container, false)
 
-        viewModel.getWeather()
-        setupRecyclerView()
+        Fresh()
+        swipeRefresh()
 
         return binding.root
     }
@@ -190,6 +183,44 @@ class MainMeteoFragment : Fragment() {
     }
 
 
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val nw      = connectivityManager.activeNetwork ?: return false
+        val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+        return when {
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            //for other device how are able to connect with Ethernet
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            //for check internet over Bluetooth
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+            else -> false
+        }
+    }
+
+private fun swipeRefresh(){
+    val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
+    swipe.setOnRefreshListener {
+        if (activity?.let { isNetworkAvailable(it) } == true){
+            viewModel.getWeather()
+            setupRecyclerView()
+        }else{
+            Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
+        }
+        //val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
+        swipe.isRefreshing = false
+    }
+}
+
+    private fun Fresh(){
+        if (activity?.let { isNetworkAvailable(it) } == true){
+            viewModel.getWeather()
+            setupRecyclerView()
+        }else{
+            Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
+        }
+
+    }
 
 }
 
