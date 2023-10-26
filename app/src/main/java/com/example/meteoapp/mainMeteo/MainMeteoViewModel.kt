@@ -3,38 +3,53 @@ package com.example.meteoapp.mainMeteo
 
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.meteoapp.MyApplication
 import com.example.meteoapp.service.RetrofitInstance
-import com.lionel.mameteo.modal.WeatherList
+import com.example.meteoapp.modal.WeatherList
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import java.io.IOException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
 // Annotazione per richiedere API di almeno la versione specificata di Android
 class MainMeteoViewModel (application: Application) : AndroidViewModel(application){
+
     //LiveData per i dati meteorologici odierni e futuri
-    val todayWeatherLiveData = MutableLiveData<List<WeatherList>>()
+    //val todayWeatherLiveData = MutableLiveData<List<WeatherList>>()
+
     //cinque giorni
-    val forecastWeatherLiveData = MutableLiveData<List<WeatherList>>()
+    private val fiveDayWeatherLiveData = MutableLiveData<List<WeatherList>>()
+
+    private val ancona = "Ancona"
 
     //LiveData per i dati meteorologici piu vicini con la stessa data
-    val closetorexactlysameweatherdata = MutableLiveData<WeatherList?>()
+    //val closetorexactlysameweatherdata = MutableLiveData<WeatherList?>()
 
     //LiveData per il nome della città
-    val cityName = MutableLiveData<String?>()
+    private val _cityName = MutableLiveData("Ancona")
+    val cityName: LiveData<String>
+        get() = _cityName
 
-    //contesto dell'applicazione
-    val context = MyApplication.instance
+    //LiveData per la temperature
+    private val _maintemperature = MutableLiveData("25°C")
+    val maintempature: LiveData<String>
+        get() = _maintemperature
+
+
 
     // Funzione per ottenere i dati meteorologici (odierni o futuri) in base alla città o alle coordinate
 
-    fun getWeather(city:String? = null, lat:String? = null, lon:String? = null) = viewModelScope.launch(Dispatchers.IO){
+  /*  fun getWeather(city:String? = null, lat:String? = null, lon:String? = null) = viewModelScope.launch(Dispatchers.IO){
         val weatherTodayList = mutableListOf<WeatherList>()
         val currentDateTime = LocalDateTime.now()
         val currentDate0 = currentDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
@@ -77,10 +92,10 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
             val errorMessage = response.message()
             Log.e("CurrentWeatherError", "Error: $errorMessage")
         }
-    }
+    }*/
 
     // Funzione per ottenere i dati meteorologici futuri in base alla città o alle coordinate
-    fun getForecastNextDays(city: String? = null, lati: String? = null, longi: String? = null) = viewModelScope.launch(Dispatchers.IO) {
+  /*  fun getForecastNextDays(city: String? = null, lati: String? = null, longi: String? = null) = viewModelScope.launch(Dispatchers.IO) {
         // Lista per i dati meteorologici futuri
         val forecastWeatherList = mutableListOf<WeatherList>()
 
@@ -126,9 +141,46 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
             val errorMessage = response.message()
             Log.e("CurrentWeatherError", "Error: $errorMessage")
         }
+    }*/
+
+    @OptIn(DelicateCoroutinesApi::class)
+    fun getWeather() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val call = try {
+                RetrofitInstance.api.getCurrentWeatherByCity(ancona)
+            } catch (e: IOException) {
+                Log.e("FLux error", "Error: ${e.message}")
+                return@launch
+            } catch (e: HttpException) {
+                Log.e("Connection error", "Error: ${e.message}")
+                return@launch
+            }
+            val response = call.execute()
+            if (response.isSuccessful && response.body() != null) {
+                withContext(Dispatchers.Main) {
+
+                    val data = response.body()!!
+
+                        _cityName.value= data.city!!.name.toString()// name
+
+                        val temperatureKelvin = data.weatherList[0].main?.temp
+                        val temperatureCelsius = (temperatureKelvin?.minus(273.15))
+                        if (temperatureCelsius != null) {
+                            _maintemperature.value = "${temperatureCelsius.toInt()}°C" // main temperature
+                        }
+
+
+
+
+                }
+            }
+
+        }
+
     }
 
-    // Funzione per trovare il dato meteorologico più vicino in base all'ora corrente
+
+    /* Funzione per trovare il dato meteorologico più vicino in base all'ora corrente
     private fun findClosestWeather(weatherList: List<WeatherList>): WeatherList? {
         val systemTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
         var closestWeather: WeatherList? = null
@@ -154,7 +206,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
 
         // Converti la prima parte (ore) in un intero, moltiplica per 60 e aggiungi la seconda parte (minuti)
         return parts[0].toInt() * 60 + parts[1].toInt()
-    }
+    } */
 
 }
 

@@ -11,7 +11,7 @@ interface Service {
     fun getCurrentWeather(
         @Query("lat") lat:String,
         @Query("lon") lon:String,
-        @Query("appid") appid:String = Utility.API_KEY
+        @Query("appid") appid:String = Utility.API_KEY // appid:String
     ):Call<ForeCast>
 
 

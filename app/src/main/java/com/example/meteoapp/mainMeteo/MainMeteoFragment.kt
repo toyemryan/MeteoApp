@@ -1,7 +1,6 @@
 package com.example.meteoapp.mainMeteo
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,21 +8,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import android.Manifest
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.meteoapp.R
-import com.example.meteoapp.SharedPreference
-import com.example.meteoapp.Utility
 import com.example.meteoapp.adapter.WeatherToday
 import com.example.meteoapp.databinding.FragmentMainMeteoBinding
 import com.example.meteoapp.service.LocationPermission
-import com.lionel.mameteo.modal.WeatherList
+import com.example.meteoapp.service.RetrofitInstance
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Locale
@@ -31,65 +32,81 @@ import java.util.Locale
 
 class MainMeteoFragment : Fragment() {
 
-    lateinit var viewModel: MainMeteoViewModel
+    //private lateinit var response : Response<ForeCast>
+
+    //var weatherTodayList = mutableListOf<WeatherList>()
+
+    //private lateinit var viewModel: MainMeteoViewModel
     lateinit var adapter: WeatherToday
     var lat: String = ""
     var lon: String = ""
     private lateinit var locationPermission: LocationPermission
     private lateinit var binding: FragmentMainMeteoBinding
 
+    private val viewModel: MainMeteoViewModel by viewModels()
+
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate<FragmentMainMeteoBinding>(
-            inflater,
-            R.layout.fragment_main_meteo, container, false
-        )
+    ): View {
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_meteo, container, false)
+
+        viewModel.getWeather()
+        setupRecyclerView()
 
         return binding.root
     }
 
-    @Deprecated("Deprecated in Java")
+    /* @Deprecated("Deprecated in Java")
+    @SuppressLint("SetTextI18n")*/
     @SuppressLint("SetTextI18n")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        binding.mainMeteoViewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         // Inizializzazione del viewModel utilizzando ViewModelProvider
-        viewModel = ViewModelProvider(this).get(MainMeteoViewModel::class.java)
+        //  viewModel = ViewModelProvider(this)[MainMeteoViewModel::class.java]
 
-        locationPermission = LocationPermission(requireContext())
+        /* locationPermission = LocationPermission(requireContext())
 
-        // Richiesta di aggiornamenti sulla posizione se il permesso è già concesso
-        // Altrimenti, richiesta del permesso di localizzazione
-        if (locationPermission.isLocationPermissionGranted()) {
-            requestLocationUpdates()
-        } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                Utility.LOCATION_PERMISSION_REQUEST_CODE
-            )
-        }
+         // Richiesta di aggiornamenti sulla posizione se il permesso è già concesso
+         // Altrimenti, richiesta del permesso di localizzazione
+         if (locationPermission.isLocationPermissionGranted()) {
+             requestLocationUpdates()
+         } else {
+             ActivityCompat.requestPermissions(
+                 requireActivity(),
+                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                 Utility.LOCATION_PERMISSION_REQUEST_CODE
+             )
+         }
 
         // Inizializzazione dell'adapter per la RecyclerView
-        adapter = WeatherToday()
+       // adapter = WeatherToday()
 
-        // Pulizia del valore della città nelle preferenze condivise
-        val sharedPreference = SharedPreference.getInstance(requireContext())
-        sharedPreference.clearCityValue()
 
         viewModel.todayWeatherLiveData.observe(viewLifecycleOwner, Observer {
             val setNewList = it as List<WeatherList>
             Log.e("Todayweater list", it.toString())
             adapter.setList(setNewList)
             binding.recyclerView1.adapter = adapter
+
+
+            private val _currentWordCount = MutableLiveData(0)
+    val currentWordCount: LiveData<Int>
+        get() = _currentWordCount // pour linker et dans le layout on met @{MainMeteoViewModel.currentScrambledWord}"
+
+
         })
 
+       // binding.temperature.text = response.body()!!.weatherList[0].main?.temp.toString()
+
         // Osservazione dei dati meteorologici più vicini e aggiornamento dell'interfaccia utente quando cambiano
-        viewModel.closetorexactlysameweatherdata.observe(viewLifecycleOwner, Observer {
+        viewModel.closetorexactlysameweatherdata.observe(viewLifecycleOwner) {
             val temperatureFahreheit = it!!.main?.temp
             val temperatureCelsius = (temperatureFahreheit?.minus(273.15))
             val temperatureFormatted = String.format("%.2f", temperatureCelsius)
@@ -119,7 +136,7 @@ class MainMeteoFragment : Fragment() {
 
             // Formattazione della data e del giorno
             val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-            val date = inputFormat.parse(it.dtTxt)
+            val date = it.dtTxt?.let { it1 -> inputFormat.parse(it1) }
             val outputFormat = SimpleDateFormat("d MMMM EEEE", Locale.getDefault())
             val dateAndDay = outputFormat.format(date!!)
 
@@ -140,10 +157,10 @@ class MainMeteoFragment : Fragment() {
                     "13d", "13n" -> binding.ImageMain.setImageResource(R.drawable.thirteend)
                 }
             }
-        })
+        }*/
     }
 
-    private fun requestLocationUpdates() {
+    /*private fun requestLocationUpdates() {
         locationPermission.requestLocationUpdates { location ->
             val latitude = location.latitude
             val longitude = location.longitude
@@ -156,7 +173,7 @@ class MainMeteoFragment : Fragment() {
     private fun logLocation(latitude: Double, longitude: Double) {
         val message = "Latitude: $latitude, Longitude: $longitude"
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
+    } */
 
     override fun onResume() {
         super.onResume()
@@ -164,6 +181,16 @@ class MainMeteoFragment : Fragment() {
             (requireActivity() as AppCompatActivity).findViewById<TextView>(R.id.toolbar_title)
         toolbarTitle.text = null
     }
+
+    private fun setupRecyclerView() {
+        binding.recyclerview.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = WeatherToday()
+        }
+    }
+
+
+
 }
 
 

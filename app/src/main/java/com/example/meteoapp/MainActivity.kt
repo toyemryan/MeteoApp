@@ -22,8 +22,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-
-
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding : ActivityMainBinding
@@ -46,12 +44,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // Instancier le fragment
+     /*   // Instancier le fragment
         val mainMeteoFragment = MainMeteoFragment()
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.myNavHostFragment, mainMeteoFragment)
-            .commit()
+            .commit() */
 
 
         //put all the drawerlayout into the appbarconfiguration

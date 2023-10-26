@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoapp.R
-import com.lionel.mameteo.modal.WeatherList
+import com.example.meteoapp.modal.WeatherList
 import java.text.SimpleDateFormat
 import java.util.Calendar
 

@@ -33,7 +33,7 @@ class LocationPermission(private val context: Context){
                 location:Location ->
 
                 // Verifica se la posizione non è nulla e invoca il blocco di codice locationListener
-                location?.let {
+                location.let {
                     locationListener.invoke(it)
                 }
             }

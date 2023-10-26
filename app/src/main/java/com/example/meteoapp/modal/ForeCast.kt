@@ -2,7 +2,7 @@ package com.example.meteoapp.modal
 
 import com.google.gson.annotations.SerializedName
 import com.lionel.mameteo.modal.City
-import com.lionel.mameteo.modal.WeatherList
+import com.lionel.mameteo.modal.Main
 
 
 data class ForeCast (
@@ -12,5 +12,6 @@ data class ForeCast (
     @SerializedName("cnt"     ) var cnt     : Int?            = null,
     @SerializedName("list"    ) var weatherList    : ArrayList<WeatherList> = arrayListOf(),
     @SerializedName("city"    ) var city    : City?           = City()
+
 
 )
