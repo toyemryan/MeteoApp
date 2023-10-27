@@ -157,11 +157,11 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     _hour.value = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm")) // Heure (à ajuster selon votre logique)
                     _feelLike.value = data.cnt!!.toInt() // Sensation thermique
                     val seaLevelValue = firstWeather.main?.seaLevel
-                    _seaLevel.value = "${seaLevelValue} m"
+                    _seaLevel.value = "$seaLevelValue m"
 
                    // val sys = firstWeather.sys
-                   // _sunriseTime.value = sys?.sunrise?.let { convertTimestampToTime(it) } ?: "Erreur"
-                   // _sunsetTime.value = sys?.sunset?.let { convertTimestampToTime(it) } ?: "Erreur"
+                    _sunriseTime.value = data.city!!.sunrise?.let { convertTimestampToTime(it.toLong()) }
+                    _sunsetTime.value =  data.city!!.sunset?.let { convertTimestampToTime(it.toLong()) }
 
 
                     val minTempKelvin = data.weatherList[0].main?.tempMin
@@ -171,25 +171,22 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     val maxTempCelsius = (maxTempKelvin?.minus(273.15))
 
                     if (minTempCelsius != null) {
-                        _minTemp.value = "${minTempCelsius.toInt()}°C"
+                        _minTemp.value = "${minTempCelsius.toInt()}°"
                     }
 
                     if (maxTempCelsius != null) {
-                        _maxTemp.value = "${maxTempCelsius.toInt()}°C"
+                        _maxTemp.value = "${maxTempCelsius.toInt()}°"
                     }
 
-                    val windSpeedMeterSecond = firstWeather.wind?.speed ?: 0.0
-                    val windSpeedKmHour = windSpeedMeterSecond * 3.6
+                    val windSpeedMeterSecond = firstWeather.wind?.speed
+                    val windSpeedKmHour = windSpeedMeterSecond?.times(3.6)
                     _windSpeed.value = String.format("%.2f", windSpeedKmHour) // Vitesse du vent
                     _humidity.value = "${firstWeather.main?.humidity}%" // Humidité
                     //_weatherImageResourceId.value = getWeather(firstForecast.weather?.get(0)?.id) // ID de l'image
-                    _pressure.value = "${firstWeather.main?.pressure} hPa" // Pression
+                    _pressure.value = "${firstWeather.main?.pressure?.times(0.001)} Bar" // Pression
 
                     _weatherCondition.value = firstWeather.weather?.get(0)?.description ?: "Erreur"
 
-                    _pressureImageId.value = R.drawable.fiftydn
-                    _humidityImageId.value = R.drawable.humidity
-                    _windSpeedImageId.value = R.drawable.wind
 
                     val temperatureKelvin = data.weatherList[0].main?.temp
                     val temperatureCelsius = (temperatureKelvin?.minus(273.15))

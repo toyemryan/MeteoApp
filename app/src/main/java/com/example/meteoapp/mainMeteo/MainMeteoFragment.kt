@@ -74,7 +74,7 @@ class MainMeteoFragment : Fragment() {
 
 
         viewModel.windSpeed.observe(viewLifecycleOwner) { windSpeed ->
-            view.findViewById<TextView>(R.id.windSpeed)?.text = "$windSpeed km/s"
+            view.findViewById<TextView>(R.id.windSpeed)?.text = "$windSpeed km/h"
         }
 
 
@@ -114,11 +114,11 @@ class MainMeteoFragment : Fragment() {
 
 
         viewModel.sunriseTime.observe(viewLifecycleOwner) { sunriseTime ->
-            view.findViewById<TextView>(R.id.sunr)?.text = "$sunriseTime"
+            view.findViewById<TextView>(R.id.sunrval)?.text = "$sunriseTime"
         }
 
         viewModel.sunsetTime.observe(viewLifecycleOwner) { sunsetTime ->
-            view.findViewById<TextView>(R.id.suns)?.text = "$sunsetTime"
+            view.findViewById<TextView>(R.id.sunsval)?.text = "$sunsetTime"
         }
 
 

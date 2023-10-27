@@ -331,13 +331,13 @@
                           android:id="@+id/tempMin"
                           android:layout_width="0dp"
                           android:layout_height="wrap_content"
-                          android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
                           android:layout_weight="1"
-                          android:textAlignment="textEnd"
                           android:text="12°C"
+                          android:textAlignment="textEnd"
                           android:textColor="@color/text"
                           android:textStyle="bold" />
+
                       <TextView
                           android:id="@+id/tempMax"
                           android:layout_width="0dp"
@@ -707,7 +707,7 @@
                           android:layout_marginStart="25dp"
                           android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
-                          android:text="sunsise"
+                          android:text="sunset"
                           android:textColor="@color/text"/>
 
                       <TextView
