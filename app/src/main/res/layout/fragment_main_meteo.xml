@@ -151,16 +151,16 @@
 
                           <ImageView
                               android:id="@+id/impressure"
-                              android:layout_width="34dp"
+                              android:layout_width="28dp"
                               android:layout_height="34dp"
                               android:layout_gravity="center"
-                              app:srcCompat="@drawable/fiftydn" />
+                              app:srcCompat="@drawable/rain" />
 
                           <TextView
                               android:id="@+id/pressure"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
-                              android:text="22%"
+                              android:text="@{mainMeteoViewModel.rain}"
                               android:textAlignment="center"
                               android:textColor="@color/text"
                               android:textStyle="bold" />
@@ -168,7 +168,7 @@
                           <TextView
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
-                              android:text="Presione"
+                              android:text="Pioggia"
                               android:textAlignment="center"
                               android:textColor="@color/text" />
 
@@ -601,7 +601,7 @@
               android:layout_marginEnd="18dp"
               android:layout_marginStart="18dp"
               android:layout_marginTop="3dp"
-              android:layout_marginBottom="8dp"
+              android:layout_marginBottom="15dp"
               app:cardBackgroundColor="@color/md_theme_light_primary"
               app:cardCornerRadius="20dp">
 
@@ -618,13 +618,13 @@
                       android:orientation="horizontal">
 
                       <ImageView
-                          android:id="@+id/seaim"
+                          android:id="@+id/visibilityim"
                           android:layout_marginTop="7dp"
-                          android:layout_width="30dp"
-                          android:layout_height="30dp"
+                          android:layout_width="40dp"
+                          android:layout_height="40dp"
                           android:layout_gravity="center"
-                          android:layout_marginStart="28dp"
-                          app:srcCompat="@drawable/thirteend" />
+                          android:layout_marginStart="25dp"
+                          app:srcCompat="@drawable/visibility_eye" />
 
                       <TextView
                           android:id="@+id/seaLevel"
@@ -633,7 +633,7 @@
                           android:layout_marginStart="25dp"
                           android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
-                          android:text="Sea Level"
+                          android:text="visibilità"
                           android:textColor="@color/text"/>
 
                       <TextView
@@ -644,7 +644,7 @@
                           android:layout_marginTop="14dp"
                           android:layout_weight="1"
                           android:textAlignment="textEnd"
-                          android:text="faible"
+                          android:text="@{mainMeteoViewModel.visibility}"
                           android:textColor="@color/text" />
 
                   </LinearLayout>
@@ -735,7 +735,7 @@
                           android:layout_height="40dp"
                           android:layout_gravity="center"
                           android:layout_marginStart="25dp"
-                          app:srcCompat="@drawable/running_com" />
+                          app:srcCompat="@drawable/fiftydn" />
 
                       <TextView
                           android:id="@+id/runparam"
@@ -744,7 +744,7 @@
                           android:layout_marginStart="25dp"
                           android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
-                          android:text="course"
+                          android:text="Pressione"
                           android:textColor="@color/text"/>
 
                       <TextView
@@ -755,7 +755,7 @@
                           android:layout_marginTop="14dp"
                           android:layout_weight="1"
                           android:textAlignment="textEnd"
-                          android:text="satisfaisant"
+                          android:text="@{mainMeteoViewModel.pressure}"
                           android:textColor="@color/text" />
 
                   </LinearLayout>

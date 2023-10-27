@@ -120,6 +120,14 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     val windSpeedImageId: LiveData<Int>
         get() = _windSpeedImageId
 
+    private val _rain = MutableLiveData<String>()
+    val rain : LiveData<String>
+        get() = _rain
+
+    private val _visibility = MutableLiveData<String>()
+    val visibility : LiveData<String>
+        get() = _visibility
+
     private fun convertTimestampToTime(timestamp: Long): String {
         val date = Date(timestamp * 1000)
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
@@ -183,9 +191,9 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     _windSpeed.value = String.format("%.2f", windSpeedKmHour) // Vitesse du vent
                     _humidity.value = "${firstWeather.main?.humidity}%" // Humidité
                     //_weatherImageResourceId.value = getWeather(firstForecast.weather?.get(0)?.id) // ID de l'image
-                    _pressure.value = "${firstWeather.main?.pressure?.times(0.001)} Bar" // Pression
+                    _pressure.value = "${(firstWeather.main?.pressure?.times(0.001))?.toInt()} Bar" // Pression
 
-                    _weatherCondition.value = firstWeather.weather?.get(0)?.description ?: "Erreur"
+                    _weatherCondition.value = firstWeather.weather[0].description ?: "Erreur"
 
 
                     val temperatureKelvin = data.weatherList[0].main?.temp
@@ -193,6 +201,11 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     if (temperatureCelsius != null) {
                         _maintemperature.value = "${temperatureCelsius.toInt()}°C" // main temperature
                     }
+
+                    _rain.value = "${firstWeather.pop?.times(100)}%"
+
+                    _visibility.value = "${(firstWeather.visibility?.times(0.001))?.toInt()} Km"
+
                 }
             }
         }
