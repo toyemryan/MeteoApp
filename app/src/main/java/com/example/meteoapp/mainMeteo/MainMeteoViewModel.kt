@@ -77,8 +77,8 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     val weatherImage: LiveData<Int>
         get() = _weatherImage
 
-    private val _feelLike = MutableLiveData<Int>()
-    val feelLike: MutableLiveData<Int>
+    private val _feelLike = MutableLiveData<String>()
+    val feelLike: MutableLiveData<String>
         get() = _feelLike
 
     private val _humidity = MutableLiveData<String>()
@@ -108,17 +108,6 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
         get() = _sunsetTime
 
 
-    private val _pressureImageId = MutableLiveData<Int>()
-    val pressureImageId: LiveData<Int>
-        get() = _pressureImageId
-
-    private val _humidityImageId = MutableLiveData<Int>()
-    val humidityImageId: LiveData<Int>
-        get() = _humidityImageId
-
-    private val _windSpeedImageId = MutableLiveData<Int>()
-    val windSpeedImageId: LiveData<Int>
-        get() = _windSpeedImageId
 
     private val _rain = MutableLiveData<String>()
     val rain : LiveData<String>
@@ -163,7 +152,8 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     val localDateTime = LocalDateTime.parse(data.weatherList[0].dtTxt, dateTimeFormatter)
                     _day.value = localDateTime.format(DateTimeFormatter.ofPattern("EEEE"))// Jour
                     _hour.value = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm")) // Heure (à ajuster selon votre logique)
-                    _feelLike.value = data.cnt!!.toInt() // Sensation thermique
+                    _feelLike.value = "Feel like : ${(firstWeather.main?.feelsLike?.minus(273.15))?.toInt()} °C"
+                    _pressure.value = "${firstWeather.main?.pressure?.times(0.001)} Bar" // Pression
                     val seaLevelValue = firstWeather.main?.seaLevel
                     _seaLevel.value = "$seaLevelValue m"
 
@@ -179,16 +169,16 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     val maxTempCelsius = (maxTempKelvin?.minus(273.15))
 
                     if (minTempCelsius != null) {
-                        _minTemp.value = "${minTempCelsius.toInt()}°"
+                        _minTemp.value = "${minTempCelsius.toInt()}°C"
                     }
 
                     if (maxTempCelsius != null) {
-                        _maxTemp.value = "${maxTempCelsius.toInt()}°"
+                        _maxTemp.value = "${maxTempCelsius.toInt()}°C"
                     }
 
                     val windSpeedMeterSecond = firstWeather.wind?.speed
                     val windSpeedKmHour = windSpeedMeterSecond?.times(3.6)
-                    _windSpeed.value = String.format("%.2f", windSpeedKmHour) // Vitesse du vent
+                    _windSpeed.value = "${String.format("%.2f", windSpeedKmHour)} Km/h" // Vitesse du vent
                     _humidity.value = "${firstWeather.main?.humidity}%" // Humidité
                     //_weatherImageResourceId.value = getWeather(firstForecast.weather?.get(0)?.id) // ID de l'image
                     _pressure.value = "${(firstWeather.main?.pressure?.times(0.001))?.toInt()} Bar" // Pression
