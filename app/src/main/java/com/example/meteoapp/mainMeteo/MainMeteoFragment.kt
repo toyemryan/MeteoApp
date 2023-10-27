@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,11 +26,7 @@ import java.util.*
 
 class MainMeteoFragment : Fragment() {
 
-    //private lateinit var response : Response<ForeCast>
 
-    //var weatherTodayList = mutableListOf<WeatherList>()
-
-    //private lateinit var viewModel: MainMeteoViewModel
     lateinit var adapter: WeatherToday
     var lat: String = ""
     var lon: String = ""
@@ -61,113 +58,84 @@ class MainMeteoFragment : Fragment() {
         binding.mainMeteoViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        // Inizializzazione del viewModel utilizzando ViewModelProvider
-        //  viewModel = ViewModelProvider(this)[MainMeteoViewModel::class.java]
 
-        /* locationPermission = LocationPermission(requireContext())
-
-         // Richiesta di aggiornamenti sulla posizione se il permesso è già concesso
-         // Altrimenti, richiesta del permesso di localizzazione
-         if (locationPermission.isLocationPermissionGranted()) {
-             requestLocationUpdates()
-         } else {
-             ActivityCompat.requestPermissions(
-                 requireActivity(),
-                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                 Utility.LOCATION_PERMISSION_REQUEST_CODE
-             )
-         }
-
-        // Inizializzazione dell'adapter per la RecyclerView
-       // adapter = WeatherToday()
-
-
-        viewModel.todayWeatherLiveData.observe(viewLifecycleOwner, Observer {
-            val setNewList = it as List<WeatherList>
-            Log.e("Todayweater list", it.toString())
-            adapter.setList(setNewList)
-            binding.recyclerView1.adapter = adapter
-
-
-            private val _currentWordCount = MutableLiveData(0)
-    val currentWordCount: LiveData<Int>
-        get() = _currentWordCount // pour linker et dans le layout on met @{MainMeteoViewModel.currentScrambledWord}"
-
-
-        })
-
-       // binding.temperature.text = response.body()!!.weatherList[0].main?.temp.toString()
-
-        // Osservazione dei dati meteorologici più vicini e aggiornamento dell'interfaccia utente quando cambiano
-        viewModel.closetorexactlysameweatherdata.observe(viewLifecycleOwner) {
-            val temperatureFahreheit = it!!.main?.temp
-            val temperatureCelsius = (temperatureFahreheit?.minus(273.15))
-            val temperatureFormatted = String.format("%.2f", temperatureCelsius)
-
-            // Iterazione attraverso i dati meteorologici per ottenere le informazioni necessarie
-            for (i in it.weather) {
-                binding.tempffectif.text = i.description
-
-                // Notifica se le condizioni meteorologiche sono pioggia, nuvoloso, temporale o sereno
-                if (i.main.toString() == "Rain" ||
-                    i.main.toString() == "Clouds" ||
-                    i.main.toString() == "Drizzle" ||
-                    i.main.toString() == "Thunderstorm" ||
-                    i.main.toString() == "Clear" ||
-                    i.main.toString() == "snow"
-                ) {
-                    Log.e("MAIN", i.main.toString())
-                }
-            }
-
-            // Aggiornamento delle view con i dati meteorologici
-            binding.temperature.text = "$temperatureFormatted°"
-            binding.feel.text = "$temperatureFormatted°"
-            binding.rain.text = it.weather.toString()
-            binding.windSpeed.text = it.wind?.speed.toString()
-            binding.humidity.text = it.main!!.humidity.toString()
-
-            // Formattazione della data e del giorno
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-            val date = it.dtTxt?.let { it1 -> inputFormat.parse(it1) }
-            val outputFormat = SimpleDateFormat("d MMMM EEEE", Locale.getDefault())
-            val dateAndDay = outputFormat.format(date!!)
-
-            binding.dateoftheday.text = dateAndDay
-            binding.rain.text = "${it.main.toString()}%"
-
-            // Impostazione dell'icona in base al codice dell'icona ricevuto dalla risposta API
-            for (i in it.weather) {
-                when (i.icon) {
-                    "01d" -> binding.ImageMain.setImageResource(R.drawable.threedn)
-                    "01n" -> binding.ImageMain.setImageResource(R.drawable.threedn)
-                    "02d" -> binding.ImageMain.setImageResource(R.drawable.cloud)
-                    "02n" -> binding.ImageMain.setImageResource(R.drawable.cloudy)
-                    "03d", "03n" -> binding.ImageMain.setImageResource(R.drawable.cloudy_sunny)
-                    "09d", "09n" -> binding.ImageMain.setImageResource(R.drawable.rainy)
-                    "10d" -> binding.ImageMain.setImageResource(R.drawable.rainy)
-                    "10n" -> binding.ImageMain.setImageResource(R.drawable.rain)
-                    "13d", "13n" -> binding.ImageMain.setImageResource(R.drawable.thirteend)
-                }
-            }
-        }*/
-    }
-
-    /*private fun requestLocationUpdates() {
-        locationPermission.requestLocationUpdates { location ->
-            val latitude = location.latitude
-            val longitude = location.longitude
-
-            viewModel.getWeather(null, latitude.toString(), longitude.toString())
-            logLocation(latitude, longitude)
+        viewModel.day.observe(viewLifecycleOwner) { day ->
+            view.findViewById<TextView>(R.id.today)?.text = "$day"
         }
+
+        viewModel.hour.observe(viewLifecycleOwner) { hour ->
+            view.findViewById<TextView>(R.id.hour)?.text = "$hour"
+        }
+
+
+        viewModel.feelLike.observe(viewLifecycleOwner) { feelLike ->
+            view.findViewById<TextView>(R.id.feel)?.text = "Feels Like: $feelLike"
+        }
+
+
+        viewModel.windSpeed.observe(viewLifecycleOwner) { windSpeed ->
+            view.findViewById<TextView>(R.id.windSpeed)?.text = "$windSpeed km/s"
+        }
+
+
+        viewModel.humidity.observe(viewLifecycleOwner) { humidity ->
+            view.findViewById<TextView>(R.id.humidity)?.text = "$humidity"
+        }
+
+
+        //viewModel.weatherImageResourceId.observe(viewLifecycleOwner, { imageResourceId ->
+         //   view.findViewById<ImageView>(R.id.ImageMain)?.setImageResource(imageResourceId)
+        //})
+
+
+        viewModel.pressure.observe(viewLifecycleOwner) { pressure ->
+            view.findViewById<TextView>(R.id.pressure)?.text = "$pressure"
+        }
+
+
+        viewModel.weatherCondition.observe(viewLifecycleOwner) { weatherCondition ->
+            view.findViewById<TextView>(R.id.condition)?.text = "$weatherCondition"
+        }
+
+
+        viewModel.minTemp.observe(viewLifecycleOwner) { minTemp ->
+            view.findViewById<TextView>(R.id.tempMin)?.text = "$minTemp"
+        }
+
+
+        viewModel.maxTemp.observe(viewLifecycleOwner) { maxTemp ->
+            view.findViewById<TextView>(R.id.tempMax)?.text = "$maxTemp"
+        }
+
+
+        viewModel.seaLevel.observe(viewLifecycleOwner) { seaLevel ->
+            view.findViewById<TextView>(R.id.seaLevel)?.text = "$seaLevel"
+        }
+
+
+        viewModel.sunriseTime.observe(viewLifecycleOwner) { sunriseTime ->
+            view.findViewById<TextView>(R.id.sunr)?.text = "$sunriseTime"
+        }
+
+        viewModel.sunsetTime.observe(viewLifecycleOwner) { sunsetTime ->
+            view.findViewById<TextView>(R.id.suns)?.text = "$sunsetTime"
+        }
+
+
+        viewModel.pressureImageId.observe(viewLifecycleOwner) { imageResId ->
+            view.findViewById<ImageView>(R.id.impressure)?.setImageResource(imageResId)
+        }
+
+        viewModel.humidityImageId.observe(viewLifecycleOwner) { imageResId ->
+            view.findViewById<ImageView>(R.id.imhumidity)?.setImageResource(imageResId)
+        }
+
+        viewModel.windSpeedImageId.observe(viewLifecycleOwner) { imageResId ->
+            view.findViewById<ImageView>(R.id.imWin)?.setImageResource(imageResId)
+        }
+
+
     }
-
-    private fun logLocation(latitude: Double, longitude: Double) {
-        val message = "Latitude: $latitude, Longitude: $longitude"
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    } */
-
     override fun onResume() {
         super.onResume()
         val toolbarTitle =
@@ -219,9 +187,7 @@ private fun swipeRefresh(){
         }else{
             Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
         }
-
     }
-
 }
 
 

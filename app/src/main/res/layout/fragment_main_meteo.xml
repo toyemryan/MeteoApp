@@ -32,13 +32,14 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tempffectif"
+                android:id="@+id/condition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:alpha="0.75"
                 android:textAlignment="center"
-                android:textSize="18sp" />
-            <!--  android:text="nuvoloso" -->
+                android:textSize="18sp"
+                android:text="nuvoloso" />
+
 
           <androidx.cardview.widget.CardView
               android:layout_width="match_parent"
@@ -110,7 +111,7 @@
                               android:layout_height="wrap_content"
                               android:layout_marginStart="25dp"
                               android:alpha="0.4"
-                              android:text="Feels like 25°C"
+                              android:text="Feels Like: "
                               android:textColor="@color/text"
                               android:textStyle="italic" />
 
@@ -149,14 +150,14 @@
 
 
                           <ImageView
-                              android:id="@+id/imageparam1"
+                              android:id="@+id/impressure"
                               android:layout_width="34dp"
                               android:layout_height="34dp"
                               android:layout_gravity="center"
-                              app:srcCompat="@drawable/rain" />
+                              app:srcCompat="@drawable/fiftydn" />
 
                           <TextView
-                              android:id="@+id/rain"
+                              android:id="@+id/pressure"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
                               android:text="22%"
@@ -165,10 +166,9 @@
                               android:textStyle="bold" />
 
                           <TextView
-                              android:id="@+id/textparam12"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
-                              android:text="pioggia"
+                              android:text="Presione"
                               android:textAlignment="center"
                               android:textColor="@color/text" />
 
@@ -183,7 +183,7 @@
 
 
                           <ImageView
-                              android:id="@+id/imageparam2"
+                              android:id="@+id/imWin"
                               android:layout_width="34dp"
                               android:layout_height="34dp"
                               android:layout_gravity="center"
@@ -217,7 +217,7 @@
 
 
                           <ImageView
-                              android:id="@+id/imageparam3"
+                              android:id="@+id/imhumidity"
                               android:layout_width="34dp"
                               android:layout_height="34dp"
                               android:layout_gravity="center"
@@ -258,19 +258,19 @@
               android:textAlignment="center"
               android:textSize="15sp" />
 
-          <androidx.recyclerview.widget.RecyclerView
-              android:id="@+id/recyclerview"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginEnd="18dp"
-              android:layout_marginStart="18dp"
-              android:layout_marginTop="3dp"
-              android:layout_marginBottom="3dp"
-              android:clipToPadding="false"
-              android:paddingStart="16dp"
-              android:paddingEnd="16dp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="3dp"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
 
-          <TextView
+            <TextView
               android:id="@+id/fiveday"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -302,13 +302,13 @@
                       android:orientation="horizontal">
 
                       <TextView
-                          android:id="@+id/day"
+                          android:id="@+id/hour"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_marginStart="25dp"
                           android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
-                          android:text="Oggi"
+                          android:text="12:00"
                           android:textColor="@color/text"/>
                       <ImageView
                           android:id="@+id/Imagetempparamone"
@@ -328,14 +328,25 @@
                           android:textColor="@color/text"/>
 
                       <TextView
-                          android:id="@+id/ressenti"
+                          android:id="@+id/tempMin"
                           android:layout_width="0dp"
                           android:layout_height="wrap_content"
                           android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
                           android:layout_weight="1"
                           android:textAlignment="textEnd"
-                          android:text="27°  12°"
+                          android:text="12°C"
+                          android:textColor="@color/text"
+                          android:textStyle="bold" />
+                      <TextView
+                          android:id="@+id/tempMax"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_marginEnd="25dp"
+                          android:layout_marginTop="14dp"
+                          android:layout_weight="1"
+                          android:textAlignment="textEnd"
+                          android:text="27°C"
                           android:textColor="@color/text"
                           android:textStyle="bold" />
 
@@ -607,20 +618,22 @@
                       android:orientation="horizontal">
 
                       <ImageView
-                          android:layout_width="40dp"
-                          android:layout_height="40dp"
+                          android:id="@+id/seaim"
+                          android:layout_marginTop="7dp"
+                          android:layout_width="30dp"
+                          android:layout_height="30dp"
                           android:layout_gravity="center"
-                          android:layout_marginStart="25dp"
-                          app:srcCompat="@drawable/uv_logo" />
+                          android:layout_marginStart="28dp"
+                          app:srcCompat="@drawable/thirteend" />
 
                       <TextView
-                          android:id="@+id/uvparam"
+                          android:id="@+id/seaLevel"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_marginStart="25dp"
                           android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
-                          android:text="indice UV"
+                          android:text="Sea Level"
                           android:textColor="@color/text"/>
 
                       <TextView
@@ -651,17 +664,17 @@
                           app:srcCompat="@drawable/sunrise_com" />
 
                       <TextView
-                          android:id="@+id/sunriseparam"
+                          android:id="@+id/sunr"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_marginStart="25dp"
                           android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
-                          android:text="lever de soleil"
+                          android:text="sunrise"
                           android:textColor="@color/text"/>
 
                       <TextView
-                          android:id="@+id/sunrisevalue"
+                          android:id="@+id/sunrval"
                           android:layout_width="0dp"
                           android:layout_height="wrap_content"
                           android:layout_marginEnd="25dp"
@@ -688,17 +701,17 @@
                           app:srcCompat="@drawable/sunset_com" />
 
                       <TextView
-                          android:id="@+id/sunsetparam"
+                          android:id="@+id/suns"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_marginStart="25dp"
                           android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
-                          android:text="coucher de soleil"
+                          android:text="sunsise"
                           android:textColor="@color/text"/>
 
                       <TextView
-                          android:id="@+id/sunsetvalue"
+                          android:id="@+id/sunsval"
                           android:layout_width="0dp"
                           android:layout_height="wrap_content"
                           android:layout_marginEnd="25dp"

@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.meteoapp.R
 import com.example.meteoapp.service.RetrofitInstance
 import com.example.meteoapp.modal.WeatherList
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -17,131 +18,113 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
 
 
 // Annotazione per richiedere API di almeno la versione specificata di Android
 class MainMeteoViewModel (application: Application) : AndroidViewModel(application){
 
-    //LiveData per i dati meteorologici odierni e futuri
-    //val todayWeatherLiveData = MutableLiveData<List<WeatherList>>()
 
     //cinque giorni
     private val fiveDayWeatherLiveData = MutableLiveData<List<WeatherList>>()
 
     private val ancona = "Ancona"
 
-    //LiveData per i dati meteorologici piu vicini con la stessa data
-    //val closetorexactlysameweatherdata = MutableLiveData<WeatherList?>()
 
     //LiveData per il nome della città
     private val _cityName = MutableLiveData("Ancona")
     val cityName: LiveData<String>
         get() = _cityName
 
-    //LiveData per la temperature
+
     private val _maintemperature = MutableLiveData("25°C")
     val maintempature: LiveData<String>
         get() = _maintemperature
 
+    // private val _hour = MutableLiveData<String>()
+    //val hour: LiveData<String>
+    //  get() = _hour
+
+    private  val _minTemp = MutableLiveData<String>()
+    val minTemp: LiveData<String>
+        get() = _minTemp
+
+    private  val _maxTemp = MutableLiveData<String>()
+    val maxTemp: LiveData<String>
+        get() = _maxTemp
+
+    private val _day = MutableLiveData<String?>()
+    val day: MutableLiveData<String?>
+        get() = _day
+
+    private val _hour = MutableLiveData<String?>()
+    val hour: MutableLiveData<String?>
+        get() = _hour
+
+    private val _seaLevel = MutableLiveData<String>()
+    val seaLevel: LiveData<String>
+        get() = _seaLevel
+
+    private val _windSpeed = MutableLiveData<String>()
+    val windSpeed: LiveData<String>
+        get() = _windSpeed
+
+    private val _weatherImage = MutableLiveData<Int>()
+    val weatherImage: LiveData<Int>
+        get() = _weatherImage
+
+    private val _feelLike = MutableLiveData<Int>()
+    val feelLike: MutableLiveData<Int>
+        get() = _feelLike
+
+    private val _humidity = MutableLiveData<String>()
+    val humidity: MutableLiveData<String>
+        get() = _humidity
+
+    private val _pressure = MutableLiveData<String>()
+    val pressure: MutableLiveData<String>
+        get() = _pressure
+
+    private val _weatherCondition = MutableLiveData<String>()
+    val weatherCondition: LiveData<String>
+        get() = _weatherCondition
+
+    private val _weatherImageResourceId = MutableLiveData<String>()
+    val weatherImageResourceId: LiveData<String>
+        get() = _weatherImageResourceId
 
 
-    // Funzione per ottenere i dati meteorologici (odierni o futuri) in base alla città o alle coordinate
+    private val _sunriseTime = MutableLiveData<String>()
+    val sunriseTime: LiveData<String>
+        get() = _sunriseTime
 
-  /*  fun getWeather(city:String? = null, lat:String? = null, lon:String? = null) = viewModelScope.launch(Dispatchers.IO){
-        val weatherTodayList = mutableListOf<WeatherList>()
-        val currentDateTime = LocalDateTime.now()
-        val currentDate0 = currentDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
-        Log.e("ViewModelCoordinates", "$lat $lon")
+    private val _sunsetTime = MutableLiveData<String>()
+    val sunsetTime: LiveData<String>
+        get() = _sunsetTime
 
-        //chiamata API in base alla citta o alle coordinate
-        val call = if (city != null){
-            RetrofitInstance.api.getCurrentWeatherByCity(city)
-        } else {
-            RetrofitInstance.api.getCurrentWeather(lat!!, lon!!)
-        }
 
-        //esecuzione della chiamata API per otttenere la risposta
-        val response = call.execute()
+    private val _pressureImageId = MutableLiveData<Int>()
+    val pressureImageId: LiveData<Int>
+        get() = _pressureImageId
 
-        if (response.isSuccessful){
-            val weatherList = response.body()?.weatherList
+    private val _humidityImageId = MutableLiveData<Int>()
+    val humidityImageId: LiveData<Int>
+        get() = _humidityImageId
 
-            cityName.postValue(response.body()?.city!!.name)
+    private val _windSpeedImageId = MutableLiveData<Int>()
+    val windSpeedImageId: LiveData<Int>
+        get() = _windSpeedImageId
 
-            val currentDate = currentDate0
-
-            // Filtrare i dati meteorologici odierni
-            weatherList?.forEach{
-                weather ->
-                if (weather.dtTxt!!.split("\\s".toRegex()).contains(currentDate)){
-                    weatherTodayList.add(weather)
-                }
-            }
-
-            // Trovare il dato meteorologico più vicino con la stessa data
-            val closestWeather = findClosestWeather(weatherTodayList)
-            closetorexactlysameweatherdata.postValue(closestWeather)
-
-            // Aggiorna la LiveData con i dati meteorologici odierni
-            todayWeatherLiveData.postValue(weatherTodayList)
-        }else{
-            // Gestione dell'errore in caso di chiamata non riuscita
-            val errorMessage = response.message()
-            Log.e("CurrentWeatherError", "Error: $errorMessage")
-        }
-    }*/
-
-    // Funzione per ottenere i dati meteorologici futuri in base alla città o alle coordinate
-  /*  fun getForecastNextDays(city: String? = null, lati: String? = null, longi: String? = null) = viewModelScope.launch(Dispatchers.IO) {
-        // Lista per i dati meteorologici futuri
-        val forecastWeatherList = mutableListOf<WeatherList>()
-
-        // Ottenere la data e l'ora correnti
-        val currentDateTime = LocalDateTime.now()
-        val currentDateO = currentDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-
-        // Chiamata API in base alla città o alle coordinate
-        val call = if (city != null) {
-            RetrofitInstance.api.getCurrentWeatherByCity(city)
-        } else {
-            RetrofitInstance.api.getCurrentWeather(lati!!, longi!!)
-        }
-
-        // Esecuzione della chiamata API e ottenimento della risposta
-        val response = call.execute()
-
-        // Verifica se la chiamata è stata eseguita con successo
-        if (response.isSuccessful) {
-            // Ottenere la lista dei dati meteorologici dalla risposta
-            val weatherList = response.body()?.weatherList
-
-            // Data corrente
-            val currentDate = currentDateO
-
-            // Filtrare i dati meteorologici futuri
-            weatherList?.forEach { weather ->
-                if (!weather.dtTxt!!.split("\\s".toRegex()).contains(currentDate)) {
-                    if (weather.dtTxt!!.substring(11, 16) == "12:00") {
-                        forecastWeatherList.add(weather)
-                    }
-                }
-            }
-
-            // Aggiornare la LiveData con i dati meteorologici futuri
-
-            forecastWeatherLiveData.postValue(forecastWeatherList)
-
-            // Log dei dati meteorologici futuri
-            Log.d("Forecast LiveData", forecastWeatherLiveData.value.toString())
-        } else {
-            // Gestione dell'errore in caso di chiamata non riuscita
-            val errorMessage = response.message()
-            Log.e("CurrentWeatherError", "Error: $errorMessage")
-        }
-    }*/
+    private fun convertTimestampToTime(timestamp: Long): String {
+        val date = Date(timestamp * 1000)
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        return sdf.format(date)
+    }
 
     @OptIn(DelicateCoroutinesApi::class)
     fun getWeather() {
@@ -164,51 +147,59 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
 
                     _cityName.value= data.city!!.name.toString()// name
 
+                    val firstWeather = data.weatherList[0]
+
+                    // Extraire les informations nécessaires
+
+                    val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                    val localDateTime = LocalDateTime.parse(data.weatherList[0].dtTxt, dateTimeFormatter)
+                    _day.value = localDateTime.format(DateTimeFormatter.ofPattern("EEEE"))// Jour
+                    _hour.value = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm")) // Heure (à ajuster selon votre logique)
+                    _feelLike.value = data.cnt!!.toInt() // Sensation thermique
+                    val seaLevelValue = firstWeather.main?.seaLevel
+                    _seaLevel.value = "${seaLevelValue} m"
+
+                   // val sys = firstWeather.sys
+                   // _sunriseTime.value = sys?.sunrise?.let { convertTimestampToTime(it) } ?: "Erreur"
+                   // _sunsetTime.value = sys?.sunset?.let { convertTimestampToTime(it) } ?: "Erreur"
+
+
+                    val minTempKelvin = data.weatherList[0].main?.tempMin
+                    val maxTempKelvin = data.weatherList[0].main?.tempMax
+
+                    val minTempCelsius = (minTempKelvin?.minus(273.15))
+                    val maxTempCelsius = (maxTempKelvin?.minus(273.15))
+
+                    if (minTempCelsius != null) {
+                        _minTemp.value = "${minTempCelsius.toInt()}°C"
+                    }
+
+                    if (maxTempCelsius != null) {
+                        _maxTemp.value = "${maxTempCelsius.toInt()}°C"
+                    }
+
+                    val windSpeedMeterSecond = firstWeather.wind?.speed ?: 0.0
+                    val windSpeedKmHour = windSpeedMeterSecond * 3.6
+                    _windSpeed.value = String.format("%.2f", windSpeedKmHour) // Vitesse du vent
+                    _humidity.value = "${firstWeather.main?.humidity}%" // Humidité
+                    //_weatherImageResourceId.value = getWeather(firstForecast.weather?.get(0)?.id) // ID de l'image
+                    _pressure.value = "${firstWeather.main?.pressure} hPa" // Pression
+
+                    _weatherCondition.value = firstWeather.weather?.get(0)?.description ?: "Erreur"
+
+                    _pressureImageId.value = R.drawable.fiftydn
+                    _humidityImageId.value = R.drawable.humidity
+                    _windSpeedImageId.value = R.drawable.wind
+
                     val temperatureKelvin = data.weatherList[0].main?.temp
                     val temperatureCelsius = (temperatureKelvin?.minus(273.15))
                     if (temperatureCelsius != null) {
                         _maintemperature.value = "${temperatureCelsius.toInt()}°C" // main temperature
                     }
-
-
-
-
                 }
             }
-
-
         }
-
     }
-
-
-    /* Funzione per trovare il dato meteorologico più vicino in base all'ora corrente
-    private fun findClosestWeather(weatherList: List<WeatherList>): WeatherList? {
-        val systemTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
-        var closestWeather: WeatherList? = null
-        var minTimeDifference = Int.MIN_VALUE
-
-        //iterare  attraverso i dati meteorologici e trovare il piu vicino
-        for (weather in weatherList){
-            val weatherTime = weather.dtTxt!!.substring(11, 16)
-            val timeDifference = Math.abs(timeToMinutes(weatherTime) - timeToMinutes(systemTime))
-
-            if (timeDifference < minTimeDifference){
-                minTimeDifference = timeDifference
-                closestWeather = weather
-            }
-        }
-        return closestWeather
-    }
-
-    // Funzione per convertire l'ora in minuti
-    private fun timeToMinutes(time: String): Int {
-        // Dividi la stringa del tempo utilizzando il carattere ":" come delimitatore
-        val parts = time.split(":")
-
-        // Converti la prima parte (ore) in un intero, moltiplica per 60 e aggiungi la seconda parte (minuti)
-        return parts[0].toInt() * 60 + parts[1].toInt()
-    } */
 
 }
 
