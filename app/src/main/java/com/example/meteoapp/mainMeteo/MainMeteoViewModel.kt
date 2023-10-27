@@ -117,6 +117,10 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     val visibility : LiveData<String>
         get() = _visibility
 
+    private val _cloudiness = MutableLiveData<String>()
+    val cloudiness : LiveData<String>
+        get() = _cloudiness
+
     private fun convertTimestampToTime(timestamp: Long): String {
         val date = Date(timestamp * 1000)
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
@@ -195,6 +199,8 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     _rain.value = "${firstWeather.pop?.times(100)}%"
 
                     _visibility.value = "${(firstWeather.visibility?.times(0.001))?.toInt()} Km"
+
+                    _cloudiness.value = "${(firstWeather.clouds?.all)}%"
 
                 }
             }
