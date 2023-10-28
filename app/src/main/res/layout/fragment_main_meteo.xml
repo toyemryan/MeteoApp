@@ -9,6 +9,10 @@
         <variable
             name="mainMeteoViewModel"
             type="com.example.meteoapp.mainMeteo.MainMeteoViewModel" />
+
+        <variable
+            name="forecast"
+            type="com.example.meteoapp.modal.WeatherList" />
     </data>
 
     <ScrollView
@@ -241,7 +245,6 @@
 
                       </LinearLayout>
 
-
                   </LinearLayout>
 
               </LinearLayout>
@@ -279,312 +282,19 @@
               android:textAlignment="center"
               android:textSize="15sp" />
 
-          <androidx.cardview.widget.CardView
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginEnd="18dp"
-              android:layout_marginStart="18dp"
-              android:layout_marginTop="3dp"
-              android:layout_marginBottom="3dp"
-              app:cardBackgroundColor="@color/md_theme_light_primary"
-              app:cardCornerRadius="20dp">
 
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical">
+          <!--  <include layout="@layout/list_fivedays"/> -->
 
-                  <LinearLayout
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:layout_marginTop="8dp"
-                      android:layout_marginBottom="8dp"
-                      android:orientation="horizontal">
 
-                      <TextView
-                          android:id="@+id/hour"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="25dp"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:text="@{mainMeteoViewModel.hour}"
-                          android:textColor="@color/text"/>
-                      <ImageView
-                          android:id="@+id/Imagetempparamone"
-                          android:layout_width="40dp"
-                          android:layout_height="40dp"
-                          android:layout_gravity="center"
-                          app:srcCompat="@drawable/sunny" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewFiveday"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginBottom="3dp"/>
 
-                      <TextView
-                          android:id="@+id/tempparamone"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="25dp"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:text="soleggiato"
-                          android:textColor="@color/text"/>
-
-                      <TextView
-                          android:id="@+id/tempMin"
-                          android:layout_width="0dp"
-                          android:layout_height="wrap_content"
-                          android:layout_marginTop="14dp"
-                          android:layout_weight="1"
-                          android:text="@{mainMeteoViewModel.minTemp}"
-                          android:textAlignment="textEnd"
-                          android:textColor="@color/text"
-                          android:textStyle="bold" />
-
-                      <TextView
-                          android:id="@+id/tempMax"
-                          android:layout_width="0dp"
-                          android:layout_height="wrap_content"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:layout_weight="1"
-                          android:textAlignment="textEnd"
-                          android:text="@{mainMeteoViewModel.maxTemp}"
-                          android:textColor="@color/text"
-                          android:textStyle="bold" />
-
-                  </LinearLayout>
-
-                  <LinearLayout
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:layout_marginBottom="8dp"
-                      android:orientation="horizontal">
-
-                      <TextView
-                          android:id="@+id/dayplusone"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="25dp"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:text="Oggi"
-                          android:textColor="@color/text"/>
-                      <ImageView
-                          android:id="@+id/Imagetempparamtwo"
-                          android:layout_width="40dp"
-                          android:layout_height="40dp"
-                          android:layout_gravity="center"
-                          app:srcCompat="@drawable/sunny" />
-
-                      <TextView
-                          android:id="@+id/tempparamtwo"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="25dp"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:text="soleggiato"
-                          android:textColor="@color/text"/>
-
-                      <TextView
-                          android:id="@+id/ressentitwo"
-                          android:layout_width="0dp"
-                          android:layout_height="wrap_content"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:layout_weight="1"
-                          android:textAlignment="textEnd"
-                          android:text="27°  12°"
-                          android:textColor="@color/text"
-                          android:textStyle="bold" />
-
-                  </LinearLayout>
-
-                  <LinearLayout
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:layout_marginBottom="8dp"
-                      android:orientation="horizontal">
-
-                      <TextView
-                          android:id="@+id/dayplustwo"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="25dp"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:text="Oggi"
-                          android:textColor="@color/text"/>
-                      <ImageView
-                          android:id="@+id/Imagetempparamtree"
-                          android:layout_width="40dp"
-                          android:layout_height="40dp"
-                          android:layout_gravity="center"
-                          app:srcCompat="@drawable/sunny" />
-
-                      <TextView
-                          android:id="@+id/tempparamtree"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="25dp"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:text="soleggiato"
-                          android:textColor="@color/text"/>
-
-                      <TextView
-                          android:id="@+id/ressentitree"
-                          android:layout_width="0dp"
-                          android:layout_height="wrap_content"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:layout_weight="1"
-                          android:textAlignment="textEnd"
-                          android:text="27°  12°"
-                          android:textColor="@color/text"
-                          android:textStyle="bold" />
-
-                  </LinearLayout>
-
-                  <LinearLayout
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:layout_marginBottom="8dp"
-                      android:orientation="horizontal">
-
-                      <TextView
-                          android:id="@+id/dayplustree"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="25dp"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:text="Oggi"
-                          android:textColor="@color/text"/>
-                      <ImageView
-                          android:id="@+id/Imagetempparamfour"
-                          android:layout_width="40dp"
-                          android:layout_height="40dp"
-                          android:layout_gravity="center"
-                          app:srcCompat="@drawable/sunny" />
-
-                      <TextView
-                          android:id="@+id/tempparamfour"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="25dp"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:text="soleggiato"
-                          android:textColor="@color/text"/>
-
-                      <TextView
-                          android:id="@+id/ressentifour"
-                          android:layout_width="0dp"
-                          android:layout_height="wrap_content"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:layout_weight="1"
-                          android:textAlignment="textEnd"
-                          android:text="27°  12°"
-                          android:textColor="@color/text"
-                          android:textStyle="bold" />
-
-                  </LinearLayout>
-
-                  <LinearLayout
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:layout_marginBottom="8dp"
-                      android:orientation="horizontal">
-
-                      <TextView
-                          android:id="@+id/dayplusfour"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="25dp"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:text="Oggi"
-                          android:textColor="@color/text"/>
-                      <ImageView
-                          android:id="@+id/Imagetempparamfive"
-                          android:layout_width="40dp"
-                          android:layout_height="40dp"
-                          android:layout_gravity="center"
-                          app:srcCompat="@drawable/sunny" />
-
-                      <TextView
-                          android:id="@+id/tempparamfive"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="25dp"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:text="soleggiato"
-                          android:textColor="@color/text"/>
-
-                      <TextView
-                          android:id="@+id/ressentifive"
-                          android:layout_width="0dp"
-                          android:layout_height="wrap_content"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:layout_weight="1"
-                          android:textAlignment="textEnd"
-                          android:text="27°  12°"
-                          android:textColor="@color/text"
-                          android:textStyle="bold" />
-
-                  </LinearLayout>
-
-                  <LinearLayout
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:layout_marginBottom="8dp"
-                      android:orientation="horizontal">
-
-                      <TextView
-                          android:id="@+id/dayplusfive"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="25dp"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:text="Oggi"
-                          android:textColor="@color/text"/>
-                      <ImageView
-                          android:id="@+id/Imagetempparamsix"
-                          android:layout_width="40dp"
-                          android:layout_height="40dp"
-                          android:layout_gravity="center"
-                          app:srcCompat="@drawable/sunny" />
-
-                      <TextView
-                          android:id="@+id/tempparamsix"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="25dp"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:text="soleggiato"
-                          android:textColor="@color/text"/>
-
-                      <TextView
-                          android:id="@+id/ressentisix"
-                          android:layout_width="0dp"
-                          android:layout_height="wrap_content"
-                          android:layout_marginEnd="25dp"
-                          android:layout_marginTop="14dp"
-                          android:layout_weight="1"
-                          android:textAlignment="textEnd"
-                          android:text="27°  12°"
-                          android:textColor="@color/text"
-                          android:textStyle="bold" />
-
-                  </LinearLayout>
-
-              </LinearLayout>
-
-          </androidx.cardview.widget.CardView>
 
           <TextView
               android:id="@+id/moreparamday"

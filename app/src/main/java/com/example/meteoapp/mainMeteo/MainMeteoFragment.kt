@@ -1,5 +1,6 @@
 package com.example.meteoapp.mainMeteo
 
+import WeatherFiveDayAdapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
@@ -16,23 +17,23 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.meteoapp.R
 import com.example.meteoapp.adapter.WeatherToday
 import com.example.meteoapp.databinding.FragmentMainMeteoBinding
+
+
 import com.example.meteoapp.service.LocationPermission
 import java.util.*
 
-
 class MainMeteoFragment : Fragment() {
-
 
     lateinit var adapter: WeatherToday
     var lat: String = ""
     var lon: String = ""
     private lateinit var locationPermission: LocationPermission
     private lateinit var binding: FragmentMainMeteoBinding
-
     private val viewModel: MainMeteoViewModel by viewModels()
 
     @SuppressLint("SetTextI18n")
@@ -51,13 +52,32 @@ class MainMeteoFragment : Fragment() {
 
     /* @Deprecated("Deprecated in Java")
     @SuppressLint("SetTextI18n")*/
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.mainMeteoViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        val imageView = view.findViewById<ImageView>(R.id.ImageMain)
+        viewModel.weatherImageResourceId.observe(viewLifecycleOwner) { imageResourceId ->
+            // Mise à jour l'image
+            imageView.setImageResource(imageResourceId)
+        }
+
+        val weatherFiveDayAdapter = WeatherFiveDayAdapter()
+
+        // Utilisez le fichier de liaison pour accéder à la vue recyclerViewFiveday
+        binding.recyclerViewFiveday.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        binding.recyclerViewFiveday.adapter = weatherFiveDayAdapter
+        viewModel.getWeatherFiveDay()
+
+        // Observer les changements dans la liste de prévisions météorologiques
+        viewModel.weatherFiveDay.observe(viewLifecycleOwner) { weatherList ->
+            weatherFiveDayAdapter.setForecastList(weatherList)
+            weatherFiveDayAdapter.notifyDataSetChanged()
+        }
     }
     override fun onResume() {
         super.onResume()
@@ -68,11 +88,10 @@ class MainMeteoFragment : Fragment() {
 
     private fun setupRecyclerView() {
         binding.recyclerview.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = WeatherToday()
         }
     }
-
 
     private fun isNetworkAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -111,6 +130,7 @@ private fun swipeRefresh(){
             Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
         }
     }
+
 }
 
 

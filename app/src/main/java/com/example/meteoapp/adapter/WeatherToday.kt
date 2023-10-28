@@ -12,8 +12,9 @@ import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
-class WeatherToday : RecyclerView.Adapter<TodayHolder>() {
+class WeatherToday : RecyclerView.Adapter<WeatherToday.TodayHolder>() {
 
     // Lista delle previsioni meteorologiche di oggi
     private var listOfTodayWeather = listOf<WeatherList>()
@@ -25,12 +26,10 @@ class WeatherToday : RecyclerView.Adapter<TodayHolder>() {
         return TodayHolder(view)
     }
 
-
     // Restituisce il numero totale di elementi nell'elenco delle previsioni meteorologiche di oggi
     override fun getItemCount(): Int{
         return listOfTodayWeather.size
     }
-
 
     // Metodo chiamato per visualizzare i dati in una posizione specifica
     @SuppressLint("SimpleDateFormat")
@@ -39,7 +38,6 @@ class WeatherToday : RecyclerView.Adapter<TodayHolder>() {
 
         // Imposta l'ora nel formato HH:mm dalla data e ora fornite dalle previsioni meteorologiche
         holder.timeDisplay.text = todayForeCast.dtTxt!!.substring(11, 16).toRegex().toString()
-
 
         // Converte la temperatura da Fahrenheit a Celsius e formatta il risultato
         val temperatureFahrenheit = todayForeCast.main?.temp
@@ -53,55 +51,25 @@ class WeatherToday : RecyclerView.Adapter<TodayHolder>() {
         val dateFormat = SimpleDateFormat("HH:mm")
         val formattedTime = dateFormat.format(calendar.time)
 
-
         // Estrae l'orario dalle previsioni meteorologiche fornite dall'API
         val timeofapi = todayForeCast.dtTxt!!.split(" ")
         val partafterspace = timeofapi[1]
 
         // Logga l'orario attuale e l'orario dalle previsioni meteorologiche
-
-
         Log.e("time" , " formatted time:${formattedTime}")
-
-        // Imposta l'icona del tempo in base al codice fornito dalle previsioni meteorologiche
-        for (i in todayForeCast.weather){
-            when (i.icon){
-                "01d" -> holder.imageDisplay.setImageResource(R.drawable.oned)
-                "01n" -> holder.imageDisplay.setImageResource(R.drawable.onen)
-                "02d" -> holder.imageDisplay.setImageResource(R.drawable.twod)
-                "02n" -> holder.imageDisplay.setImageResource(R.drawable.twon)
-                "03d", "03n" -> holder.imageDisplay.setImageResource(R.drawable.threedn)
-                "10d" -> holder.imageDisplay.setImageResource(R.drawable.tend)
-                "10n" -> holder.imageDisplay.setImageResource(R.drawable.tenn)
-                "04d", "04n" -> holder.imageDisplay.setImageResource(R.drawable.fourdn)
-                "09d", "09n" -> holder.imageDisplay.setImageResource(R.drawable.ninedn)
-                "11d", "11n" -> holder.imageDisplay.setImageResource(R.drawable.elevend)
-                "13d", "13n" -> holder.imageDisplay.setImageResource(R.drawable.thirteend)
-                "50d", "50n" -> holder.imageDisplay.setImageResource(R.drawable.fiftydn)
-            }
-        }
-
     }
-
 
     // Metodo per impostare la lista delle previsioni meteorologiche di oggi nell'adapter
     fun setList(listOfToday: List<WeatherList>){
         this.listOfTodayWeather = listOfToday
     }
 
-}
-
-
 // ViewHolder per visualizzare un elemento dell'elenco delle previsioni meteorologiche di oggi
-class TodayHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class TodayHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-    // ImageView per visualizzare l'icona del tempo
-    val imageDisplay: ImageView = itemView.findViewById(R.id.imagetemptoday)
-
-    // TextView per visualizzare la temperatura
-    val tempDisplay: TextView = itemView.findViewById(R.id.temperaturetoday)
-
-    // TextView per visualizzare l'orario
-    val timeDisplay: TextView = itemView.findViewById(R.id.hourstoday)
+        val tempDisplay: TextView = itemView.findViewById(R.id.temperaturetoday)
+        val timeDisplay: TextView = itemView.findViewById(R.id.hourstoday)
+        val weatherImageView: ImageView = itemView.findViewById(R.id.ImageMain)
+    }
 }
 

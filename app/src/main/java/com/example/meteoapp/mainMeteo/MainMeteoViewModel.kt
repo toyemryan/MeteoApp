@@ -3,11 +3,9 @@ package com.example.meteoapp.mainMeteo
 
 import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.meteoapp.R
 import com.example.meteoapp.service.RetrofitInstance
 import com.example.meteoapp.modal.WeatherList
@@ -28,12 +26,11 @@ import java.util.Locale
 // Annotazione per richiedere API di almeno la versione specificata di Android
 class MainMeteoViewModel (application: Application) : AndroidViewModel(application){
 
-
     //cinque giorni
-    private val fiveDayWeatherLiveData = MutableLiveData<List<WeatherList>>()
+    private val _weatherFiveDay = MutableLiveData<List<WeatherList>>()
+    val weatherFiveDay: LiveData<List<WeatherList>> get() = _weatherFiveDay
 
     private val ancona = "Ancona"
-
 
     //LiveData per il nome della città
     private val _cityName = MutableLiveData("Ancona")
@@ -73,10 +70,6 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     val windSpeed: LiveData<String>
         get() = _windSpeed
 
-    private val _weatherImage = MutableLiveData<Int>()
-    val weatherImage: LiveData<Int>
-        get() = _weatherImage
-
     private val _feelLike = MutableLiveData<String>()
     val feelLike: MutableLiveData<String>
         get() = _feelLike
@@ -93,21 +86,17 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     val weatherCondition: LiveData<String>
         get() = _weatherCondition
 
-    private val _weatherImageResourceId = MutableLiveData<String>()
-    val weatherImageResourceId: LiveData<String>
+    private val _weatherImageResourceId = MutableLiveData<Int>()
+    val weatherImageResourceId: LiveData<Int>
         get() = _weatherImageResourceId
-
 
     private val _sunriseTime = MutableLiveData<String>()
     val sunriseTime: LiveData<String>
         get() = _sunriseTime
 
-
     private val _sunsetTime = MutableLiveData<String>()
     val sunsetTime: LiveData<String>
         get() = _sunsetTime
-
-
 
     private val _rain = MutableLiveData<String>()
     val rain : LiveData<String>
@@ -186,9 +175,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     _humidity.value = "${firstWeather.main?.humidity}%" // Humidité
                     //_weatherImageResourceId.value = getWeather(firstForecast.weather?.get(0)?.id) // ID de l'image
                     _pressure.value = "${(firstWeather.main?.pressure?.times(0.001))?.toInt()} Bar" // Pression
-
                     _weatherCondition.value = firstWeather.weather[0].description ?: "Erreur"
-
 
                     val temperatureKelvin = data.weatherList[0].main?.temp
                     val temperatureCelsius = (temperatureKelvin?.minus(273.15))
@@ -202,10 +189,49 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
 
                     _cloudiness.value = "${(firstWeather.clouds?.all)}%"
 
+                    _weatherCondition.value = firstWeather.weather[0].description ?: "Erreur"
+                    _weatherImageResourceId.value = getWeatherImageResourceId(_weatherCondition.value ?: "")
                 }
             }
         }
     }
+    // Fonction pour obtenir l'ID de l'image en fonction de la condition météorologique
 
+    private fun getWeatherImageResourceId(condition: String): Int {
+        return when (condition.lowercase(Locale.getDefault())) {
+            "clear sky" -> R.drawable.clear_sky
+            "few clouds" -> R.drawable.few_clouds
+            "scattered clouds" -> R.drawable.cattered_clouds
+            "broken clouds" -> R.drawable.cloud
+            "shower rain" -> R.drawable.shower_rain
+            "rain" -> R.drawable.rain
+            "thunderstorm" -> R.drawable.thunderstorm
+            "snow" -> R.drawable.snowy
+            "mist" -> R.drawable.mist
+            else -> R.drawable.ic_unknown // Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
+        }
+    }
+    @OptIn(DelicateCoroutinesApi::class)
+    fun getWeatherFiveDay(){
+        GlobalScope.launch(Dispatchers.IO){
+            val call = try{
+                RetrofitInstance.api.getFutureWeatherByCity(ancona)
+        }catch (e: IOException){
+            Log.e("Flux error", "Error: ${e.message}")
+            return@launch
+        }catch (e: HttpException){
+            Log.e("Connection error", "Error: ${e.message}")
+            return@launch
+        }
+            val response = call.execute()
+            if (response.isSuccessful && response.body() != null){
+                withContext(Dispatchers.Main){
+                    val data = response.body()!!
+
+                    _weatherFiveDay.value = data.weatherList.take(8)
+
+                }
+            }
+        }
+    }
 }
-
