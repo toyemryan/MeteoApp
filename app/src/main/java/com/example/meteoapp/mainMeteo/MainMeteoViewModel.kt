@@ -201,14 +201,14 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
         return when (condition.lowercase(Locale.getDefault())) {
             "clear sky" -> R.drawable.clear_sky
             "few clouds" -> R.drawable.few_clouds
-            "scattered clouds" -> R.drawable.cattered_clouds
+            "scattered clouds" -> R.drawable.scattered_clouds
             "broken clouds" -> R.drawable.cloud
             "shower rain" -> R.drawable.shower_rain
             "rain" -> R.drawable.rain
             "thunderstorm" -> R.drawable.thunderstorm
-            "snow" -> R.drawable.snowy
+            "snow" -> R.drawable.snow
             "mist" -> R.drawable.mist
-            else -> R.drawable.ic_unknown // Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
+            else -> R.drawable.unknown // Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
         }
     }
     @OptIn(DelicateCoroutinesApi::class)

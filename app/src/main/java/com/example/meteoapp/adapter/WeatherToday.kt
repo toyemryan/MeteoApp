@@ -12,7 +12,6 @@ import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 
 class WeatherToday : RecyclerView.Adapter<WeatherToday.TodayHolder>() {
 
