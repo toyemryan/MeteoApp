@@ -252,6 +252,8 @@
 
           </androidx.cardview.widget.CardView>
 
+
+
           <TextView
               android:id="@+id/alltoday"
               android:layout_width="match_parent"
@@ -260,18 +262,15 @@
               android:alpha="0.4"
               android:textAlignment="center"
               android:textSize="15sp" />
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview"
+                android:id="@+id/recyclerViewFiveday"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="18dp"
-                android:layout_marginBottom="3dp"
-                android:clipToPadding="false"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp" />
+                android:layout_marginBottom="3dp"/>
+
 
             <TextView
               android:id="@+id/fiveday"
@@ -284,16 +283,19 @@
 
 
           <!--  <include layout="@layout/list_fivedays"/> -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="3dp"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewFiveday"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="18dp"
-                    android:layout_marginBottom="3dp"/>
 
 
           <TextView
