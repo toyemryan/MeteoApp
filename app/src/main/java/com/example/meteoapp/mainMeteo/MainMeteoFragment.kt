@@ -1,6 +1,6 @@
 package com.example.meteoapp.mainMeteo
 
-import WeatherFiveDayAdapter
+//import WeatherFiveDayAdapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
@@ -65,7 +65,7 @@ class MainMeteoFragment : Fragment() {
             imageView.setImageResource(imageResourceId)
         }
 
-        val weatherFiveDayAdapter = WeatherFiveDayAdapter()
+       /* val weatherFiveDayAdapter = WeatherFiveDayAdapter()
 
         // Utilisez le fichier de liaison pour accéder à la vue recyclerViewFiveday
         binding.recyclerViewFiveday.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -77,7 +77,7 @@ class MainMeteoFragment : Fragment() {
         viewModel.weatherFiveDay.observe(viewLifecycleOwner) { weatherList ->
             weatherFiveDayAdapter.setForecastList(weatherList)
             weatherFiveDayAdapter.notifyDataSetChanged()
-        }
+        }*/
     }
     override fun onResume() {
         super.onResume()
@@ -123,11 +123,17 @@ private fun swipeRefresh(){
 }
 
     private fun Fresh(){
+
+        val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
+        swipe.isRefreshing = true
+
         if (activity?.let { isNetworkAvailable(it) } == true){
             viewModel.getWeather()
             setupRecyclerView()
+            swipe.isRefreshing = false
         }else{
             Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
+            swipe.isRefreshing = false
         }
     }
 

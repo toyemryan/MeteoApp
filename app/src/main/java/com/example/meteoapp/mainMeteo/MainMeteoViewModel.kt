@@ -62,10 +62,6 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     val hour: MutableLiveData<String?>
         get() = _hour
 
-    private val _seaLevel = MutableLiveData<String>()
-    val seaLevel: LiveData<String>
-        get() = _seaLevel
-
     private val _windSpeed = MutableLiveData<String>()
     val windSpeed: LiveData<String>
         get() = _windSpeed
@@ -147,8 +143,6 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     _hour.value = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm")) // Heure (à ajuster selon votre logique)
                     _feelLike.value = "Feel like : ${(firstWeather.main?.feelsLike?.minus(273.15))?.toInt()} °C"
                     _pressure.value = "${firstWeather.main?.pressure?.times(0.001)} Bar" // Pression
-                    val seaLevelValue = firstWeather.main?.seaLevel
-                    _seaLevel.value = "$seaLevelValue m"
 
                    // val sys = firstWeather.sys
                     _sunriseTime.value = data.city!!.sunrise?.let { convertTimestampToTime(it.toLong()) }
@@ -202,13 +196,13 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
             "clear sky" -> R.drawable.clear_sky
             "few clouds" -> R.drawable.few_clouds
             "scattered clouds" -> R.drawable.scattered_clouds
-            "broken clouds" -> R.drawable.cloud
+            //"broken clouds" -> R.drawable.cloud
             "shower rain" -> R.drawable.shower_rain
             "rain" -> R.drawable.rain
             "thunderstorm" -> R.drawable.thunderstorm
             "snow" -> R.drawable.snow
             "mist" -> R.drawable.mist
-            else -> R.drawable.unknown // Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
+            else ->  R.drawable.few_clouds // R.drawable.unknown // Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
         }
     }
     @OptIn(DelicateCoroutinesApi::class)
