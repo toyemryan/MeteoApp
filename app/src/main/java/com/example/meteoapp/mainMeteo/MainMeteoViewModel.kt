@@ -27,8 +27,8 @@ import java.util.Locale
 class MainMeteoViewModel (application: Application) : AndroidViewModel(application){
 
     //cinque giorni
-    private val _weatherFiveDay = MutableLiveData<List<WeatherList>>()
-    val weatherFiveDay: LiveData<List<WeatherList>> get() = _weatherFiveDay
+    private val _weathernexhour = MutableLiveData<List<WeatherList>>()
+    val weatherNexHour: LiveData<List<WeatherList>> get() = _weathernexhour
 
     private val ancona = "Ancona"
 
@@ -196,17 +196,17 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
             "clear sky" -> R.drawable.clear_sky
             "few clouds" -> R.drawable.few_clouds
             "scattered clouds" -> R.drawable.scattered_clouds
-            //"broken clouds" -> R.drawable.cloud
+            "broken clouds" -> R.drawable.cloud
             "shower rain" -> R.drawable.shower_rain
             "rain" -> R.drawable.rain
             "thunderstorm" -> R.drawable.thunderstorm
             "snow" -> R.drawable.snow
             "mist" -> R.drawable.mist
-            else ->  R.drawable.few_clouds // R.drawable.unknown // Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
+            else ->  R.drawable.unknown // R.drawable.unknown // Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
         }
     }
     @OptIn(DelicateCoroutinesApi::class)
-    fun getWeatherFiveDay(){
+    fun getWeatherNexHour(){
         GlobalScope.launch(Dispatchers.IO){
             val call = try{
                 RetrofitInstance.api.getFutureWeatherByCity(ancona)
@@ -222,7 +222,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                 withContext(Dispatchers.Main){
                     val data = response.body()!!
 
-                    _weatherFiveDay.value = data.weatherList.take(8)
+                    _weathernexhour.value = data.weatherList.take(8)
 
                 }
             }
