@@ -208,6 +208,12 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
             "snow" -> R.drawable.snow
             "mist" -> R.drawable.mist
             "light rain" -> R.drawable.light_rain
+            "fog" -> R.drawable.fog
+            "haze" -> R.drawable.haze
+            "smoke" -> R.drawable.smoke
+            "very cold" -> R.drawable.very_cold
+            "warm" ->R.drawable.warm
+            "wind" ->R.drawable.wind
             else ->  R.drawable.unknown // R.drawable.unknown // Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
         }
     }
