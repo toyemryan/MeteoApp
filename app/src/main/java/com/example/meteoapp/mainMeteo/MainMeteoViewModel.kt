@@ -221,7 +221,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     fun getWeatherNexHour(){
         GlobalScope.launch(Dispatchers.IO){
             val call = try{
-                RetrofitInstance.api.getFutureWeatherByCity(ancona)
+                RetrofitInstance.api.getCurrentWeatherByCity(ancona)
         }catch (e: IOException){
             Log.e("Flux error", "Error: ${e.message}")
             return@launch
@@ -234,7 +234,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                 withContext(Dispatchers.Main){
                     val data = response.body()!!
 
-                    _weathernexhour.value = data.weatherList.take(10)
+                    _weathernexhour.value = data.weatherList.subList(0, minOf(10, data.weatherList.size))
 
                 }
             }
