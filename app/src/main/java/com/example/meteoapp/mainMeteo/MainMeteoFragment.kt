@@ -17,7 +17,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.meteoapp.R
 import com.example.meteoapp.adapter.WeatherNextHour
@@ -66,13 +65,18 @@ class MainMeteoFragment : Fragment() {
             imageView.setImageResource(imageResourceId)
         }
 
-       val weatherNextHourAdapter = WeatherNextHour()
-
+        val weatherNextHourAdapter = WeatherNextHour()
+       // val weatherNextDayAdapter = WeatherNextDays()
         // Utilisez le fichier de liaison pour accéder à la vue recyclerViewFiveday
         binding.recyclerViewNexHour.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         binding.recyclerViewNexHour.adapter = weatherNextHourAdapter
         viewModel.getWeatherNexHour()
+
+      //  binding.recyclerviewNexDay.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        //binding.recyclerviewNexDay.adapter = weatherNextDayAdapter
+        //viewModel.getWeatherNexDays()
 
         // Observer les changements dans la liste de prévisions météorologiques
         viewModel.weatherNexHour.observe(viewLifecycleOwner) { weatherList ->
@@ -88,7 +92,7 @@ class MainMeteoFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerview.apply {
+        binding.recyclerviewNexDay.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = WeatherToday()
         }

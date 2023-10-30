@@ -7,8 +7,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.meteoapp.R
+import com.example.meteoapp.modal.ForeCast
 import com.example.meteoapp.service.RetrofitInstance
 import com.example.meteoapp.modal.WeatherList
+import com.lionel.mameteo.modal.City
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -29,6 +31,9 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     //cinque giorni
     private val _weathernexhour = MutableLiveData<List<WeatherList>>()
     val weatherNexHour: LiveData<List<WeatherList>> get() = _weathernexhour
+
+    //private val _weatherNextDays = MutableLiveData<List<WeatherList>>()
+    //val weatherNextDays: LiveData<List<WeatherList>> get() = _weatherNextDays
 
     private val ancona = "Ancona"
 
@@ -202,6 +207,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
             "thunderstorm" -> R.drawable.thunderstorm
             "snow" -> R.drawable.snow
             "mist" -> R.drawable.mist
+            "light rain" -> R.drawable.light_rain
             else ->  R.drawable.unknown // R.drawable.unknown // Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
         }
     }
@@ -222,10 +228,33 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                 withContext(Dispatchers.Main){
                     val data = response.body()!!
 
-                    _weathernexhour.value = data.weatherList.take(8)
+                    _weathernexhour.value = data.weatherList.take(10)
 
                 }
             }
         }
     }
+/*
+    @OptIn(DelicateCoroutinesApi::class)
+    fun getWeatherNexDays(){
+        GlobalScope.launch(Dispatchers.IO) {
+            val call = try {
+                RetrofitInstance.api.getFutureWeatherByCity(ancona)
+            }catch (e:IOException){
+                Log.e("Flux Error", "Error: ${e.message}")
+                return@launch
+            }catch (e: HttpException){
+                Log.e("connection error", "Error: ${e.message}")
+                return@launch
+            }
+            val response = call.execute()
+            if (response.isSuccessful && response.body() != null){
+                withContext(Dispatchers.Main){
+                    val data = response.body()!!
+                    _weatherNextDays.value = data.weatherList
+                }
+            }
+        }
+    }
+*/
 }

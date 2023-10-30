@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
 import java.io.Serializable
 import java.util.Locale
-import java.util.concurrent.locks.Condition
+
 
 class WeatherNextHour: RecyclerView.Adapter<ForecastViewHolder>() {
     private var listOfNextHourWeather = listOf<WeatherList>()
@@ -51,6 +50,7 @@ class WeatherNextHour: RecyclerView.Adapter<ForecastViewHolder>() {
             "thunderstorm" -> R.drawable.thunderstorm
             "snow" -> R.drawable.snow
             "mist" -> R.drawable.mist
+            "light rain" -> R.drawable.light_rain
             else -> R.drawable.unknown // Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
         }
     }

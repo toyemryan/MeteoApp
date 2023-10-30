@@ -283,7 +283,7 @@
 
           <!--  <include layout="@layout/list_fivedays"/> -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview"
+                android:id="@+id/recyclerviewNexDay"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="18dp"
