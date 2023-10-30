@@ -29,16 +29,14 @@ class WeatherNextHour: RecyclerView.Adapter<ForecastViewHolder>() {
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
         val nexhourForeCast = listOfNextHourWeather[position]
 
-        val imageResourceId = nexhourForeCast.weather[0].description?.let { getWeatherImageResourceId(it) }
-        if (imageResourceId != null) {
-            holder.weatherImageView.setImageResource(imageResourceId)
-        }
+        val imageResourceId = getWeatherImageResourceId(nexhourForeCast.weather ?: "")
+        holder.weatherImageView.setImageResource(imageResourceId)
         holder.timeDisplay.text = nexhourForeCast.dtTxt!!.substring(11, 16).toRegex().toString()
 
         val temperatureFahrenheit = nexhourForeCast.main?.temp
-        val temperatureCelsius = ((temperatureFahrenheit?.minus(273.15))?.toInt())
-       // val temperatureFormatted = String.format("%.2f", temperatureCelsius)
-        holder.tempDisplay.text = "$temperatureCelsius °C"
+        val temperatureCelsius = (temperatureFahrenheit?.minus(273.15))
+        val temperatureFormatted = String.format("%.2f", temperatureCelsius)
+        holder.tempDisplay.text = "$temperatureFormatted °C"
     }
 
     fun getWeatherImageResourceId(condition: Serializable): Int{
