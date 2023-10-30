@@ -14,7 +14,6 @@ interface Service {
         @Query("appid") appid:String = Utility.API_KEY // appid:String
     ):Call<ForeCast>
 
-
     @GET("forecast?")
     fun getCurrentWeatherByCity(
         @Query("q") city:String,
@@ -23,9 +22,9 @@ interface Service {
 
     @GET("forecast?")
     fun getFutureWeatherByCity(
-        @Query("q") city:String,
+        @Query("q") city: String,
+        @Query("cnt") days: Int = 5,
         @Query("appid") appid: String = Utility.API_KEY
-    ):Call<ForeCast>
-
+    ): Call<ForeCast>
 
 }
