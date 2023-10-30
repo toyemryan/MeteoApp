@@ -33,16 +33,6 @@
                 android:textAlignment="center"
                 android:text="Text"/>
 
-            <TextView
-                android:id="@+id/pressure"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:layout_margin="8dp"
-                android:textColor="@color/text"
-                android:textAlignment="center"
-                android:text="Text"/>
-
             <ImageView
                 android:id="@+id/ImageMain"
                 android:layout_width="45dp"

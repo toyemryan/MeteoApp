@@ -30,21 +30,19 @@ class WeatherNextHour: RecyclerView.Adapter<ForecastViewHolder>() {
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
         val nexhourForeCast = listOfNextHourWeather[position]
 
-       // val imageResourceId = getWeatherImageResourceId(nexhourForeCast.weather ?: "")
-        //holder.weatherImageView.setImageResource(imageResourceId)
+        val imageResourceId = nexhourForeCast.weather[0].description?.let { getWeatherImageResourceId(it) }
+        if (imageResourceId != null) {
+            holder.weatherImageView.setImageResource(imageResourceId)
+        }
         holder.timeDisplay.text = nexhourForeCast.dtTxt!!.substring(11, 16).toRegex().toString()
 
         val temperatureFahrenheit = nexhourForeCast.main?.temp
-        val temperatureCelsius = (temperatureFahrenheit?.minus(273.15))
-        val temperatureFormatted = String.format("%.0f", temperatureCelsius)
-        holder.tempDisplay.text = "$temperatureFormatted °C"
-
-        val pressure = nexhourForeCast.main?.pressure?.times(0.001)?.toInt()
-        holder.pressure.text = "$pressure Bar"
-
+        val temperatureCelsius = ((temperatureFahrenheit?.minus(273.15))?.toInt())
+        // val temperatureFormatted = String.format("%.2f", temperatureCelsius)
+        holder.tempDisplay.text = "$temperatureCelsius °C"
     }
 
-    fun getWeatherImageResourceId(condition: Serializable): Int{
+    private fun getWeatherImageResourceId(condition: Serializable): Int{
         return when(condition.toString().lowercase(Locale.getDefault())){
             "clear sky" -> R.drawable.clear_sky
             "few clouds" -> R.drawable.few_clouds
@@ -82,5 +80,4 @@ class ForecastViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     val tempDisplay: TextView = itemView.findViewById(R.id.temperaturetoday)
     val timeDisplay: TextView = itemView.findViewById(R.id.humiditynexday)
     val weatherImageView: ImageView = itemView.findViewById(R.id.ImageMain)
-    val pressure: TextView = itemView.findViewById(R.id.pressure)
 }
