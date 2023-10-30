@@ -53,7 +53,6 @@ class AboutFragment : Fragment() {
         textView2.text = sss
         textView1.movementMethod = LinkMovementMethod.getInstance()
         textView2.movementMethod = LinkMovementMethod.getInstance()
-
     }
 
     override fun onResume() {
