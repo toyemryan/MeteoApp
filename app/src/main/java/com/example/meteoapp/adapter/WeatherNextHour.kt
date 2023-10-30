@@ -26,17 +26,22 @@ class WeatherNextHour: RecyclerView.Adapter<ForecastViewHolder>() {
         return listOfNextHourWeather.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
         val nexhourForeCast = listOfNextHourWeather[position]
 
-        val imageResourceId = getWeatherImageResourceId(nexhourForeCast.weather ?: "")
-        holder.weatherImageView.setImageResource(imageResourceId)
+       // val imageResourceId = getWeatherImageResourceId(nexhourForeCast.weather ?: "")
+        //holder.weatherImageView.setImageResource(imageResourceId)
         holder.timeDisplay.text = nexhourForeCast.dtTxt!!.substring(11, 16).toRegex().toString()
 
         val temperatureFahrenheit = nexhourForeCast.main?.temp
         val temperatureCelsius = (temperatureFahrenheit?.minus(273.15))
-        val temperatureFormatted = String.format("%.2f", temperatureCelsius)
+        val temperatureFormatted = String.format("%.0f", temperatureCelsius)
         holder.tempDisplay.text = "$temperatureFormatted °C"
+
+        val pressure = nexhourForeCast.main?.pressure?.times(0.001)?.toInt()
+        holder.pressure.text = "$pressure Bar"
+
     }
 
     fun getWeatherImageResourceId(condition: Serializable): Int{
@@ -51,7 +56,17 @@ class WeatherNextHour: RecyclerView.Adapter<ForecastViewHolder>() {
             "snow" -> R.drawable.snow
             "mist" -> R.drawable.mist
             "light rain" -> R.drawable.light_rain
-            else -> R.drawable.unknown // Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
+            "fog" -> R.drawable.fog
+            "haze" -> R.drawable.haze
+            "smoke" -> R.drawable.smoke
+            "very cold" -> R.drawable.very_cold
+            "warm" ->R.drawable.warm
+            "winds" ->R.drawable.wind
+            "feels like" ->R.drawable.feels_like
+            else -> {
+                Log.d("WeatherNexHourAdapter", "Using default image for condition: $condition")
+                R.drawable.unknown
+            }// Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
         }
     }
 
@@ -67,4 +82,5 @@ class ForecastViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     val tempDisplay: TextView = itemView.findViewById(R.id.temperaturetoday)
     val timeDisplay: TextView = itemView.findViewById(R.id.humiditynexday)
     val weatherImageView: ImageView = itemView.findViewById(R.id.ImageMain)
+    val pressure: TextView = itemView.findViewById(R.id.pressure)
 }

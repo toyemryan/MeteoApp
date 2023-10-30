@@ -48,7 +48,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/cloud"/>
+                app:srcCompat="@drawable/broken_clouds"/>
 
             <TextView
                 android:id="@+id/temperaturetoday"
