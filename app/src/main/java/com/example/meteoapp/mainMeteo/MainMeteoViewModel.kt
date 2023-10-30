@@ -169,8 +169,8 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     }
 
                     val windSpeedMeterSecond = firstWeather.wind?.speed
-                    val windSpeedKmHour = windSpeedMeterSecond?.times(3.6)
-                    _windSpeed.value = "${String.format("%.2f", windSpeedKmHour)} Km/h" // Vitesse du vent
+                   // val windSpeedKmHour = windSpeedMeterSecond?.times(3.6)
+                    _windSpeed.value = "${(windSpeedMeterSecond?.times(3.6))?.toInt()} Km/h" // Vitesse du vent
                     _humidity.value = "${firstWeather.main?.humidity}%" // Humidité
                     //_weatherImageResourceId.value = getWeather(firstForecast.weather?.get(0)?.id) // ID de l'image
                     _pressure.value = "${(firstWeather.main?.pressure?.times(0.001))?.toInt()} Bar" // Pression
@@ -182,7 +182,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                         _maintemperature.value = "${temperatureCelsius.toInt()}°C" // main temperature
                     }
 
-                    _rain.value = "${firstWeather.pop?.times(100)}%"
+                    _rain.value = "${(firstWeather.pop?.times(100))?.toInt()}%"
 
                     _visibility.value = "${(firstWeather.visibility?.times(0.001))?.toInt()} Km"
 

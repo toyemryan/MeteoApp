@@ -10,7 +10,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        app:cardBackgroundColor="@color/font_color"
+        app:cardBackgroundColor="@color/md_theme_light_primary"
         android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -27,7 +27,7 @@
                 android:id="@+id/humiditynexday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:layout_margin="8dp"
                 android:textColor="@color/text"
                 android:textAlignment="center"
@@ -44,7 +44,7 @@
                 android:id="@+id/temperaturetoday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:layout_margin="8dp"
                 android:textColor="@color/text"
                 android:textAlignment="center"
