@@ -1,6 +1,5 @@
 package com.example.meteoapp.mainMeteo
 
-//import WeatherFiveDayAdapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
@@ -45,7 +44,7 @@ class MainMeteoFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_meteo, container, false)
 
-        Fresh()
+        fresh()
         swipeRefresh()
 
         return binding.root
@@ -123,18 +122,13 @@ private fun swipeRefresh(){
     }
 }
 
-    private fun Fresh(){
-
-        val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
-        swipe.isRefreshing = true
+    private fun fresh(){
 
         if (activity?.let { isNetworkAvailable(it) } == true){
             viewModel.getWeather()
             setupRecyclerView()
-            swipe.isRefreshing = false
         }else{
             Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
-            swipe.isRefreshing = false
         }
     }
 
