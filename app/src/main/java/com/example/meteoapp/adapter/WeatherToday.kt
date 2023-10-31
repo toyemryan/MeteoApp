@@ -67,7 +67,7 @@ class WeatherToday : RecyclerView.Adapter<WeatherToday.TodayHolder>() {
     class TodayHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         val tempDisplay: TextView = itemView.findViewById(R.id.temperaturetoday)
-        val timeDisplay: TextView = itemView.findViewById(R.id.hourstoday)
+        val timeDisplay: TextView = itemView.findViewById(R.id.day)
         val weatherImageView: ImageView = itemView.findViewById(R.id.ImageMain)
     }
 }

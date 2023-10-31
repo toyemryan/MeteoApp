@@ -19,6 +19,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
@@ -32,8 +33,8 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     private val _weathernexhour = MutableLiveData<List<WeatherList>>()
     val weatherNexHour: LiveData<List<WeatherList>> get() = _weathernexhour
 
-    //private val _weatherNextDays = MutableLiveData<List<WeatherList>>()
-    //val weatherNextDays: LiveData<List<WeatherList>> get() = _weatherNextDays
+    private val _weatherNextDays = MutableLiveData<List<WeatherList>>()
+    val weatherNextDays: LiveData<List<WeatherList>> get() = _weatherNextDays
 
     private val ancona = "Ancona"
 
@@ -240,27 +241,42 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
             }
         }
     }
-/*
+
     @OptIn(DelicateCoroutinesApi::class)
-    fun getWeatherNexDays(){
+    fun getWeatherNexDays() {
         GlobalScope.launch(Dispatchers.IO) {
             val call = try {
                 RetrofitInstance.api.getFutureWeatherByCity(ancona)
-            }catch (e:IOException){
+            } catch (e: IOException) {
                 Log.e("Flux Error", "Error: ${e.message}")
                 return@launch
-            }catch (e: HttpException){
+            } catch (e: HttpException) {
                 Log.e("connection error", "Error: ${e.message}")
                 return@launch
             }
             val response = call.execute()
-            if (response.isSuccessful && response.body() != null){
-                withContext(Dispatchers.Main){
+            if (response.isSuccessful && response.body() != null) {
+                withContext(Dispatchers.Main) {
                     val data = response.body()!!
-                    _weatherNextDays.value = data.weatherList
+
+                    _weatherNextDays.postValue(data.weatherList.filter {
+                        val currentDate = LocalDate.now()
+                        it.dtTxt?.startsWith(currentDate.toString()) == true
+                    })
+
+                    val currentDate = LocalDate.now()
+                    for (i in 1..5) {
+                        val futureDate = currentDate.plusDays(i.toLong())
+                        data.weatherList.forEach { weatherNextDays ->
+                            Log.d(
+                                "Weather",
+                                "Date: ${weatherNextDays.dtTxt}, Temperature: ${weatherNextDays.main?.temp}, Description: ${weatherNextDays.weather}"
+                            )
+                        }
+                    }
                 }
             }
         }
     }
-*/
+
 }
