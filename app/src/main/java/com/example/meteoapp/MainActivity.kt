@@ -21,7 +21,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding : ActivityMainBinding
@@ -34,7 +33,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         @Suppress("DEPRECATION")
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -44,7 +42,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
-
 
 
         //put all the drawerlayout into the appbarconfiguration
@@ -103,9 +100,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(intent)
             }
             R.id.aboutFragment -> {
-                navController.navigate(R.id.action_mainMeteoFragment_to_aboutFragment)
-            }
-            R.id.cityFragment ->{
                 navController.navigate(R.id.action_mainMeteoFragment_to_aboutFragment)
             }
         }
