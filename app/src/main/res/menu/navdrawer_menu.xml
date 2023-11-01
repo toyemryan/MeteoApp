@@ -11,6 +11,10 @@
         android:id="@+id/setting"
         android:icon="@drawable/setting"
         android:title="@string/setting"/>
+    <item
+        android:id="@+id/city"
+        android:icon="@drawable/location_city"
+        android:title="@string/city"/>
 
     <item
         android:id="@+id/logout"

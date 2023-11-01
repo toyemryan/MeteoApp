@@ -6,6 +6,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -21,6 +22,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.meteoapp.R
+import com.example.meteoapp.adapter.WeatherNextDays
 import com.example.meteoapp.adapter.WeatherNextHour
 import com.example.meteoapp.adapter.WeatherToday
 import com.example.meteoapp.databinding.FragmentMainMeteoBinding
@@ -69,21 +71,29 @@ class MainMeteoFragment : Fragment() {
        // val weatherNextDayAdapter = WeatherNextDays()
         // Utilisez le fichier de liaison pour accéder à la vue recyclerViewFiveday
         binding.recyclerViewNexHour.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
         binding.recyclerViewNexHour.adapter = weatherNextHourAdapter
         viewModel.getWeatherNexHour()
-
-      //  binding.recyclerviewNexDay.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        //binding.recyclerviewNexDay.adapter = weatherNextDayAdapter
-        //viewModel.getWeatherNexDays()
 
         // Observer les changements dans la liste de prévisions météorologiques
         viewModel.weatherNexHour.observe(viewLifecycleOwner) { weatherList ->
             weatherNextHourAdapter.setForecastList(weatherList)
             weatherNextHourAdapter.notifyDataSetChanged()
         }
-    }
+
+            //Next Days
+        val weatherNextDaysAdapter = WeatherNextDays()
+        binding.recyclerviewNexDay.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerviewNexDay.adapter = weatherNextDaysAdapter
+
+        viewModel.weatherNextDays.observe(viewLifecycleOwner) { weatherList ->
+            //Log.d("WeatherFragment", "Number of items in weatherList: ${weatherList.size}")
+         weatherNextDaysAdapter.setForecastList(weatherList)
+        }
+
+            viewModel.getWeatherNexDays()
+
+        }
+
     override fun onResume() {
         super.onResume()
         val toolbarTitle =

@@ -19,6 +19,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
@@ -32,8 +33,8 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     private val _weathernexhour = MutableLiveData<List<WeatherList>>()
     val weatherNexHour: LiveData<List<WeatherList>> get() = _weathernexhour
 
-    //private val _weatherNextDays = MutableLiveData<List<WeatherList>>()
-    //val weatherNextDays: LiveData<List<WeatherList>> get() = _weatherNextDays
+    private val _weatherNextDays = MutableLiveData<List<WeatherList>>()
+    val weatherNextDays: LiveData<List<WeatherList>> get() = _weatherNextDays
 
     private val ancona = "Ancona"
 
@@ -46,10 +47,6 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     private val _maintemperature = MutableLiveData("25°C")
     val maintempature: LiveData<String>
         get() = _maintemperature
-
-    // private val _hour = MutableLiveData<String>()
-    //val hour: LiveData<String>
-    //  get() = _hour
 
     private  val _minTemp = MutableLiveData<String>()
     val minTemp: LiveData<String>
@@ -110,6 +107,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     private val _cloudiness = MutableLiveData<String>()
     val cloudiness : LiveData<String>
         get() = _cloudiness
+
 
     private fun convertTimestampToTime(timestamp: Long): String {
         val date = Date(timestamp * 1000)
@@ -234,7 +232,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                 withContext(Dispatchers.Main){
                     val data = response.body()!!
 
-                    _weathernexhour.value = data.weatherList.subList(0, minOf(10, data.weatherList.size))
+                    _weathernexhour.value = data.weatherList.take(10)
 
                 }
             }
@@ -242,25 +240,74 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     }
 /*
     @OptIn(DelicateCoroutinesApi::class)
-    fun getWeatherNexDays(){
+    fun getWeatherNexDays() {
         GlobalScope.launch(Dispatchers.IO) {
             val call = try {
                 RetrofitInstance.api.getFutureWeatherByCity(ancona)
-            }catch (e:IOException){
+            } catch (e: IOException) {
                 Log.e("Flux Error", "Error: ${e.message}")
                 return@launch
-            }catch (e: HttpException){
+            } catch (e: HttpException) {
                 Log.e("connection error", "Error: ${e.message}")
                 return@launch
             }
             val response = call.execute()
-            if (response.isSuccessful && response.body() != null){
-                withContext(Dispatchers.Main){
+            if (response.isSuccessful && response.body() != null) {
+                withContext(Dispatchers.Main) {
                     val data = response.body()!!
-                    _weatherNextDays.value = data.weatherList
+
+                    _weatherNextDays.postValue(data.weatherList.filter {
+                        val currentDate = LocalDate.now()
+                        it.dtTxt?.startsWith(currentDate.toString()) == true
+                    })
+
+                    for (i in 1..5) {
+                        data.weatherList.forEach { weatherNextDays ->
+                            Log.d(
+                                "Weather",
+                                "Date: ${weatherNextDays.dtTxt}, Temperature: ${weatherNextDays.main?.temp}, Description: ${weatherNextDays.weather}"
+                            )
+                        }
+                    }
                 }
             }
         }
     }
-*/
+
+ */
+@OptIn(DelicateCoroutinesApi::class)
+fun getWeatherNexDays() {
+    GlobalScope.launch(Dispatchers.IO) {
+        val call = try {
+            RetrofitInstance.api.getFutureWeatherByCity(ancona)
+        } catch (e: IOException) {
+            Log.e("Flux Error", "Error: ${e.message}")
+            return@launch
+        } catch (e: HttpException) {
+            Log.e("connection error", "Error: ${e.message}")
+            return@launch
+        }
+        val response = call.execute()
+        if (response.isSuccessful && response.body() != null) {
+            withContext(Dispatchers.Main) {
+                val data = response.body()!!
+/*
+                // Filtrer les données pour les cinq prochains jours
+                _weatherNextDays.postValue(data.weatherList.filterIndexed { index, _ ->
+                    index % (data.weatherList.size / 5) == 0
+                })
+
+ */
+
+                _weatherNextDays.postValue(data.weatherList.filter {
+                    // Filtrez les données pour les cinq prochains jours
+                    val currentDate = LocalDate.now()
+                    it.dtTxt?.startsWith(currentDate.toString()) == true
+                })
+            }
+        }
+    }
+}
+
+
 }
