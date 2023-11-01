@@ -25,6 +25,6 @@ interface Service {
         @Query("q") city: String,
         @Query("cnt") days: Int = 5,
         @Query("appid") appid: String = Utility.API_KEY
-    ):Call<ForeCast>
+    ): Call<ForeCast>
 
 }

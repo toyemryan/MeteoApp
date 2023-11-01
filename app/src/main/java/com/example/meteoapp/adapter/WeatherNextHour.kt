@@ -18,7 +18,7 @@ class WeatherNextHour: RecyclerView.Adapter<NextHourHolder>() {
     private var listOfNextHourWeather = listOf<WeatherList>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NextHourHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_nethour, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_nexhour, parent, false)
         return NextHourHolder(view)
     }
 
@@ -48,7 +48,7 @@ class WeatherNextHour: RecyclerView.Adapter<NextHourHolder>() {
             "clear sky" -> R.drawable.clear_sky
             "few clouds" -> R.drawable.few_clouds
             "scattered clouds" -> R.drawable.scattered_clouds
-            "broken clouds" -> R.drawable.cloud
+            "broken clouds" -> R.drawable.broken_clouds
             "shower rain" -> R.drawable.shower_rain
             "rain" -> R.drawable.rain
             "thunderstorm" -> R.drawable.thunderstorm
@@ -59,9 +59,10 @@ class WeatherNextHour: RecyclerView.Adapter<NextHourHolder>() {
             "haze" -> R.drawable.haze
             "smoke" -> R.drawable.smoke
             "very cold" -> R.drawable.very_cold
-            "warm" ->R.drawable.warm
-            "winds" ->R.drawable.wind
-            "feels like" ->R.drawable.feels_like
+            "warm" -> R.drawable.warm
+            "winds" -> R.drawable.wind
+            "feels like" -> R.drawable.feels_like
+            "overcast clouds" -> R.drawable.overcast_clouds
             else -> {
                 Log.d("WeatherNexHourAdapter", "Using default image for condition: $condition")
                 R.drawable.unknown
