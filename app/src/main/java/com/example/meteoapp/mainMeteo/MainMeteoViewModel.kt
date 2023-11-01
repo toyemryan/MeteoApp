@@ -238,7 +238,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
             }
         }
     }
-
+/*
     @OptIn(DelicateCoroutinesApi::class)
     fun getWeatherNexDays() {
         GlobalScope.launch(Dispatchers.IO) {
@@ -256,16 +256,12 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                 withContext(Dispatchers.Main) {
                     val data = response.body()!!
 
-                    _weatherNextDays.value = data.weatherList.take(5)
                     _weatherNextDays.postValue(data.weatherList.filter {
                         val currentDate = LocalDate.now()
                         it.dtTxt?.startsWith(currentDate.toString()) == true
-
                     })
 
-                    val currentDate = LocalDate.now()
                     for (i in 1..5) {
-                        val futureDate = currentDate.plusDays(i.toLong())
                         data.weatherList.forEach { weatherNextDays ->
                             Log.d(
                                 "Weather",
@@ -277,4 +273,41 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
             }
         }
     }
+
+ */
+@OptIn(DelicateCoroutinesApi::class)
+fun getWeatherNexDays() {
+    GlobalScope.launch(Dispatchers.IO) {
+        val call = try {
+            RetrofitInstance.api.getFutureWeatherByCity(ancona)
+        } catch (e: IOException) {
+            Log.e("Flux Error", "Error: ${e.message}")
+            return@launch
+        } catch (e: HttpException) {
+            Log.e("connection error", "Error: ${e.message}")
+            return@launch
+        }
+        val response = call.execute()
+        if (response.isSuccessful && response.body() != null) {
+            withContext(Dispatchers.Main) {
+                val data = response.body()!!
+/*
+                // Filtrer les données pour les cinq prochains jours
+                _weatherNextDays.postValue(data.weatherList.filterIndexed { index, _ ->
+                    index % (data.weatherList.size / 5) == 0
+                })
+
+ */
+
+                _weatherNextDays.postValue(data.weatherList.filter {
+                    // Filtrez les données pour les cinq prochains jours
+                    val currentDate = LocalDate.now()
+                    it.dtTxt?.startsWith(currentDate.toString()) == true
+                })
+            }
+        }
+    }
+}
+
+
 }

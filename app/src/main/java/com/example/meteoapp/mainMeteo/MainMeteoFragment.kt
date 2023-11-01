@@ -77,22 +77,22 @@ class MainMeteoFragment : Fragment() {
         viewModel.weatherNexHour.observe(viewLifecycleOwner) { weatherList ->
             weatherNextHourAdapter.setForecastList(weatherList)
             weatherNextHourAdapter.notifyDataSetChanged()
-
+        }
 
             //Next Days
-            val weatherNextDaysAdapter = WeatherNextDays()
-            binding.recyclerviewNexDay.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            binding.recyclerviewNexDay.adapter = weatherNextDaysAdapter
+        val weatherNextDaysAdapter = WeatherNextDays()
+        binding.recyclerviewNexDay.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerviewNexDay.adapter = weatherNextDaysAdapter
 
-            viewModel.weatherNextDays.observe(viewLifecycleOwner) { weatherList ->
-                Log.d("WeatherFragment", "Number of items in weatherList: ${weatherList.size}")
-                weatherNextDaysAdapter.setForecastList(weatherList)
-            }
+        viewModel.weatherNextDays.observe(viewLifecycleOwner) { weatherList ->
+            //Log.d("WeatherFragment", "Number of items in weatherList: ${weatherList.size}")
+         weatherNextDaysAdapter.setForecastList(weatherList)
+        }
 
             viewModel.getWeatherNexDays()
 
         }
-    }
+
     override fun onResume() {
         super.onResume()
         val toolbarTitle =
