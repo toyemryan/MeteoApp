@@ -15,7 +15,8 @@ class SettingActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_setting)
 
-      // setSupportActionBar(binding.toolbar)
+      setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         supportFragmentManager
             .beginTransaction()

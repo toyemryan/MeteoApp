@@ -1,11 +1,14 @@
 package com.example.meteoapp.mainMeteo
 
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -21,8 +24,6 @@ import com.example.meteoapp.R
 import com.example.meteoapp.adapter.WeatherNextHour
 import com.example.meteoapp.adapter.WeatherToday
 import com.example.meteoapp.databinding.FragmentMainMeteoBinding
-
-
 import com.example.meteoapp.service.LocationPermission
 import java.util.*
 
@@ -111,6 +112,7 @@ class MainMeteoFragment : Fragment() {
             else -> false
         }
     }
+
 
 private fun swipeRefresh(){
     val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)

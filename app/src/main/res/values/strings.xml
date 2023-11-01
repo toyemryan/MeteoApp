@@ -33,9 +33,12 @@
 
     <!-- Strings related to menu -->
     <string name="favorite_place">Luoghi preferiti</string>
+    <string name="api_key">AIzaSyDehNTD6QrfIyAFNR-LoRdLFJIyeqVFlnA</string>
     <string name="developer">Sviluppatori</string>
     <string name="about">A proposito</string>
     <string name="setting">Parametri</string>
+    <string name="search">ricerca</string>
+    <string name="result_cancel">Non è stato selezionato un luogo</string>
 
 
     <!-- Strings related to about page -->
@@ -104,5 +107,7 @@
         <item>Only when on Wi-Fi</item>
         <item>On any network</item>
     </string-array>
+    <string name="title_activity_place">PlaceActivity</string>
+
 
 </resources>

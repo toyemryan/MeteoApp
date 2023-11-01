@@ -16,21 +16,10 @@
             app:exitAnim="@anim/slide_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"/>
-        <action
-            android:id="@+id/action_mainMeteoFragment_to_placeFragment"
-            app:destination="@id/placeFragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out"/>
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.example.meteoapp.setting.AboutFragment"
         tools:layout="@layout/fragment_about"/>
-    <fragment
-        android:id="@+id/placeFragment"
-        android:name="com.example.meteoapp.setting.PlaceFragment"
-        tools:layout="@layout/fragment_place" />
 
 </navigation>
