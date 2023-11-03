@@ -21,6 +21,5 @@ class SettingActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.fragmentsetting, SettingFragment())
             .commit()
-
     }
 }

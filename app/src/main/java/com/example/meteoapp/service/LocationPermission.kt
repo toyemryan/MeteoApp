@@ -1,44 +1,74 @@
-package com.example.meteoapp.service
-
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import android.content.Intent
 import android.location.Location
+import android.provider.Settings
 import android.Manifest
-import android.content.Context
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
+class LocationPermission(private val activity: Activity){
 
-class LocationPermission(private val context: Context){
-
-    // Inizializzazione di FusedLocationProviderClient utilizzando LocationServices per ottenere l'ultima posizione conosciuta del dispositivo
     private var fusedLocationClient: FusedLocationProviderClient =
-        LocationServices.getFusedLocationProviderClient(context)
+        LocationServices.getFusedLocationProviderClient(activity)
 
-
-    // Funzione che restituisce true se il permesso di localizzazione è concesso, altrimenti false
     fun isLocationPermissionGranted(): Boolean {
-        return ContextCompat.checkSelfPermission(context,
+        return ContextCompat.checkSelfPermission(activity,
             Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
-    // Annotazione per sopprimere l'avviso di mancanza di permesso
+    fun requestLocationPermission(callback: (Boolean) -> Unit) {
+        if (isLocationPermissionGranted()) {
+            // La permission de localisation est déjà accordée
+            callback(true)
+        } else {
+            // Demander la permission de localisation
+            ActivityCompat.requestPermissions(
+                activity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+        }
+    }
+
+    // Ajouter cette constante pour identifier la demande de permission dans onRequestPermissionsResult
+    companion object {
+        const val LOCATION_PERMISSION_REQUEST_CODE = 123
+    }
+
+    fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+        callback: (Boolean) -> Unit
+    ) {
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // La permission de localisation a été accordée
+                callback(true)
+            } else {
+                // La permission de localisation a été refusée
+                callback(false)
+            }
+        }
+    }
+
+    fun showLocationSettings() {
+        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        activity.startActivity(intent)
+    }
+
     @SuppressLint("MissingPermission")
-
-    // Funzione per richiedere gli aggiornamenti di localizzazione, accettando un blocco di codice come parametro
-    fun requestLocationUpdates(locationListener: (Location) -> Unit){
-        if (isLocationPermissionGranted()){
-            fusedLocationClient.lastLocation.addOnSuccessListener {
-                location:Location ->
-
-                // Verifica se la posizione non è nulla e invoca il blocco di codice locationListener
-                location.let {
+    fun requestLocationUpdates(locationListener: (Location) -> Unit) {
+        if (isLocationPermissionGranted()) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                location?.let {
                     locationListener.invoke(it)
                 }
             }
         }
     }
-
 }
-

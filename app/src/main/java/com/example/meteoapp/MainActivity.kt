@@ -108,9 +108,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.aboutFragment -> {
                 navController.navigate(R.id.action_mainMeteoFragment_to_aboutFragment)
             }
-            R.id.cityFragment ->{
-                navController.navigate(R.id.action_mainMeteoFragment_to_aboutFragment)
-            }
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true

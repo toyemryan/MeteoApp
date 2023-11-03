@@ -12,13 +12,12 @@ import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlin.time.Duration.Companion.days
-
 class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
 
     private var listOfNextDaysWeather: List<WeatherList> = listOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NextDaysHolder {
-       val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_nexdays, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_nexdays, parent, false)
         return NextDaysHolder(view)
     }
 
@@ -26,33 +25,37 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         return listOfNextDaysWeather.size
     }
 
+
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onBindViewHolder(holder: NextDaysHolder, position: Int) {
-        val nextDaysForecast = listOfNextDaysWeather[position]
-
-        val imageResourceId = nextDaysForecast.weather[0].description?.let { getWeatherImageResourceId(it) }
-        if (imageResourceId != null) {
-            holder.weatherImageView.setImageResource(imageResourceId)
-        }
-        holder.timeDisplay.text = nextDaysForecast.dtTxt!!.substring(11, 16).toRegex().toString()
-
-        holder.weatherDescription.text = nextDaysForecast.weather[0].description ?: "Nessuna Descriptione"
+        val nextDaysForecastObject = listOfNextDaysWeather[position]
 
 
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        val date = dateFormat.parse(nextDaysForecast.dtTxt)
+        val imageResourceId = getWeatherImageResourceId(nextDaysForecastObject.weather[0].description.orEmpty())
+        holder.weatherImageView.setImageResource(imageResourceId)
+
+        val dateInputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val date = dateInputFormat.parse(nextDaysForecastObject.dtTxt!!)
+        val dateOuputFormat = SimpleDateFormat("EEEE", Locale.getDefault())
+        val dayName = dateOuputFormat.format(date!!)
+        holder.day.text = dayName
+
+        val dayMonthFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
+        holder.dayMonth.text = dayMonthFormat.format(date)
 
 
-        val dayOfWeekFormat = SimpleDateFormat("EEEE", Locale.getDefault())
-        holder.timeDisplay.text = dayOfWeekFormat.format(date)
+        //val temperatureFahrenheit = nextDaysForecastObject.main?.temp
+        //val temperatureCelsius = ((temperatureFahrenheit?.minus(273.15))?.toInt())
+       // holder.temp.text = "$temperatureCelsius °C"
 
-        val fullDateFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
-        holder.dateDisplay.text = fullDateFormat.format(date)
+        val minTemperature = nextDaysForecastObject.main?.tempMin
+        val maxTemperature = nextDaysForecastObject.main?.tempMax
 
+        val minTemperatureCelsius = ((minTemperature?.minus(273.15))?.toInt())
+        val maxTemperatureCelsius = ((maxTemperature?.minus(273.15))?.toInt())
 
-        val temperatureFahrenheit = nextDaysForecast.main?.temp
-        val temperatureCelsius = ((temperatureFahrenheit?.minus(273.15))?.toInt())
-        //val temperatureFormatted = String.format("%.0f", temperatureCelsius)
-        holder.tempDisplay.text = "$temperatureCelsius °C"
+        holder.minTemperature.text = " $minTemperatureCelsius °C"
+        holder.maxTemperature.text = " $maxTemperatureCelsius °C"
     }
 
     private fun getWeatherImageResourceId(condition: String): Int {
@@ -76,25 +79,26 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
             "feels like" -> R.drawable.feels_like
             "overcast clouds" -> R.drawable.overcast_clouds
             else -> {
-                Log.d("WeatherNexHourAdapter", "Using default image for condition: $condition")
+                Log.d("WeatherNextDays", "Using default image for condition: $condition")
                 R.drawable.unknown
-            }// Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
+            }
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setForecastList(weatherList: List<WeatherList>?){
+    fun setForecastList(weatherList: List<WeatherList>?) {
         listOfNextDaysWeather = weatherList ?: emptyList()
-
         notifyDataSetChanged()
-        Log.d("WeatherNexHourAdapter", "New data set: $weatherList")
+        Log.d("WeatherNextDays", "New data set: $weatherList")
     }
 }
-class NextDaysHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-    val tempDisplay: TextView = itemView.findViewById(R.id.temperature)
-    val dateDisplay:TextView = itemView.findViewById(R.id.dateDisplay)
-    val weatherDescription: TextView = itemView.findViewById(R.id.weatherDescription)
-    val timeDisplay: TextView = itemView.findViewById(R.id.day)
-    val weatherImageView: ImageView = itemView.findViewById(R.id.ImageMain)
 
+class NextDaysHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+    val day: TextView = itemView.findViewById(R.id.day)
+    val dayMonth: TextView = itemView.findViewById(R.id.dateDisplay)
+    val weatherImageView: ImageView = itemView.findViewById(R.id.ImageMain)
+    //val temp: TextView = itemView.findViewById(R.id.temperature)
+    val minTemperature: TextView = itemView.findViewById(R.id.minTemperature)
+    val maxTemperature: TextView = itemView.findViewById(R.id.maxTemperature)
 }

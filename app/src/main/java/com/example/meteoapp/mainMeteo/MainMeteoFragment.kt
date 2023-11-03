@@ -1,7 +1,9 @@
 package com.example.meteoapp.mainMeteo
 
+import LocationPermission
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
@@ -13,6 +15,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,9 +27,6 @@ import com.example.meteoapp.adapter.WeatherNextDays
 import com.example.meteoapp.adapter.WeatherNextHour
 import com.example.meteoapp.adapter.WeatherToday
 import com.example.meteoapp.databinding.FragmentMainMeteoBinding
-
-
-import com.example.meteoapp.service.LocationPermission
 import java.util.*
 
 class MainMeteoFragment : Fragment() {
@@ -45,14 +46,23 @@ class MainMeteoFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_meteo, container, false)
 
+        locationPermission = LocationPermission(requireActivity())
+        viewModel.setLocationPermission(locationPermission)
+
+        locationPermission.requestLocationPermission { granded ->
+            if (granded){
+                viewModel.getWeather()
+                setupRecyclerView()
+            }else{
+                Toast.makeText(requireContext(), "Permissione non accettata", Toast.LENGTH_SHORT).show()
+            }
+        }
         fresh()
         swipeRefresh()
-
         return binding.root
+
     }
 
-    /* @Deprecated("Deprecated in Java")
-    @SuppressLint("SetTextI18n")*/
     @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,9 +77,8 @@ class MainMeteoFragment : Fragment() {
         }
 
         val weatherNextHourAdapter = WeatherNextHour()
-       // val weatherNextDayAdapter = WeatherNextDays()
-        // Utilisez le fichier de liaison pour accéder à la vue recyclerViewFiveday
-        binding.recyclerViewNexHour.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerViewNexHour.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewNexHour.adapter = weatherNextHourAdapter
         viewModel.getWeatherNexHour()
 
@@ -79,21 +88,20 @@ class MainMeteoFragment : Fragment() {
             weatherNextHourAdapter.notifyDataSetChanged()
         }
 
-            //Next Days
+        //Next Days
         val weatherNextDaysAdapter = WeatherNextDays()
-        binding.recyclerviewNexDay.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerviewNexDay.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerviewNexDay.adapter = weatherNextDaysAdapter
 
         viewModel.weatherNextDays.observe(viewLifecycleOwner) { weatherList ->
-            //Log.d("WeatherFragment", "Number of items in weatherList: ${weatherList.size}")
-         weatherNextDaysAdapter.setForecastList(weatherList)
+            weatherNextDaysAdapter.setForecastList(weatherList)
         }
 
-            viewModel.getWeatherNexDays()
+        viewModel.getWeatherNextDays()
+    }
 
-        }
-
-    override fun onResume() {
+        override fun onResume() {
         super.onResume()
         val toolbarTitle =
             (requireActivity() as AppCompatActivity).findViewById<TextView>(R.id.toolbar_title)
