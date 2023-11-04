@@ -16,16 +16,13 @@ import java.util.Locale
 class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
 
     private var listOfNextDaysWeather: List<WeatherList> = listOf()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NextDaysHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_nexdays, parent, false)
         return NextDaysHolder(view)
     }
-
     override fun getItemCount(): Int {
         return listOfNextDaysWeather.size
     }
-
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onBindViewHolder(holder: NextDaysHolder, position: Int) {
@@ -44,11 +41,6 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         val dayMonthFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
         holder.dayMonth.text = dayMonthFormat.format(date)
 
-
-        //val temperatureFahrenheit = nextDaysForecastObject.main?.temp
-        //val temperatureCelsius = ((temperatureFahrenheit?.minus(273.15))?.toInt())
-       // holder.temp.text = "$temperatureCelsius °C"
-
         val minTemperature = nextDaysForecastObject.main?.tempMin
         val maxTemperature = nextDaysForecastObject.main?.tempMax
 
@@ -66,7 +58,6 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         Log.d("WeatherNextDays", "New data set: $weatherList")
     }
 }
-
 class NextDaysHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     val day: TextView = itemView.findViewById(R.id.day)

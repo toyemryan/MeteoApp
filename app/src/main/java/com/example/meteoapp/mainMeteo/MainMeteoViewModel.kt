@@ -269,7 +269,6 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                             false
                         }
                     }
-
                     futureData.forEach { weatherNextDays ->
                         Log.d(
                             "Weather",

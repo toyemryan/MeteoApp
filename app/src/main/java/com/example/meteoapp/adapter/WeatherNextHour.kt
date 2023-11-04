@@ -49,7 +49,7 @@ class WeatherNextHour: RecyclerView.Adapter<NextHourHolder>() {
             notifyDataSetChanged()
             Log.d("WeatherNexHourAdapter", "New data set: $weatherList")
         }
-}
+    }
 class NextHourHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     val tempDisplay: TextView = itemView.findViewById(R.id.temperaturetoday)
     val timeDisplay: TextView = itemView.findViewById(R.id.humiditynexday)

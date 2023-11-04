@@ -67,7 +67,6 @@ class MainMeteoFragment : Fragment() {
         fresh()
         swipeRefresh()
         return binding.root
-
     }
 
     @SuppressLint("SetTextI18n", "NotifyDataSetChanged")

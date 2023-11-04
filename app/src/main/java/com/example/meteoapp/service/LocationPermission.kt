@@ -15,13 +15,10 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationRequest
 
-
-
 class LocationPermission(private val activity: Activity){
 
     private var fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(activity)
-
     fun isLocationPermissionGranted(): Boolean {
         return ContextCompat.checkSelfPermission(activity,
             Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
@@ -32,7 +29,7 @@ class LocationPermission(private val activity: Activity){
             // La permission de localisation est déjà accordée
             callback(true)
         } else {
-            // Demander la permission de localisation
+            // Demande la permission de localisation
             ActivityCompat.requestPermissions(
                 activity,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
@@ -41,7 +38,6 @@ class LocationPermission(private val activity: Activity){
         }
     }
 
-    // Ajouter cette constante pour identifier la demande de permission dans onRequestPermissionsResult
     companion object {
         const val LOCATION_PERMISSION_REQUEST_CODE = 123
     }
@@ -67,7 +63,6 @@ class LocationPermission(private val activity: Activity){
         val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
         activity.startActivity(intent)
     }
-
     @RequiresApi(Build.VERSION_CODES.S)
     @SuppressLint("MissingPermission")
     fun requestLocationUpdates(locationListener: (Location) -> Unit) {
@@ -82,12 +77,8 @@ class LocationPermission(private val activity: Activity){
                         locationListener.invoke(location)
                     }
                 }
-
             }
-
             fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
         }
     }
-
-
 }
