@@ -3,20 +3,18 @@ package com.example.meteoapp.mainMeteo
 import LocationPermission
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -38,6 +36,7 @@ class MainMeteoFragment : Fragment() {
     private lateinit var binding: FragmentMainMeteoBinding
     private val viewModel: MainMeteoViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.S)
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,8 +50,16 @@ class MainMeteoFragment : Fragment() {
 
         locationPermission.requestLocationPermission { granded ->
             if (granded){
-                viewModel.getWeather()
-                setupRecyclerView()
+                locationPermission.requestLocationUpdates{location ->
+                    location?.let{
+                        lat = it.latitude.toString()
+                        lon = it.longitude.toString()
+                        viewModel.getWeather()
+                        setupRecyclerView()
+                    } ?: kotlin.run {
+                        Toast.makeText(requireContext(), "Impossible recuperare la localisazione", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }else{
                 Toast.makeText(requireContext(), "Permissione non accettata", Toast.LENGTH_SHORT).show()
             }
@@ -135,7 +142,6 @@ private fun swipeRefresh(){
     swipe.setOnRefreshListener {
         if (activity?.let { isNetworkAvailable(it) } == true){
             viewModel.getWeather()
-            setupRecyclerView()
         }else{
             Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
         }

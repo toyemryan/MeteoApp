@@ -9,8 +9,8 @@ import retrofit2.http.Query
 interface Service {
     @GET("forecast?")
     fun getCurrentWeather(
-        @Query("lat") lat: Double,
-        @Query("lon") lon: Double,
+        @Query("lat") lat: String,
+        @Query("lon") lon: String,
         @Query("appid") appid: String = Utility.API_KEY // appid:String
     ): Call<ForeCast>
 

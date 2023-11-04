@@ -7,8 +7,15 @@ import android.content.Intent
 import android.location.Location
 import android.provider.Settings
 import android.Manifest
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationRequest
+
+
 
 class LocationPermission(private val activity: Activity){
 
@@ -61,14 +68,26 @@ class LocationPermission(private val activity: Activity){
         activity.startActivity(intent)
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     @SuppressLint("MissingPermission")
     fun requestLocationUpdates(locationListener: (Location) -> Unit) {
         if (isLocationPermissionGranted()) {
-            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                location?.let {
-                    locationListener.invoke(it)
+            val locationRequest = LocationRequest()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(10000) // Intervalle de mise à jour de la localisation en millisecondes
+
+            val locationCallback = object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
+                    locationResult.lastLocation?.let { location ->
+                        locationListener.invoke(location)
+                    }
                 }
+
             }
+
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
         }
     }
+
+
 }

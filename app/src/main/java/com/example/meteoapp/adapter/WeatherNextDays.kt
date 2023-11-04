@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
+import com.example.meteoapp.repository.ResourceImage
 import java.text.SimpleDateFormat
 import java.util.Locale
 class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
@@ -31,7 +32,7 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         val nextDaysForecastObject = listOfNextDaysWeather[position]
 
 
-        val imageResourceId = getWeatherImageResourceId(nextDaysForecastObject.weather[0].description.orEmpty())
+        val imageResourceId = ResourceImage.getWeatherImageResourceId(nextDaysForecastObject.weather[0].description.orEmpty())
         holder.weatherImageView.setImageResource(imageResourceId)
 
         val dateInputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
@@ -56,33 +57,6 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
 
         holder.minTemperature.text = " $minTemperatureCelsius °C"
         holder.maxTemperature.text = " $maxTemperatureCelsius °C"
-    }
-
-    private fun getWeatherImageResourceId(condition: String): Int {
-        return when (condition.lowercase(Locale.getDefault())) {
-            "clear sky" -> R.drawable.clear_sky
-            "few clouds" -> R.drawable.few_clouds
-            "scattered clouds" -> R.drawable.scattered_clouds
-            "broken clouds" -> R.drawable.broken_clouds
-            "shower rain" -> R.drawable.shower_rain
-            "rain" -> R.drawable.rain
-            "thunderstorm" -> R.drawable.thunderstorm
-            "snow" -> R.drawable.snow
-            "mist" -> R.drawable.mist
-            "light rain" -> R.drawable.light_rain
-            "fog" -> R.drawable.fog
-            "haze" -> R.drawable.haze
-            "smoke" -> R.drawable.smoke
-            "very cold" -> R.drawable.very_cold
-            "warm" -> R.drawable.warm
-            "winds" -> R.drawable.wind
-            "feels like" -> R.drawable.feels_like
-            "overcast clouds" -> R.drawable.overcast_clouds
-            else -> {
-                Log.d("WeatherNextDays", "Using default image for condition: $condition")
-                R.drawable.unknown
-            }
-        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

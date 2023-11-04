@@ -7,10 +7,12 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.meteoapp.R
 import com.example.meteoapp.modal.ForeCast
 import com.example.meteoapp.service.RetrofitInstance
 import com.example.meteoapp.modal.WeatherList
+import com.example.meteoapp.repository.ResourceImage.getWeatherImageResourceId
 import com.lionel.mameteo.modal.City
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -123,7 +125,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    fun getWeather() {
+    fun getWeather()= viewModelScope.launch() {
         GlobalScope.launch(Dispatchers.IO) {
             val call = try {
                 RetrofitInstance.api.getCurrentWeatherByCity(ancona)
@@ -141,7 +143,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
 
                     val data = response.body()!!
 
-                    _cityName.value = data.city!!.name.toString()// name
+                    _cityName.value = data.city!!.name.toString()
 
                     val firstWeather = data.weatherList[0]
 
@@ -150,12 +152,12 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                     val localDateTime =
                         LocalDateTime.parse(data.weatherList[0].dtTxt, dateTimeFormatter)
-                    _day.value = localDateTime.format(DateTimeFormatter.ofPattern("EEEE"))// Jour
+                    _day.value = localDateTime.format(DateTimeFormatter.ofPattern("EEEE"))
                     _hour.value =
-                        localDateTime.format(DateTimeFormatter.ofPattern("HH:mm")) // Heure (à ajuster selon votre logique)
+                        localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                     _feelLike.value =
                         "Feel like : ${(firstWeather.main?.feelsLike?.minus(273.15))?.toInt()} °C"
-                    _pressure.value = "${firstWeather.main?.pressure?.times(0.001)} Bar" // Pression
+                    _pressure.value = "${firstWeather.main?.pressure?.times(0.001)} Bar"
 
                     // val sys = firstWeather.sys
                     _sunriseTime.value =
@@ -209,30 +211,6 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
         }
     }
     // Fonction pour obtenir l'ID de l'image en fonction de la condition météorologique
-
-    private fun getWeatherImageResourceId(condition: String): Int {
-        return when (condition.lowercase(Locale.getDefault())) {
-            "clear sky" -> R.drawable.clear_sky
-            "few clouds" -> R.drawable.few_clouds
-            "scattered clouds" -> R.drawable.scattered_clouds
-            "broken clouds" -> R.drawable.broken_clouds
-            "shower rain" -> R.drawable.shower_rain
-            "rain" -> R.drawable.rain
-            "thunderstorm" -> R.drawable.thunderstorm
-            "snow" -> R.drawable.snow
-            "mist" -> R.drawable.mist
-            "light rain" -> R.drawable.light_rain
-            "fog" -> R.drawable.fog
-            "haze" -> R.drawable.haze
-            "smoke" -> R.drawable.smoke
-            "very cold" -> R.drawable.very_cold
-            "warm" -> R.drawable.warm
-            "winds" -> R.drawable.wind
-            "feels like" -> R.drawable.feels_like
-            "overcast clouds" -> R.drawable.overcast_clouds
-            else -> R.drawable.unknown // Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
-        }
-    }
 
     @OptIn(DelicateCoroutinesApi::class)
     fun getWeatherNexHour() {
@@ -304,8 +282,6 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
             }
         }
     }
-
-
 
 }
 
