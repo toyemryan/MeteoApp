@@ -1,6 +1,5 @@
 package com.example.meteoapp.mainMeteo
 
-
 import LocationPermission
 import android.app.Application
 import android.util.Log
@@ -8,31 +7,25 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.meteoapp.R
-import com.example.meteoapp.modal.ForeCast
-import com.example.meteoapp.service.RetrofitInstance
 import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.ResourceImage.getWeatherImageResourceId
-import com.lionel.mameteo.modal.City
+import com.example.meteoapp.service.RetrofitInstance.api
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
+class MainMeteoViewModel(application: Application) : AndroidViewModel(application) {
 
-// Annotazione per richiedere API di almeno la versione specificata di Android
-class MainMeteoViewModel (application: Application) : AndroidViewModel(application) {
-
-    //cinque giorni
     private val _weathernexhour = MutableLiveData<List<WeatherList>>()
     val weatherNexHour: LiveData<List<WeatherList>> get() = _weathernexhour
 
@@ -41,11 +34,10 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
 
     private val ancona = "Ancona"
 
-    //LiveData per il nome della città
+    // LiveData pour le nom de la ville
     private val _cityName = MutableLiveData("Ancona")
     val cityName: LiveData<String>
         get() = _cityName
-
 
     private val _maintemperature = MutableLiveData("25°C")
     val maintempature: LiveData<String>
@@ -72,15 +64,15 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
         get() = _windSpeed
 
     private val _feelLike = MutableLiveData<String>()
-    val feelLike: MutableLiveData<String>
+    val feelLike: LiveData<String>
         get() = _feelLike
 
     private val _humidity = MutableLiveData<String>()
-    val humidity: MutableLiveData<String>
+    val humidity: LiveData<String>
         get() = _humidity
 
     private val _pressure = MutableLiveData<String>()
-    val pressure: MutableLiveData<String>
+    val pressure: LiveData<String>
         get() = _pressure
 
     private val _weatherCondition = MutableLiveData<String>()
@@ -111,7 +103,6 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     val cloudiness: LiveData<String>
         get() = _cloudiness
 
-
     private lateinit var locationPermission: LocationPermission
 
     private fun convertTimestampToTime(timestamp: Long): String {
@@ -124,42 +115,39 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
         locationPermission = permission
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
-    fun getWeather()= viewModelScope.launch() {
-        GlobalScope.launch(Dispatchers.IO) {
-            val call = try {
-                RetrofitInstance.api.getCurrentWeatherByCity(ancona)
+    private suspend fun <T> ApiCall(api: suspend () -> T) {
+        return withContext(Dispatchers.IO){
+            try {
+                api.invoke()
             } catch (e: IOException) {
-                Log.e("FLux error", "Error: ${e.message}")
-                return@launch
+                Log.e("Flux error", "Error: ${e.message}")
+                throw e
             } catch (e: HttpException) {
                 Log.e("Connection error", "Error: ${e.message}")
-                return@launch
+                throw e
             }
+        }
+    }
 
-            val response = call.execute()
+
+    fun getWeather(latitude: Double, longitude: Double) = viewModelScope.launch {
+       ApiCall {
+            val Call = api.getCurrentWeather(latitude, longitude)
+            val response = withContext(Dispatchers.IO) { Call.execute() }
             if (response.isSuccessful && response.body() != null) {
                 withContext(Dispatchers.Main) {
-
                     val data = response.body()!!
-
-                    _cityName.value = data.city!!.name.toString()
-
                     val firstWeather = data.weatherList[0]
 
-                    // Extraire les informations nécessaires
-
                     val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                    val localDateTime = LocalDateTime.parse(data.weatherList[0].dtTxt, dateTimeFormatter)
-                    _day.value = localDateTime.format(DateTimeFormatter.ofPattern("EEEE"))
+                    val localDateTime = LocalDateTime.parse(firstWeather.dtTxt, dateTimeFormatter)
+                    _day.postValue(DayOfWeek.from(localDateTime).name)
                     _hour.value = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                     _feelLike.value = "Feel like : ${(firstWeather.main?.feelsLike?.minus(273.15))?.toInt()} °C"
                     _pressure.value = "${firstWeather.main?.pressure?.times(0.001)} Bar"
 
-                    // val sys = firstWeather.sys
                     _sunriseTime.value = data.city!!.sunrise?.let { convertTimestampToTime(it.toLong()) }
                     _sunsetTime.value = data.city!!.sunset?.let { convertTimestampToTime(it.toLong()) }
-
 
                     val minTempKelvin = data.weatherList[0].main?.tempMin
                     val maxTempKelvin = data.weatherList[0].main?.tempMax
@@ -176,17 +164,15 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     }
 
                     val windSpeedMeterSecond = firstWeather.wind?.speed
-                    // val windSpeedKmHour = windSpeedMeterSecond?.times(3.6)
-                    _windSpeed.value = "${(windSpeedMeterSecond?.times(3.6))?.toInt()} Km/h" // Vitesse du vent
-                    _humidity.value = "${firstWeather.main?.humidity}%" // Humidité
-                    //_weatherImageResourceId.value = getWeather(firstForecast.weather?.get(0)?.id) // ID de l'image
-                    _pressure.value = "${(firstWeather.main?.pressure?.times(0.001))?.toInt()} Bar" // Pression
+                    _windSpeed.value = "${(windSpeedMeterSecond?.times(3.6))?.toInt()} Km/h"
+                    _humidity.value = "${firstWeather.main?.humidity}%"
+                    _pressure.value = "${(firstWeather.main?.pressure?.times(0.001))?.toInt()} Bar"
                     _weatherCondition.value = firstWeather.weather[0].description ?: "Erreur"
 
                     val temperatureKelvin = data.weatherList[0].main?.temp
                     val temperatureCelsius = (temperatureKelvin?.minus(273.15))
                     if (temperatureCelsius != null) {
-                        _maintemperature.value = "${temperatureCelsius.toInt()}°C" // main temperature
+                        _maintemperature.value = "${temperatureCelsius.toInt()}°C"
                     }
 
                     _rain.value = "${(firstWeather.pop?.times(100))?.toInt()}%"
@@ -198,58 +184,34 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
             }
         }
     }
-    // Fonction pour obtenir l'ID de l'image en fonction de la condition météorologique
 
-    @OptIn(DelicateCoroutinesApi::class)
-    fun getWeatherNexHour() {
-        GlobalScope.launch(Dispatchers.IO) {
-            val call = try {
-                RetrofitInstance.api.getCurrentWeatherByCity(ancona)
-            } catch (e: IOException) {
-                Log.e("Flux error", "Error: ${e.message}")
-                return@launch
-            } catch (e: HttpException) {
-                Log.e("Connection error", "Error: ${e.message}")
-                return@launch
-            }
+    suspend fun getWeatherNexHour() = viewModelScope.launch {
+        ApiCall {
+            val call = api.getCurrentWeatherByCity(ancona)
             val response = call.execute()
             if (response.isSuccessful && response.body() != null) {
                 withContext(Dispatchers.Main) {
                     val data = response.body()!!
-
                     _weathernexhour.value = data.weatherList.take(10)
-
                 }
             }
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
-    fun getWeatherNextDays() {
-        var previousDate: String? = null  // Variable pour stocker la date précédente
+    suspend fun getWeatherNextDays() = viewModelScope.launch {
+        var previousDate: String? = null
 
-        GlobalScope.launch(Dispatchers.IO) {
-            val call = try {
-                RetrofitInstance.api.getFutureWeatherByCity(ancona)
-            } catch (e: IOException) {
-                Log.e("Flux Error", "Error: ${e.message}")
-                return@launch
-            } catch (e: HttpException) {
-                Log.e("connection error", "Error: ${e.message}")
-                return@launch
-            }
+        ApiCall {
+            val call = api.getFutureWeatherByCity(ancona)
             val response = call.execute()
             if (response.isSuccessful && response.body() != null) {
                 withContext(Dispatchers.Main) {
                     val data = response.body()!!
-
-                    // Filtre les données des 5 prochains jours à partir de demain
                     val currentDate = LocalDate.now()
                     val futureDates = (1..5).map { currentDate.plusDays(it.toLong()) }
                     val futureData = data.weatherList.filter {
                         val date = it.dtTxt?.split(" ")?.get(0)
 
-                        // Compare avec la date précédente, n'afficher que si différentes
                         if (date != previousDate && date in futureDates.map { it.toString() }) {
                             previousDate = date
                             true
@@ -263,11 +225,9 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                             "Date: ${weatherNextDays.dtTxt}, Temperature: ${weatherNextDays.main?.temp}, Description: ${weatherNextDays.weather}"
                         )
                     }
-
                     _weatherNextDays.postValue(futureData)
                 }
             }
         }
     }
-
 }

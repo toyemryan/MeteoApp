@@ -1,27 +1,31 @@
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.pm.PackageManager
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Location
-import android.provider.Settings
-import android.Manifest
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationRequest
+import android.provider.Settings
 
-class LocationPermission(private val activity: Activity){
+class LocationPermission(private val activity: Activity) {
 
-    private var fusedLocationClient: FusedLocationProviderClient =
+    private val fusedLocationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(activity)
+    }
+
     fun isLocationPermissionGranted(): Boolean {
-        return ContextCompat.checkSelfPermission(activity,
-            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(
+            activity,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     fun requestLocationPermission(callback: (Boolean) -> Unit) {
@@ -44,17 +48,18 @@ class LocationPermission(private val activity: Activity){
 
     fun onRequestPermissionsResult(
         requestCode: Int,
-        permissions: Array<out String>,
         grantResults: IntArray,
         callback: (Boolean) -> Unit
     ) {
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // La permission de localisation a été accordée
-                callback(true)
-            } else {
-                // La permission de localisation a été refusée
-                callback(false)
+        when (requestCode) {
+            LOCATION_PERMISSION_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // La permission de localisation a été accordée
+                    callback(true)
+                } else {
+                    // La permission de localisation a été refusée
+                    callback(false)
+                }
             }
         }
     }
@@ -63,6 +68,7 @@ class LocationPermission(private val activity: Activity){
         val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
         activity.startActivity(intent)
     }
+
     @RequiresApi(Build.VERSION_CODES.S)
     @SuppressLint("MissingPermission")
     fun requestLocationUpdates(locationListener: (Location) -> Unit) {

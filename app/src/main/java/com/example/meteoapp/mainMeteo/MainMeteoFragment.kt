@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.meteoapp.R
@@ -25,11 +26,12 @@ import com.example.meteoapp.adapter.WeatherNextDays
 import com.example.meteoapp.adapter.WeatherNextHour
 import com.example.meteoapp.adapter.WeatherToday
 import com.example.meteoapp.databinding.FragmentMainMeteoBinding
+import kotlinx.coroutines.launch
 import java.util.*
 
 class MainMeteoFragment : Fragment() {
 
-    lateinit var adapter: WeatherToday
+    //lateinit var adapter: WeatherToday
     var lat: String = ""
     var lon: String = ""
     private lateinit var locationPermission: LocationPermission
@@ -48,29 +50,57 @@ class MainMeteoFragment : Fragment() {
         locationPermission = LocationPermission(requireActivity())
         viewModel.setLocationPermission(locationPermission)
 
-        locationPermission.requestLocationPermission { granded ->
-            if (granded){
-                locationPermission.requestLocationUpdates{location ->
-                    location?.let{
-                        lat = it.latitude.toString()
-                        lon = it.longitude.toString()
-                        viewModel.getWeather()
+        locationPermission.requestLocationPermission { granted ->
+            if (granted) {
+                locationPermission.requestLocationUpdates { location ->
+                    location?.let {
+                        viewModel.getWeather(it.latitude, it.longitude)
                         setupRecyclerView()
                     } ?: kotlin.run {
                         Toast.makeText(requireContext(), "Impossible recuperare la localisazione", Toast.LENGTH_SHORT).show()
                     }
                 }
-            }else{
+            } else {
                 Toast.makeText(requireContext(), "Permissione non accettata", Toast.LENGTH_SHORT).show()
             }
         }
+
         fresh()
         swipeRefresh()
         return binding.root
     }
+    @RequiresApi(Build.VERSION_CODES.S)
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        locationPermission.onRequestPermissionsResult(requestCode, grantResults) { granted ->
+            if (granted) {
+                locationPermission.requestLocationUpdates { location ->
+                    location?.let {
+                        if (isNetworkAvailable(requireContext())) {
+                            viewModel.getWeather(it.latitude, it.longitude)
+                        } else {
+                            showToast(R.string.no_network_connection)
+                        }
+                    } ?: kotlin.run {
+                        showToast(R.string.location_unavailable)
+                    }
+                }
+            } else {
+                showToast(R.string.permission_not_granted)
+            }
+        }
+    }
 
-    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    private fun showToast(messageResId: Int) {
+        Toast.makeText(requireContext(), getString(messageResId), Toast.LENGTH_SHORT).show()
+    }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    override  fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.mainMeteoViewModel = viewModel
@@ -82,17 +112,23 @@ class MainMeteoFragment : Fragment() {
             imageView.setImageResource(imageResourceId)
         }
 
+        //Next Hours
         val weatherNextHourAdapter = WeatherNextHour()
         binding.recyclerViewNexHour.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewNexHour.adapter = weatherNextHourAdapter
-        viewModel.getWeatherNexHour()
 
-        // Observer les changements dans la liste de prévisions météorologiques
+        // Appele la fonction getWeatherNextDays à l'intérieur de la coroutine
+        lifecycleScope.launch {
+            viewModel.getWeatherNexHour()
+        }
+
+        // Observe les changements dans la liste de prévisions météorologiques
         viewModel.weatherNexHour.observe(viewLifecycleOwner) { weatherList ->
             weatherNextHourAdapter.setForecastList(weatherList)
             weatherNextHourAdapter.notifyDataSetChanged()
         }
+
 
         //Next Days
         val weatherNextDaysAdapter = WeatherNextDays()
@@ -100,11 +136,15 @@ class MainMeteoFragment : Fragment() {
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerviewNexDay.adapter = weatherNextDaysAdapter
 
+        // Appele la fonction getWeatherNextDays à l'intérieur de la coroutine
+        lifecycleScope.launch {
+            viewModel.getWeatherNextDays()
+        }
+
+        // Observe les changements dans la liste de prévisions météorologiques pour les prochains jours
         viewModel.weatherNextDays.observe(viewLifecycleOwner) { weatherList ->
             weatherNextDaysAdapter.setForecastList(weatherList)
         }
-
-        viewModel.getWeatherNextDays()
     }
 
         override fun onResume() {
@@ -123,7 +163,7 @@ class MainMeteoFragment : Fragment() {
 
     private fun isNetworkAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val nw      = connectivityManager.activeNetwork ?: return false
+        val nw = connectivityManager.activeNetwork ?: return false
         val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
         return when {
             actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
@@ -136,28 +176,44 @@ class MainMeteoFragment : Fragment() {
         }
     }
 
-private fun swipeRefresh(){
-    val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
-    swipe.setOnRefreshListener {
-        if (activity?.let { isNetworkAvailable(it) } == true){
-            viewModel.getWeather()
-        }else{
-            Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
-        }
-        //val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
-        swipe.isRefreshing = false
-    }
-}
-
-    private fun fresh(){
-
-        if (activity?.let { isNetworkAvailable(it) } == true){
-            viewModel.getWeather()
-            setupRecyclerView()
-        }else{
-            Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
+    @RequiresApi(Build.VERSION_CODES.S)
+    private fun swipeRefresh() {
+        val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
+        swipe.setOnRefreshListener {
+            locationPermission.requestLocationUpdates { location ->
+                location?.let {
+                    if (activity?.let { isNetworkAvailable(it) } == true) {
+                        viewModel.getWeather(it.latitude, it.longitude)
+                    } else {
+                        Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
+                    }
+                } ?: kotlin.run {
+                    Toast.makeText(requireContext(), "Impossible recuperare la localisazione", Toast.LENGTH_SHORT).show()
+                }
+            }
+            swipe.isRefreshing = false
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    private fun fresh() {
+        if (viewModel != null) {
+            locationPermission.requestLocationUpdates { location ->
+                location?.let {
+                    if (activity?.let { isNetworkAvailable(it) } == true) {
+                        viewModel.getWeather(it.latitude, it.longitude)
+                        setupRecyclerView()
+                    } else {
+                        Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
+                    }
+                } ?: kotlin.run {
+                    Toast.makeText(requireContext(), "Impossible recuperare la localisazione", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+
 
 }
 

@@ -58,6 +58,9 @@
     <string name="live_data_background">Fondo in diretto</string>
     <string name="live_data_background_explain">Image di fondo legato alla temperatura</string>
     <string name="language">lingua</string>
+    <string name="no_network_connection">There is no network connection</string>
+    <string name="location_unavailable">Impossible recuperare la localisazione</string>
+    <string name="permission_not_granted">Permissione non accettata</string>
 
 
     <string-array name="pref_temperature">
