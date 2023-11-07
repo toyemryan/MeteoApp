@@ -150,20 +150,15 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     // Extraire les informations nécessaires
 
                     val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                    val localDateTime =
-                        LocalDateTime.parse(data.weatherList[0].dtTxt, dateTimeFormatter)
+                    val localDateTime = LocalDateTime.parse(data.weatherList[0].dtTxt, dateTimeFormatter)
                     _day.value = localDateTime.format(DateTimeFormatter.ofPattern("EEEE"))
-                    _hour.value =
-                        localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-                    _feelLike.value =
-                        "Feel like : ${(firstWeather.main?.feelsLike?.minus(273.15))?.toInt()} °C"
+                    _hour.value = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+                    _feelLike.value = "Feel like : ${(firstWeather.main?.feelsLike?.minus(273.15))?.toInt()} °C"
                     _pressure.value = "${firstWeather.main?.pressure?.times(0.001)} Bar"
 
                     // val sys = firstWeather.sys
-                    _sunriseTime.value =
-                        data.city!!.sunrise?.let { convertTimestampToTime(it.toLong()) }
-                    _sunsetTime.value =
-                        data.city!!.sunset?.let { convertTimestampToTime(it.toLong()) }
+                    _sunriseTime.value = data.city!!.sunrise?.let { convertTimestampToTime(it.toLong()) }
+                    _sunsetTime.value = data.city!!.sunset?.let { convertTimestampToTime(it.toLong()) }
 
 
                     val minTempKelvin = data.weatherList[0].main?.tempMin
@@ -182,30 +177,23 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
 
                     val windSpeedMeterSecond = firstWeather.wind?.speed
                     // val windSpeedKmHour = windSpeedMeterSecond?.times(3.6)
-                    _windSpeed.value =
-                        "${(windSpeedMeterSecond?.times(3.6))?.toInt()} Km/h" // Vitesse du vent
+                    _windSpeed.value = "${(windSpeedMeterSecond?.times(3.6))?.toInt()} Km/h" // Vitesse du vent
                     _humidity.value = "${firstWeather.main?.humidity}%" // Humidité
                     //_weatherImageResourceId.value = getWeather(firstForecast.weather?.get(0)?.id) // ID de l'image
-                    _pressure.value =
-                        "${(firstWeather.main?.pressure?.times(0.001))?.toInt()} Bar" // Pression
+                    _pressure.value = "${(firstWeather.main?.pressure?.times(0.001))?.toInt()} Bar" // Pression
                     _weatherCondition.value = firstWeather.weather[0].description ?: "Erreur"
 
                     val temperatureKelvin = data.weatherList[0].main?.temp
                     val temperatureCelsius = (temperatureKelvin?.minus(273.15))
                     if (temperatureCelsius != null) {
-                        _maintemperature.value =
-                            "${temperatureCelsius.toInt()}°C" // main temperature
+                        _maintemperature.value = "${temperatureCelsius.toInt()}°C" // main temperature
                     }
 
                     _rain.value = "${(firstWeather.pop?.times(100))?.toInt()}%"
-
                     _visibility.value = "${(firstWeather.visibility?.times(0.001))?.toInt()} Km"
-
                     _cloudiness.value = "${(firstWeather.clouds?.all)}%"
-
                     _weatherCondition.value = firstWeather.weather[0].description ?: "Erreur"
-                    _weatherImageResourceId.value =
-                        getWeatherImageResourceId(_weatherCondition.value ?: "")
+                    _weatherImageResourceId.value = getWeatherImageResourceId(_weatherCondition.value ?: "")
                 }
             }
         }
@@ -283,4 +271,3 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
     }
 
 }
-

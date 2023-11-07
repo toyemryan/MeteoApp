@@ -8,7 +8,8 @@
     android:layout_marginStart="0dp"
     android:layout_marginTop="6dp"
     android:layout_marginBottom="3dp"
-    app:cardBackgroundColor="@color/md_theme_light_primary">
+    app:cardBackgroundColor="@color/md_theme_light_primary"
+    >
 
 
 

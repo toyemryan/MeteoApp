@@ -66,4 +66,5 @@
     <color name="home">#6D96AA</color>
     <color name="write">#F8F6FA</color>
     <color name="black">#000000</color>
+    <color name="error">#f00</color>
 </resources>

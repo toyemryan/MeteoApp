@@ -18,7 +18,10 @@
     <string name="Register">Registrati</string>
     <string name="action_register">Non sei Registrato ?</string>
     <string name="confirm_password">Conferma Password</string>
-    <string name="invalid_email">Not a valid username</string>
+    <string name="error_user">Lutente non esiste</string>
+    <string name="error_login">Devi compilare tutti i campi !!</string>
+    <string name="error_password">Password non Corrisponde</string>
+    <string name="error_compile">Devi compilare tutti i campi !!</string>
     <string name="invalid_password">La password deve contenere 6 carateri </string>
     <string name="welcome">"Welcome!"</string>
     <string name="Crea_account">Crea account</string>

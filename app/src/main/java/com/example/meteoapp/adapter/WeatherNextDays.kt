@@ -1,7 +1,6 @@
 package com.example.meteoapp.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.ResourceImage
+import com.example.meteoapp.repository.calculMaxMinTemperature
 import java.text.SimpleDateFormat
 import java.util.Locale
+
+
 class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
 
     private var listOfNextDaysWeather: List<WeatherList> = listOf()
@@ -24,12 +26,13 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         return listOfNextDaysWeather.size
     }
 
-    @SuppressLint("SimpleDateFormat", "SetTextI18n")
+    @SuppressLint("SimpleDateFormat", "SetTextI18n", "SuspiciousIndentation")
     override fun onBindViewHolder(holder: NextDaysHolder, position: Int) {
         val nextDaysForecastObject = listOfNextDaysWeather[position]
 
 
-        val imageResourceId = ResourceImage.getWeatherImageResourceId(nextDaysForecastObject.weather[0].description.orEmpty())
+        val imageResourceId =
+            ResourceImage.getWeatherImageResourceId(nextDaysForecastObject.weather[0].description.orEmpty())
         holder.weatherImageView.setImageResource(imageResourceId)
 
         val dateInputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
@@ -41,6 +44,7 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         val dayMonthFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
         holder.dayMonth.text = dayMonthFormat.format(date)
 
+        /*
         val minTemperature = nextDaysForecastObject.main?.tempMin
         val maxTemperature = nextDaysForecastObject.main?.tempMax
 
@@ -49,13 +53,28 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
 
         holder.minTemperature.text = " $minTemperatureCelsius °C"
         holder.maxTemperature.text = " $maxTemperatureCelsius °C"
+
+         */
+         listOfNextDaysWeather.map { it.main!!.temp }
+        val maxMinTemperature = calculMaxMinTemperature(listOfNextDaysWeather)
+
+        if (maxMinTemperature != null) {
+            val maxTemperature = maxMinTemperature.first
+            val minTemperature = maxMinTemperature.second
+
+            val minTemperatureCelsius = (minTemperature?.minus(273.15))?.toInt()
+            val maxTemperatureCelsius = (maxTemperature?.minus(273.15))?.toInt()
+
+            holder.minTemperature.text = " $minTemperatureCelsius °C"
+            holder.maxTemperature.text = " $maxTemperatureCelsius °C"
+        }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+
+        @SuppressLint("NotifyDataSetChanged")
     fun setForecastList(weatherList: List<WeatherList>?) {
         listOfNextDaysWeather = weatherList ?: emptyList()
         notifyDataSetChanged()
-        Log.d("WeatherNextDays", "New data set: $weatherList")
     }
 }
 class NextDaysHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -67,3 +86,4 @@ class NextDaysHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val minTemperature: TextView = itemView.findViewById(R.id.minTemperature)
     val maxTemperature: TextView = itemView.findViewById(R.id.maxTemperature)
 }
+

@@ -1,9 +1,11 @@
 package com.example.meteoapp
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.WindowManager
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -87,8 +89,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 firebaseAuth.signOut()
                 currentUser = null
                 val intent = Intent(this, MainLoginActivity::class.java)
-                startActivity(intent)
-                finish()
+                //startActivity(intent)
+                showLogoutConfirmDialog()
+                //finish()
             }
             R.id.setting -> {
                 val intent = Intent(this, SettingActivity::class.java)
@@ -105,6 +108,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun showLogoutConfirmDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Confirmazione !")
+        builder.setMessage("Sei sicuro di voler uscire ? ")
+        builder.setPositiveButton("Si") { dialogInterface: DialogInterface, id: Int ->
+            finish()
+        }
+        builder.setNegativeButton("No"){ dialogInterface: DialogInterface, id: Int ->
+            dialogInterface.dismiss()
+        }
+        builder.setNeutralButton("Cancelli"){ dialogInterface: DialogInterface, id: Int ->
+            dialogInterface.cancel()
+        }
+        val alertDialog : AlertDialog = builder.create()
+        alertDialog.show()
     }
 
 

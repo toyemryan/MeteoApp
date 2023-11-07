@@ -2,6 +2,7 @@ package com.example.meteoapp.repository
 
 import android.util.Log
 import com.example.meteoapp.R
+import com.example.meteoapp.modal.WeatherList
 import java.util.Locale
 
 object ResourceImage {
@@ -32,3 +33,27 @@ object ResourceImage {
         }
     }
 }
+
+fun calculMaxMinTemperature(weathers: List<WeatherList>): Pair<Double?, Double?>? {
+    if (weathers.isEmpty()) {
+        return null
+    }
+
+    var maxTemperature = weathers[0].main?.temp
+    var minTemperature = weathers[0].main?.temp
+
+    for (weather in weathers) {
+        val currentTemp = weather.main?.temp
+        if (currentTemp != null) {
+            if (currentTemp > (maxTemperature ?: Double.MIN_VALUE)) {
+                maxTemperature = currentTemp
+            }
+            if (currentTemp < (minTemperature ?: Double.MAX_VALUE)) {
+                minTemperature = currentTemp
+            }
+        }
+    }
+
+    return Pair(maxTemperature, minTemperature)
+}
+
