@@ -14,6 +14,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import android.provider.Settings
+import android.util.Log
 
 class LocationPermission(private val activity: Activity) {
 
@@ -54,10 +55,10 @@ class LocationPermission(private val activity: Activity) {
         when (requestCode) {
             LOCATION_PERMISSION_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // La permission de localisation a été accordée
+                    Log.d("LocationPermission", "Location permission granted")
                     callback(true)
                 } else {
-                    // La permission de localisation a été refusée
+                    Log.e("LocationPermission", "Location permission denied")
                     callback(false)
                 }
             }
@@ -75,16 +76,18 @@ class LocationPermission(private val activity: Activity) {
         if (isLocationPermissionGranted()) {
             val locationRequest = LocationRequest()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10000) // Intervalle de mise à jour de la localisation en millisecondes
+                .setInterval(1000) // Intervalle de mise à jour de la localisation en millisecondes
 
             val locationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     locationResult.lastLocation?.let { location ->
                         locationListener.invoke(location)
+                        Log.d("LocationPermission", "Location updated: $location")
                     }
                 }
             }
             fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+            Log.d("LocationPermission", "Location updates requested")
         }
     }
 }

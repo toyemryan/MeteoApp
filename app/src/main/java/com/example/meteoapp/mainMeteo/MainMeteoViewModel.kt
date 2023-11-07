@@ -2,6 +2,7 @@ package com.example.meteoapp.mainMeteo
 
 import LocationPermission
 import android.app.Application
+import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -10,7 +11,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.ResourceImage.getWeatherImageResourceId
 import com.example.meteoapp.service.RetrofitInstance.api
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,7 +32,7 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
     private val _weatherNextDays = MutableLiveData<List<WeatherList>?>()
     val weatherNextDays: MutableLiveData<List<WeatherList>?> get() = _weatherNextDays
 
-    private val ancona = "Ancona"
+    private val city = "Ancona"
 
     // LiveData pour le nom de la ville
     private val _cityName = MutableLiveData("Ancona")
@@ -110,11 +110,9 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
         return sdf.format(date)
     }
-
     fun setLocationPermission(permission: LocationPermission) {
         locationPermission = permission
     }
-
     private suspend fun <T> ApiCall(api: suspend () -> T) {
         return withContext(Dispatchers.IO){
             try {
@@ -129,7 +127,6 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-
     fun getWeather(latitude: Double, longitude: Double) = viewModelScope.launch {
        ApiCall {
             val Call = api.getCurrentWeather(latitude, longitude)
@@ -138,7 +135,7 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
                 withContext(Dispatchers.Main) {
                     val data = response.body()!!
                     val firstWeather = data.weatherList[0]
-
+                    _cityName.postValue(data.city?.name?: "")
                     val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                     val localDateTime = LocalDateTime.parse(firstWeather.dtTxt, dateTimeFormatter)
                     _day.postValue(DayOfWeek.from(localDateTime).name)
@@ -180,6 +177,7 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
                     _cloudiness.value = "${(firstWeather.clouds?.all)}%"
                     _weatherCondition.value = firstWeather.weather[0].description ?: "Erreur"
                     _weatherImageResourceId.value = getWeatherImageResourceId(_weatherCondition.value ?: "")
+                    Log.d("ViewModel", "Getting weather for location: $latitude, $longitude")
                 }
             }
         }
@@ -187,7 +185,7 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
 
     suspend fun getWeatherNexHour() = viewModelScope.launch {
         ApiCall {
-            val call = api.getCurrentWeatherByCity(ancona)
+            val call = api.getCurrentWeatherByCity(city)
             val response = call.execute()
             if (response.isSuccessful && response.body() != null) {
                 withContext(Dispatchers.Main) {
@@ -202,7 +200,7 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
         var previousDate: String? = null
 
         ApiCall {
-            val call = api.getFutureWeatherByCity(ancona)
+            val call = api.getFutureWeatherByCity(city)
             val response = call.execute()
             if (response.isSuccessful && response.body() != null) {
                 withContext(Dispatchers.Main) {
