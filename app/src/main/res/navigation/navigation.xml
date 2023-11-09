@@ -23,9 +23,7 @@
             app:exitAnim="@anim/slide_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"/>
-        <action
-            android:id="@+id/action_mainMeteoFragment_to_cityFragment"
-            app:destination="@id/cityFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -36,9 +34,5 @@
         android:name="com.example.meteoapp.setting.PlaceFragment"
         tools:layout="@layout/fragment_place" />
 
-    <fragment
-        android:id="@+id/cityFragment"
-        android:name="com.example.meteoapp.setting.CityFragment"
-        tools:layout="@layout/fragment_city"/>
 
 </navigation>

@@ -1,5 +1,6 @@
 package com.example.meteoapp.auth
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
@@ -55,12 +57,13 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
+     @SuppressLint("SuspiciousIndentation")
      private fun registrati() {
 
-             val email = binding.email.text.toString()
-             val password = binding.password.text.toString()
+         val email = binding.email.text.toString()
+         val password = binding.password.text.toString()
 
-             if (email.isNotEmpty() && password.isNotEmpty()){
+             if (email.trim().isNotEmpty() && password.trim().isNotEmpty()){
                  firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener {
                      if (it.isSuccessful){
                        /*  val intent = Intent(this, MainActivity::class.java)

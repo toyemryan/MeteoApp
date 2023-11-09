@@ -1,9 +1,11 @@
 package com.example.meteoapp
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.WindowManager
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -16,7 +18,6 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.example.meteoapp.auth.MainLoginActivity
 import com.example.meteoapp.databinding.ActivityMainBinding
-import com.example.meteoapp.mainMeteo.MainMeteoFragment
 import com.example.meteoapp.setting.SettingActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -30,9 +31,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var firebaseAuth: FirebaseAuth
     private var currentUser : FirebaseUser? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         @Suppress("DEPRECATION")
         window.setFlags(
@@ -43,13 +44,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
-
-     /*   // Instancier le fragment
-        val mainMeteoFragment = MainMeteoFragment()
-
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.myNavHostFragment, mainMeteoFragment)
-            .commit() */
 
 
         //put all the drawerlayout into the appbarconfiguration
@@ -95,20 +89,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 firebaseAuth.signOut()
                 currentUser = null
                 val intent = Intent(this, MainLoginActivity::class.java)
-                startActivity(intent)
-                finish()
+                //startActivity(intent)
+                showLogoutConfirmDialog()
+                //finish()
             }
             R.id.setting -> {
                 val intent = Intent(this, SettingActivity::class.java)
                 startActivity(intent)
             }
             R.id.placeFragment -> {
-                navController.navigate(R.id.action_mainMeteoFragment_to_placeFragment)
+               //navController.navigate(R.id.action_mainMeteoFragment_to_placeFragment)
+               val intent = Intent(this, PlaceActivity::class.java)
+                startActivity(intent)
             }
             R.id.aboutFragment -> {
-                navController.navigate(R.id.action_mainMeteoFragment_to_aboutFragment)
-            }
-            R.id.cityFragment ->{
                 navController.navigate(R.id.action_mainMeteoFragment_to_aboutFragment)
             }
         }
@@ -116,8 +110,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-
-
+    private fun showLogoutConfirmDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Confirmazione !")
+        builder.setMessage("Sei sicuro di voler uscire ? ")
+        builder.setPositiveButton("Si") { dialogInterface: DialogInterface, id: Int ->
+            finish()
+        }
+        builder.setNegativeButton("No"){ dialogInterface: DialogInterface, id: Int ->
+            dialogInterface.dismiss()
+        }
+        builder.setNeutralButton("Cancelli"){ dialogInterface: DialogInterface, id: Int ->
+            dialogInterface.cancel()
+        }
+        val alertDialog : AlertDialog = builder.create()
+        alertDialog.show()
+    }
 
 
 }

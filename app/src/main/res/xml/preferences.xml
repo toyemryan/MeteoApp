@@ -11,12 +11,11 @@
         <ListPreference
             app:iconSpaceReserved="false"
             android:defaultValue="3"
-            android:dialogTitle="@string/remind_to_take_a_break"
-            android:entries="@array/pref_remind_me_to_take_a_break"
-            android:entryValues="@array/pref_duration"
-            android:key="@string/key_upload_quality"
-            android:summary="@string/remind_me"
-            android:title="@string/remind_me" />
+            android:dialogTitle="@string/temperature"
+            android:entries="@array/pref_temperature"
+            android:entryValues="@array/pref_num"
+            android:key="@string/temperature"
+            android:title="@string/temperature" />
 
         <!--on below line we are creating a switch preference
             default value is use to set switch on or off
@@ -26,56 +25,29 @@
         <SwitchPreference
             app:iconSpaceReserved="false"
             android:defaultValue="false"
-            android:key="@string/remind_me_for_bed_time"
-            android:title="@string/remind_for_bed_time" />
+            android:key="@string/notification"
+            android:title="@string/notification" />
 
         <!--below switch preference is
             use for mobile data usage-->
         <SwitchPreference
             app:iconSpaceReserved="false"
             android:defaultValue="false"
-            android:key="@string/limit_data_usage"
-            android:summary="@string/stream_video"
-            android:title="@string/limit_mobile_usage" />
+            android:key="@string/live_data_background"
+            android:summary="@string/live_data_background_explain"
+            android:title="@string/live_data_background" />
 
-        <!--below list preference is use for
-            double tap to seek option-->
+
         <ListPreference
             app:iconSpaceReserved="false"
             android:defaultValue="1"
-            android:dialogTitle="@string/double_tap_to_seek"
-            android:entries="@array/pref_seek_values"
-            android:entryValues="@array/pref_duration"
-            android:key="@string/pref_seek_val"
-            android:summary="@string/seconds"
-            android:title="@string/double_tap_to_seek" />
+            android:dialogTitle="@string/language"
+            android:entries="@array/pref_language"
+            android:entryValues="@array/pref_num"
+            android:key="@string/language"
+            android:title="@string/language" />
 
-        <!--below option is use to create a list
-            preference for Upload preferences-->
-        <ListPreference
-            app:iconSpaceReserved="false"
-            android:defaultValue="1"
-            android:dialogTitle="@string/uploads"
-            android:entries="@array/pref_uploads"
-            android:entryValues="@array/pref_duration"
-            android:key="@string/pref_uploads"
-            android:summary="@string/specify_network_prefs"
-            android:title="Uploads" />
 
-        <!--below switch preferences is use to restrict mode-->
-        <SwitchPreference
-            app:iconSpaceReserved="false"
-            android:defaultValue="false"
-            android:key="@string/prefs_restricted_mode"
-            android:summary="@string/restricted_mode"
-            android:title="@string/restricted_mode_description" />
-
-        <!--below switch pref is use for enable stats option-->
-        <SwitchPreference
-            app:iconSpaceReserved="false"
-            android:defaultValue="false"
-            android:key="@string/prefs_enable_stats"
-            android:title="@string/enable_stats" />
 
     </PreferenceCategory>
 

@@ -1,40 +1,103 @@
 package com.example.meteoapp
 
+import android.app.Activity
+import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.meteoapp.databinding.ActivityPlaceBinding
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
 class PlaceActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityPlaceBinding
+      private lateinit var binding: ActivityPlaceBinding
+      private lateinit var startAutocomplete: ActivityResultLauncher<Intent>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setContentView(R.layout.activity_place)
+
         binding = ActivityPlaceBinding.inflate(layoutInflater)
+        setSupportActionBar(binding.toolbar2)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        /**
+         * Initialize Places. For simplicity, the API key is hard-coded. In a production
+         * environment we recommend using a secure mechanism to manage API keys.
+         */
+        val apiKey = getString(R.string.api_key)
+
+        /**
+         * Initialize Places. For simplicity, the API key is hard-coded. In a production
+         * environment we recommend using a secure mechanism to manage API keys.
+         */
+        if (!Places.isInitialized()) {
+            Places.initialize(this, apiKey)
+        }
+        // Create a new Places client instance.
+        val placesClient = Places.createClient(this)
+
+        onSearchCalled()
+
         setContentView(binding.root)
+    }
 
-        setSupportActionBar(binding.toolbar)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+        return true
+    }
 
-        val navController = findNavController(R.id.nav_host_fragment_content_place)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.app_bar_search -> {
+            //onSearchCalled()
+            val fields = listOf(Place.Field.ID, Place.Field.NAME)
+            // Start the autocomplete intent.
+            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                .build(this)
+            startAutocomplete.launch(intent)
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_place)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+        private fun onSearchCalled() {
+
+            startAutocomplete =
+                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                    if (result.resultCode == Activity.RESULT_OK) {
+                        val intent = result.data
+                        if (intent != null) {
+                            val place = Autocomplete.getPlaceFromIntent(intent)
+                            Log.i(TAG, "Place: ${place.name}, ${place.id}")
+                            Toast.makeText(this, "ID: " + place.id + "address:" + place.address + "Name:" + place.name + " latlong: " + place.latLng, Toast.LENGTH_LONG).show()
+                        }
+                    } else if (result.resultCode == Activity.RESULT_CANCELED) {
+                        // The user canceled the operation.
+                        Log.i(TAG, "User canceled autocomplete")
+                        Toast.makeText(this, getString(R.string.result_cancel), Toast.LENGTH_LONG).show()
+                    }
+                }
+
     }
+
+    override fun onResume() {
+        super.onResume()
+        val toolbarTitle = binding.toolbarTitle
+        toolbarTitle.text = getString(R.string.favorite_place)
+
+    }
+
 }
