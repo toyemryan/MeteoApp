@@ -1,16 +1,17 @@
 package com.example.meteoapp.mainMeteo
 
-
+import LocationPermission
 import android.app.Application
+import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.meteoapp.R
-import com.example.meteoapp.modal.ForeCast
-import com.example.meteoapp.service.RetrofitInstance
+import androidx.lifecycle.viewModelScope
 import com.example.meteoapp.modal.WeatherList
-import com.lionel.mameteo.modal.City
+import com.example.meteoapp.repository.Repository
+import com.example.meteoapp.service.RetrofitInstance
+import com.example.meteoapp.service.RetrofitInstance.api
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -19,40 +20,39 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
+class MainMeteoViewModel(application: Application) : AndroidViewModel(application) {
 
-// Annotazione per richiedere API di almeno la versione specificata di Android
-class MainMeteoViewModel (application: Application) : AndroidViewModel(application){
-
-    //cinque giorni
     private val _weathernexhour = MutableLiveData<List<WeatherList>>()
-    val weatherNexHour: LiveData<List<WeatherList>> get() = _weathernexhour
+    val weatherNexHour: LiveData<List<WeatherList>>
+        get() = _weathernexhour
 
-    private val _weatherNextDays = MutableLiveData<List<WeatherList>>()
-    val weatherNextDays: LiveData<List<WeatherList>> get() = _weatherNextDays
+    private val _weatherNextDays = MutableLiveData<List<WeatherList>?>()
+    val weatherNextDays: MutableLiveData<List<WeatherList>?>
+        get() = _weatherNextDays
 
-    private val ancona = "Ancona"
+    private val city = "Ancona"
 
-    //LiveData per il nome della città
+    // LiveData pour le nom de la ville
     private val _cityName = MutableLiveData("Ancona")
     val cityName: LiveData<String>
         get() = _cityName
-
 
     private val _maintemperature = MutableLiveData("25°C")
     val maintempature: LiveData<String>
         get() = _maintemperature
 
-    private  val _minTemp = MutableLiveData<String>()
+    private val _minTemp = MutableLiveData<String>()
     val minTemp: LiveData<String>
         get() = _minTemp
 
-    private  val _maxTemp = MutableLiveData<String>()
+    private val _maxTemp = MutableLiveData<String>()
     val maxTemp: LiveData<String>
         get() = _maxTemp
 
@@ -69,15 +69,15 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
         get() = _windSpeed
 
     private val _feelLike = MutableLiveData<String>()
-    val feelLike: MutableLiveData<String>
+    val feelLike: LiveData<String>
         get() = _feelLike
 
     private val _humidity = MutableLiveData<String>()
-    val humidity: MutableLiveData<String>
+    val humidity: LiveData<String>
         get() = _humidity
 
     private val _pressure = MutableLiveData<String>()
-    val pressure: MutableLiveData<String>
+    val pressure: LiveData<String>
         get() = _pressure
 
     private val _weatherCondition = MutableLiveData<String>()
@@ -97,29 +97,46 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
         get() = _sunsetTime
 
     private val _rain = MutableLiveData<String>()
-    val rain : LiveData<String>
+    val rain: LiveData<String>
         get() = _rain
 
     private val _visibility = MutableLiveData<String>()
-    val visibility : LiveData<String>
+    val visibility: LiveData<String>
         get() = _visibility
 
     private val _cloudiness = MutableLiveData<String>()
-    val cloudiness : LiveData<String>
+    val cloudiness: LiveData<String>
         get() = _cloudiness
 
+    private lateinit var locationPermission: LocationPermission
 
     private fun convertTimestampToTime(timestamp: Long): String {
         val date = Date(timestamp * 1000)
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
         return sdf.format(date)
     }
+    fun setLocationPermission(permission: LocationPermission) {
+        locationPermission = permission
+    }
+    private suspend fun <T> ApiCall(api: suspend () -> T) {
+        return withContext(Dispatchers.IO){
+            try {
+                api.invoke()
+            } catch (e: IOException) {
+                Log.e("Flux error", "Error: ${e.message}")
+                throw e
+            } catch (e: HttpException) {
+                Log.e("Connection error", "Error: ${e.message}")
+                throw e
+            }
+        }
+    }
 
     @OptIn(DelicateCoroutinesApi::class)
     fun getWeather() {
         GlobalScope.launch(Dispatchers.IO) {
             val call = try {
-                RetrofitInstance.api.getCurrentWeatherByCity(ancona)
+                api.getCurrentWeatherByCity(city)
             } catch (e: IOException) {
                 Log.e("FLux error", "Error: ${e.message}")
                 return@launch
@@ -147,7 +164,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     _feelLike.value = "Feel like : ${(firstWeather.main?.feelsLike?.minus(273.15))?.toInt()} °C"
                     _pressure.value = "${firstWeather.main?.pressure?.times(0.001)} Bar" // Pression
 
-                   // val sys = firstWeather.sys
+                    // val sys = firstWeather.sys
                     _sunriseTime.value = data.city!!.sunrise?.let { convertTimestampToTime(it.toLong()) }
                     _sunsetTime.value =  data.city!!.sunset?.let { convertTimestampToTime(it.toLong()) }
 
@@ -167,7 +184,7 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     }
 
                     val windSpeedMeterSecond = firstWeather.wind?.speed
-                   // val windSpeedKmHour = windSpeedMeterSecond?.times(3.6)
+                    // val windSpeedKmHour = windSpeedMeterSecond?.times(3.6)
                     _windSpeed.value = "${(windSpeedMeterSecond?.times(3.6))?.toInt()} Km/h" // Vitesse du vent
                     _humidity.value = "${firstWeather.main?.humidity}%" // Humidité
                     //_weatherImageResourceId.value = getWeather(firstForecast.weather?.get(0)?.id) // ID de l'image
@@ -187,127 +204,55 @@ class MainMeteoViewModel (application: Application) : AndroidViewModel(applicati
                     _cloudiness.value = "${(firstWeather.clouds?.all)}%"
 
                     _weatherCondition.value = firstWeather.weather[0].description ?: "Erreur"
-                    _weatherImageResourceId.value = getWeatherImageResourceId(_weatherCondition.value ?: "")
+                    _weatherImageResourceId.value = Repository().getWeatherImageResourceId(_weatherCondition.value ?: "")
                 }
             }
         }
     }
-    // Fonction pour obtenir l'ID de l'image en fonction de la condition météorologique
 
-    private fun getWeatherImageResourceId(condition: String): Int {
-        return when (condition.lowercase(Locale.getDefault())) {
-            "clear sky" -> R.drawable.clear_sky
-            "few clouds" -> R.drawable.few_clouds
-            "scattered clouds" -> R.drawable.scattered_clouds
-            "broken clouds" -> R.drawable.cloud
-            "shower rain" -> R.drawable.shower_rain
-            "rain" -> R.drawable.rain
-            "thunderstorm" -> R.drawable.thunderstorm
-            "snow" -> R.drawable.snow
-            "mist" -> R.drawable.mist
-            "light rain" -> R.drawable.light_rain
-            "fog" -> R.drawable.fog
-            "haze" -> R.drawable.haze
-            "smoke" -> R.drawable.smoke
-            "very cold" -> R.drawable.very_cold
-            "warm" ->R.drawable.warm
-            "wind" ->R.drawable.wind
-            else ->  R.drawable.unknown // R.drawable.unknown // Image par défaut si la condition n'est pas reconnue ou si l'image n'est pas trouvé
-        }
-    }
-    @OptIn(DelicateCoroutinesApi::class)
-    fun getWeatherNexHour(){
-        GlobalScope.launch(Dispatchers.IO){
-            val call = try{
-                RetrofitInstance.api.getCurrentWeatherByCity(ancona)
-        }catch (e: IOException){
-            Log.e("Flux error", "Error: ${e.message}")
-            return@launch
-        }catch (e: HttpException){
-            Log.e("Connection error", "Error: ${e.message}")
-            return@launch
-        }
-            val response = call.execute()
-            if (response.isSuccessful && response.body() != null){
-                withContext(Dispatchers.Main){
-                    val data = response.body()!!
-
-                    _weathernexhour.value = data.weatherList.take(10)
-
-                }
-            }
-        }
-    }
-/*
-    @OptIn(DelicateCoroutinesApi::class)
-    fun getWeatherNexDays() {
-        GlobalScope.launch(Dispatchers.IO) {
-            val call = try {
-                RetrofitInstance.api.getFutureWeatherByCity(ancona)
-            } catch (e: IOException) {
-                Log.e("Flux Error", "Error: ${e.message}")
-                return@launch
-            } catch (e: HttpException) {
-                Log.e("connection error", "Error: ${e.message}")
-                return@launch
-            }
+    suspend fun getWeatherNexHour() = viewModelScope.launch {
+        ApiCall {
+            val call = api.getCurrentWeatherByCity(city)
             val response = call.execute()
             if (response.isSuccessful && response.body() != null) {
                 withContext(Dispatchers.Main) {
                     val data = response.body()!!
-
-                    _weatherNextDays.postValue(data.weatherList.filter {
-                        val currentDate = LocalDate.now()
-                        it.dtTxt?.startsWith(currentDate.toString()) == true
-                    })
-
-                    for (i in 1..5) {
-                        data.weatherList.forEach { weatherNextDays ->
-                            Log.d(
-                                "Weather",
-                                "Date: ${weatherNextDays.dtTxt}, Temperature: ${weatherNextDays.main?.temp}, Description: ${weatherNextDays.weather}"
-                            )
-                        }
-                    }
+                    _weathernexhour.value = data.weatherList.take(10)
                 }
             }
         }
     }
 
- */
-@OptIn(DelicateCoroutinesApi::class)
-fun getWeatherNexDays() {
-    GlobalScope.launch(Dispatchers.IO) {
-        val call = try {
-            RetrofitInstance.api.getFutureWeatherByCity(ancona)
-        } catch (e: IOException) {
-            Log.e("Flux Error", "Error: ${e.message}")
-            return@launch
-        } catch (e: HttpException) {
-            Log.e("connection error", "Error: ${e.message}")
-            return@launch
-        }
-        val response = call.execute()
-        if (response.isSuccessful && response.body() != null) {
-            withContext(Dispatchers.Main) {
-                val data = response.body()!!
-/*
-                // Filtrer les données pour les cinq prochains jours
-                _weatherNextDays.postValue(data.weatherList.filterIndexed { index, _ ->
-                    index % (data.weatherList.size / 5) == 0
-                })
+    suspend fun getWeatherNextDays() = viewModelScope.launch {
+        var previousDate: String? = null
 
- */
-
-                _weatherNextDays.postValue(data.weatherList.filter {
-                    // Filtrez les données pour les cinq prochains jours
+        ApiCall {
+            val call = api.getFutureWeatherByCity(city)
+            val response = call.execute()
+            if (response.isSuccessful && response.body() != null) {
+                withContext(Dispatchers.Main) {
+                    val data = response.body()!!
                     val currentDate = LocalDate.now()
-                    it.dtTxt?.startsWith(currentDate.toString()) == true
-                })
+                    val futureDates = (1..5).map { currentDate.plusDays(it.toLong()) }
+                    val futureData = data.weatherList.filter {
+                        val date = it.dtTxt?.split(" ")?.get(0)
+
+                        if (date != previousDate && date in futureDates.map { it.toString() }) {
+                            previousDate = date
+                            true
+                        } else {
+                            false
+                        }
+                    }
+                    futureData.forEach { weatherNextDays ->
+                        Log.d(
+                            "Weather",
+                            "Date: ${weatherNextDays.dtTxt}, Temperature: ${weatherNextDays.main?.temp}, Description: ${weatherNextDays.weather}"
+                        )
+                    }
+                    _weatherNextDays.postValue(futureData)
+                }
             }
         }
     }
-}
-
-
 }

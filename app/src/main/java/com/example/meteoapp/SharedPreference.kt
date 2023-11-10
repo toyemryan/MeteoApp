@@ -33,9 +33,27 @@ class SharedPreference internal constructor(private val context: Context)  {
 
 
     // Méthode pour enregistrer une valeur dans les préférences partagées
-    fun setValue(key: String, value:String){
-        preference.edit().putString(key, null).apply()
+    fun setValue(key: String , value: String?){
+        preference.edit().putString(key, value).apply()
     }
+
+    fun getValue(key: String): String? {
+        return preference.getString(key, null)
+    }
+
+    fun setValueOrNull(key: String?, value: String?) {
+        if (key != null && value != null) {
+            preference.edit().putString(key, value).apply()
+        }
+    }
+
+    fun getValueOrNull(key: String?): String? {
+        if (key != null) {
+            return preference.getString(key, null)
+        }
+        return null
+    }
+
 
 
     // Méthode pour supprimer la valeur associée à la clé de la ville des préférences partagées

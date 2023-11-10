@@ -1,44 +1,94 @@
-package com.example.meteoapp.service
-
-import android.annotation.SuppressLint
-import android.content.pm.PackageManager
-import androidx.core.content.ContextCompat
-import android.location.Location
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
-import com.google.android.gms.location.LocationServices
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import android.provider.Settings
+import android.util.Log
 
+class LocationPermission(private val activity: Context) {
 
-class LocationPermission(private val context: Context){
-
-    // Inizializzazione di FusedLocationProviderClient utilizzando LocationServices per ottenere l'ultima posizione conosciuta del dispositivo
-    private var fusedLocationClient: FusedLocationProviderClient =
-        LocationServices.getFusedLocationProviderClient(context)
-
-
-    // Funzione che restituisce true se il permesso di localizzazione è concesso, altrimenti false
-    fun isLocationPermissionGranted(): Boolean {
-        return ContextCompat.checkSelfPermission(context,
-            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    private val fusedLocationClient: FusedLocationProviderClient by lazy {
+        LocationServices.getFusedLocationProviderClient(activity)
     }
 
-    // Annotazione per sopprimere l'avviso di mancanza di permesso
-    @SuppressLint("MissingPermission")
+    private fun isLocationPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            activity,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
 
-    // Funzione per richiedere gli aggiornamenti di localizzazione, accettando un blocco di codice come parametro
-    fun requestLocationUpdates(locationListener: (Location) -> Unit){
-        if (isLocationPermissionGranted()){
-            fusedLocationClient.lastLocation.addOnSuccessListener {
-                location:Location ->
+    fun requestLocationPermission(callback: (Boolean) -> Unit) {
+        if (isLocationPermissionGranted()) {
+            // La permission de localisation est déjà accordée
+            callback(true)
+        } else {
+            // Demande la permission de localisation
+            ActivityCompat.requestPermissions(
+                activity as Activity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+        }
+    }
 
-                // Verifica se la posizione non è nulla e invoca il blocco di codice locationListener
-                location.let {
-                    locationListener.invoke(it)
+    companion object {
+        const val LOCATION_PERMISSION_REQUEST_CODE = 123
+    }
+
+    fun onRequestPermissionsResult(
+        requestCode: Int,
+        grantResults: IntArray,
+        callback: (Boolean) -> Unit
+    ) {
+        when (requestCode) {
+            LOCATION_PERMISSION_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("LocationPermission", "Location permission granted")
+                    callback(true)
+                } else {
+                    Log.e("LocationPermission", "Location permission denied")
+                    callback(false)
                 }
             }
         }
     }
 
-}
+    fun showLocationSettings() {
+        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        activity.startActivity(intent)
+    }
 
+    @RequiresApi(Build.VERSION_CODES.S)
+    @SuppressLint("MissingPermission")
+    fun requestLocationUpdates(locationListener: (Location) -> Unit) {
+        if (isLocationPermissionGranted()) {
+            val locationRequest = LocationRequest()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(1000) // Intervalle de mise à jour de la localisation en millisecondes
+
+            val locationCallback = object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
+                    locationResult.lastLocation?.let { location ->
+                        locationListener.invoke(location)
+                        Log.d("LocationPermission", "Location updated: $location")
+                    }
+                }
+            }
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+            Log.d("LocationPermission", "Location updates requested")
+        }
+    }
+}
