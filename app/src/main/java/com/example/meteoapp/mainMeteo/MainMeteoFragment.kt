@@ -52,8 +52,6 @@ class MainMeteoFragment : Fragment() {
         return binding.root
     }
 
-    /* @Deprecated("Deprecated in Java")
-    @SuppressLint("SetTextI18n")*/
     @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -11,14 +11,14 @@
     <string name="accedi">Accedi</string>
     <string name="login_failed">"L'utente non existe"</string>
     <string name="invalid_email_login">L\'email non è valido</string>
-    <string name="invalid_password_login">Not a valid username</string>
+    <string name="invalid_password_login">password non valido</string>
     <string name="action_login">Hai un account ?</string>
 
     <!-- Strings related to register -->
     <string name="Register">Registrati</string>
     <string name="action_register">Non sei Registrato ?</string>
     <string name="confirm_password">Conferma Password</string>
-    <string name="invalid_email">Not a valid username</string>
+    <string name="invalid_email">Nome utente non valido</string>
     <string name="invalid_password">La password deve contenere 6 carateri </string>
     <string name="welcome">"Welcome!"</string>
     <string name="Crea_account">Crea account</string>
@@ -33,7 +33,7 @@
 
     <!-- Strings related to menu -->
     <string name="favorite_place">Luoghi preferiti</string>
-    <string name="api_key">AIzaSyDehNTD6QrfIyAFNR-LoRdLFJIyeqVFlnA</string>
+    <string name="api_key" translatable="false">AIzaSyDehNTD6QrfIyAFNR-LoRdLFJIyeqVFlnA</string>
     <string name="developer">Sviluppatori</string>
     <string name="about">A proposito</string>
     <string name="setting">Parametri</string>
@@ -45,8 +45,8 @@
 
     <!-- Strings related to about page -->
     <string name="info_app">Siamo lieti di presentare il nostro progetto universitario "Un'applicazione Meteo", progettato, idealizzato e programmato da due studenti dell\'Università Politecnica delle Marche sotto la supervisione del professor Emanuele Storti.</string>
-    <string name="toyemgit">https://github.com/toyemryan/MeteoApp</string>
-    <string name="lionelgit">https://github.com/c-ode6968</string>
+    <string name="toyemgit" translatable="false">https://github.com/toyemryan/MeteoApp</string>
+    <string name="lionelgit" translatable="false">https://github.com/c-ode6968</string>
 
     <!-- Strings related to setting fragment-->
     <string name="title_activity_setting">SettingActivity</string>
@@ -63,13 +63,13 @@
     </string-array>
 
     <string-array name="pref_num">
-        <item>0</item>
         <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="pref_language">
-        <item>IT</item>
-        <item>FR</item>
+        <item>it</item>
+        <item>fr</item>
     </string-array>
 
 

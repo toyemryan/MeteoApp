@@ -1,5 +1,7 @@
 package com.example.meteoapp
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -17,11 +19,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.meteoapp.auth.MainLoginActivity
 import com.example.meteoapp.databinding.ActivityMainBinding
 import com.example.meteoapp.setting.SettingActivity
+import com.example.meteoapp.setting.languageChange.DefaultLocaleHelper
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var currentUser : FirebaseUser? = null
 
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -95,7 +99,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(intent)
             }
             R.id.placeFragment -> {
-               //navController.navigate(R.id.action_mainMeteoFragment_to_placeFragment)
                val intent = Intent(this, PlaceActivity::class.java)
                 startActivity(intent)
             }
@@ -107,5 +110,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(DefaultLocaleHelper.getInstance(newBase!!).onAttach())
+    }
 
 }

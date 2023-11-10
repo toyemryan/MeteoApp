@@ -32,16 +32,9 @@ class PlaceActivity : AppCompatActivity() {
         binding = ActivityPlaceBinding.inflate(layoutInflater)
         setSupportActionBar(binding.toolbar2)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        /**
-         * Initialize Places. For simplicity, the API key is hard-coded. In a production
-         * environment we recommend using a secure mechanism to manage API keys.
-         */
+
         val apiKey = getString(R.string.api_key)
 
-        /**
-         * Initialize Places. For simplicity, the API key is hard-coded. In a production
-         * environment we recommend using a secure mechanism to manage API keys.
-         */
         if (!Places.isInitialized()) {
             Places.initialize(this, apiKey)
         }

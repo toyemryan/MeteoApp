@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MeteoApp</string>
+    <!-- Strings related to login -->
+    <string name="login">Login</string>
+    <string name="logout">Déconnexion</string>
+    <string name="email">Email</string>
+    <string name="password">Mot de passe</string>
+    <string name="accedi">Entrer</string>
+    <string name="login_failed">Utilisateur non existant</string>
+    <string name="invalid_email_login">Email non valide</string>
+    <string name="invalid_password_login">Mot de passe non valide</string>
+    <string name="action_login">Avez-vous un compte ?</string>
+
+    <!-- Strings related to register -->
+    <string name="Register">Enregistrement</string>
+    <string name="action_register">Vous n\'êtes pas enregistré ?</string>
+    <string name="confirm_password">Confirmez votre mot de passe</string>
+    <string name="invalid_email">Nom d\'utilisatieur non valide</string>
+    <string name="invalid_password">Le mot de passe doit contenir au moins 6 caractères</string>
+    <string name="welcome">Bienvenue !</string>
+    <string name="Crea_account">Creer un compte</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_main_login">MainLoginActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- Strings related to menu -->
+    <string name="favorite_place">Lieu préféré</string>
+    <string name="api_key" translatable="false">AIzaSyDehNTD6QrfIyAFNR-LoRdLFJIyeqVFlnA</string>
+    <string name="developer">Développeur</string>
+    <string name="about">A propos</string>
+    <string name="setting">Paramètre</string>
+    <string name="search">Recherche</string>
+    <string name="result_cancel">Aucun lieu n\'a été selectionné</string>
+    <string name="title_activity_place">PlaceActivity</string>
+
+
+
+    <!-- Strings related to about page -->
+    <string name="info_app">Nous sommes heureux de vous présenter notre projet universitaire "Une application Meteo", conçu et programmé par deux étudiants de l\'Université Politechnique des Marche sous la supervision du professeur Emanuele Storti.</string>
+    <string name="toyemgit" translatable="false">https://github.com/toyemryan/MeteoApp</string>
+    <string name="lionelgit" translatable="false">https://github.com/c-ode6968</string>
+
+    <!-- Strings related to setting fragment-->
+    <string name="title_activity_setting">SettingActivity</string>
+    <string name="temperature">Temperature</string>
+    <string name="notification">Notification</string>
+    <string name="live_data_background">Fond d\'écran en direct</string>
+    <string name="live_data_background_explain">Image de fond d\'écran liée à la temperature</string>
+    <string name="language">Langue</string>
+
+
+    <string-array name="pref_temperature">
+        <item>°C</item>
+        <item>°F</item>
+    </string-array>
+
+    <string-array name="pref_num">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="pref_language">
+        <item>it</item>
+        <item>fr</item>
+    </string-array>
+
+</resources>

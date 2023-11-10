@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <!--app:iconSpaceReserved="false" est pour aligner le menu-->
+    <!--app:iconSpaceReserved="false" est pour aligner le menu android:key="@string/language"-->
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -14,7 +14,7 @@
             android:dialogTitle="@string/temperature"
             android:entries="@array/pref_temperature"
             android:entryValues="@array/pref_num"
-            android:key="@string/temperature"
+            android:key="Temperature"
             android:title="@string/temperature" />
 
         <!--on below line we are creating a switch preference
@@ -25,7 +25,7 @@
         <SwitchPreference
             app:iconSpaceReserved="false"
             android:defaultValue="false"
-            android:key="@string/notification"
+            android:key="Notification"
             android:title="@string/notification" />
 
         <!--below switch preference is
@@ -33,7 +33,7 @@
         <SwitchPreference
             app:iconSpaceReserved="false"
             android:defaultValue="false"
-            android:key="@string/live_data_background"
+            android:key="Fondo in diretto"
             android:summary="@string/live_data_background_explain"
             android:title="@string/live_data_background" />
 
@@ -42,9 +42,10 @@
             app:iconSpaceReserved="false"
             android:defaultValue="1"
             android:dialogTitle="@string/language"
+            app:defaultValue="1"
             android:entries="@array/pref_language"
             android:entryValues="@array/pref_num"
-            android:key="@string/language"
+            android:key="lingua"
             android:title="@string/language" />
 
 
