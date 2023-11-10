@@ -3,6 +3,7 @@ package com.example.meteoapp.mainMeteo
 import LocationPermission
 import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -25,7 +26,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.meteoapp.R
 import com.example.meteoapp.adapter.WeatherNextDays
 import com.example.meteoapp.adapter.WeatherNextHour
-import com.example.meteoapp.adapter.WeatherToday
 import com.example.meteoapp.databinding.FragmentMainMeteoBinding
 import kotlinx.coroutines.launch
 import java.util.*
@@ -47,22 +47,17 @@ class MainMeteoFragment : Fragment() {
     ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_meteo, container, false)
-        locationPermission = LocationPermission(requireActivity())
+        locationPermission = LocationPermission(requireContext()) // LocationPermission(requireActivity())
         viewModel.setLocationPermission(locationPermission)
 
         locationPermission.requestLocationPermission { granted ->
             if (granted) {
                 locationPermission.requestLocationUpdates { location ->
                     location?.let {
-                        viewModel.getWeather(it.latitude, it.longitude)
-                        setupRecyclerView()
-                        binding.cityName.text = viewModel.cityName.value
-                    } ?: kotlin.run {
-                        showToast(R.string.location_unavailable)
+                       // Log.d("preferenceChange", "latitude is ${it.latitude}, longitude is ${it.longitude}")
+                        Log.d("preferenceChange", " ${getCityName(it.latitude, it.longitude)} latitude is ${it.latitude}, longitude is ${it.longitude}")
                     }
                 }
-            } else {
-                showToast(R.string.permission_not_granted)
             }
         }
 
@@ -70,6 +65,18 @@ class MainMeteoFragment : Fragment() {
         swipeRefresh()
         return binding.root
     }
+
+    private fun getCityName(lat: Double,long: Double): String? {
+        val cityName: String?
+        val geoCoder = context?.let { Geocoder(it, Locale.getDefault()) }
+        val adress = geoCoder?.getFromLocation(lat,long,3)
+
+        cityName = adress?.get(0)?.locality
+       // Log.d("preferenceChange", " $adress")
+        return cityName
+    }
+
+    @Deprecated("Deprecated in Java")
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -79,24 +86,15 @@ class MainMeteoFragment : Fragment() {
         locationPermission.onRequestPermissionsResult(requestCode, grantResults) { granted ->
             if (granted) {
                 locationPermission.requestLocationUpdates { location ->
-                    location?.let {
-                        if (isNetworkAvailable(requireContext())) {
-                            viewModel.getWeather(it.latitude, it.longitude)
-                        } else {
-                            showToast(R.string.no_network_connection)
-                        }
-                    } ?: kotlin.run {
-                        showToast(R.string.location_unavailable)
+                    location.let {
+                        Log.d("preferenceChange", "2 latitude is ${it.latitude}, longitude is ${it.longitude}")
                     }
                 }
-            } else {
-                showToast(R.string.permission_not_granted)
             }
         }
     }
-    private fun showToast(messageResId: Int) {
-        Toast.makeText(requireContext(), getString(messageResId), Toast.LENGTH_SHORT).show()
-    }
+
+
     @SuppressLint("NotifyDataSetChanged")
     override  fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -151,12 +149,14 @@ class MainMeteoFragment : Fragment() {
         val toolbarTitle = (requireActivity() as AppCompatActivity).findViewById<TextView>(R.id.toolbar_title)
         toolbarTitle.text = null
     }
-    private fun setupRecyclerView() {
+
+   /* private fun setupRecyclerView() {
         binding.recyclerviewNexDay.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = WeatherToday()
         }
-    }
+    }*/
+
     private fun isNetworkAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val nw = connectivityManager.activeNetwork ?: return false
@@ -172,41 +172,28 @@ class MainMeteoFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
-    private fun swipeRefresh() {
+    private fun swipeRefresh(){
         val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
         swipe.setOnRefreshListener {
-            locationPermission.requestLocationUpdates { location ->
-                location?.let {
-                    if (activity?.let { isNetworkAvailable(it) } == true) {
-                        viewModel.getWeather(it.latitude, it.longitude)
-                    } else {
-                        showToast(R.string.no_network_connection)
-                    }
-                } ?: kotlin.run {
-                    showToast(R.string.location_unavailable)
-                }
+            if (activity?.let { isNetworkAvailable(it) } == true){
+                viewModel.getWeather()
+                //setupRecyclerView()
+            }else{
+                Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
             }
+            //val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
             swipe.isRefreshing = false
         }
     }
-    @RequiresApi(Build.VERSION_CODES.S)
-    private fun fresh() {
-        if (viewModel != null) {
-            locationPermission.requestLocationUpdates { location ->
-                location?.let {
-                    if (activity?.let { isNetworkAvailable(it) } == true) {
-                        viewModel.getWeather(it.latitude, it.longitude)
-                        setupRecyclerView()
-                    } else {
-                        showToast(R.string.no_network_connection)
-                    }
-                } ?: kotlin.run {
-                    showToast(R.string.location_unavailable)
-                }
-            }
+    private fun fresh(){
+        if (activity?.let { isNetworkAvailable(it) } == true){
+            viewModel.getWeather()
+            //setupRecyclerView()
+        }else{
+            Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
         }
     }
+
 }
 
 

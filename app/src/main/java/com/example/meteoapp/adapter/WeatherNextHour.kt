@@ -10,8 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
-import com.example.meteoapp.repository.ResourceImage.getWeatherImageResourceId
-
+import com.example.meteoapp.repository.Repository
 
 class WeatherNextHour: RecyclerView.Adapter<NextHourHolder>() {
     private var listOfNextHourWeather = listOf<WeatherList>()
@@ -29,7 +28,7 @@ class WeatherNextHour: RecyclerView.Adapter<NextHourHolder>() {
     override fun onBindViewHolder(holder: NextHourHolder, position: Int) {
         val nexhourForeCast = listOfNextHourWeather[position]
 
-        val imageResourceId = nexhourForeCast.weather[0].description?.let { getWeatherImageResourceId(it) }
+        val imageResourceId = nexhourForeCast.weather[0].description?.let { Repository().getWeatherImageResourceId(it) }
         if (imageResourceId != null) {
             holder.weatherImageView.setImageResource(imageResourceId)
         }

@@ -5,7 +5,7 @@ import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
 import java.util.Locale
 
-object ResourceImage {
+open class Repository {
     fun getWeatherImageResourceId(condition: String): Int {
         return when (condition.lowercase(Locale.getDefault())) {
             "clear sky" -> R.drawable.clear_sky

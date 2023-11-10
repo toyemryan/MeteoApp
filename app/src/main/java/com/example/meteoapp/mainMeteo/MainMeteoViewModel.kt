@@ -9,9 +9,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.meteoapp.modal.WeatherList
-import com.example.meteoapp.repository.ResourceImage.getWeatherImageResourceId
+import com.example.meteoapp.repository.Repository
+import com.example.meteoapp.service.RetrofitInstance
 import com.example.meteoapp.service.RetrofitInstance.api
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -27,10 +30,12 @@ import java.util.Locale
 class MainMeteoViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _weathernexhour = MutableLiveData<List<WeatherList>>()
-    val weatherNexHour: LiveData<List<WeatherList>> get() = _weathernexhour
+    val weatherNexHour: LiveData<List<WeatherList>>
+        get() = _weathernexhour
 
     private val _weatherNextDays = MutableLiveData<List<WeatherList>?>()
-    val weatherNextDays: MutableLiveData<List<WeatherList>?> get() = _weatherNextDays
+    val weatherNextDays: MutableLiveData<List<WeatherList>?>
+        get() = _weatherNextDays
 
     private val city = "Ancona"
 
@@ -127,24 +132,42 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun getWeather(latitude: Double, longitude: Double) = viewModelScope.launch {
-       ApiCall {
-            val Call = api.getCurrentWeather(latitude, longitude)
-            val response = withContext(Dispatchers.IO) { Call.execute() }
+    @OptIn(DelicateCoroutinesApi::class)
+    fun getWeather() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val call = try {
+                api.getCurrentWeatherByCity(city)
+            } catch (e: IOException) {
+                Log.e("FLux error", "Error: ${e.message}")
+                return@launch
+            } catch (e: HttpException) {
+                Log.e("Connection error", "Error: ${e.message}")
+                return@launch
+            }
+
+            val response = call.execute()
             if (response.isSuccessful && response.body() != null) {
                 withContext(Dispatchers.Main) {
-                    val data = response.body()!!
-                    val firstWeather = data.weatherList[0]
-                    _cityName.postValue(data.city?.name?: "")
-                    val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                    val localDateTime = LocalDateTime.parse(firstWeather.dtTxt, dateTimeFormatter)
-                    _day.postValue(DayOfWeek.from(localDateTime).name)
-                    _hour.value = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-                    _feelLike.value = "Feel like : ${(firstWeather.main?.feelsLike?.minus(273.15))?.toInt()} °C"
-                    _pressure.value = "${firstWeather.main?.pressure?.times(0.001)} Bar"
 
+                    val data = response.body()!!
+
+                    _cityName.value= data.city!!.name.toString()// name
+
+                    val firstWeather = data.weatherList[0]
+
+                    // Extraire les informations nécessaires
+
+                    val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                    val localDateTime = LocalDateTime.parse(data.weatherList[0].dtTxt, dateTimeFormatter)
+                    _day.value = localDateTime.format(DateTimeFormatter.ofPattern("EEEE"))// Jour
+                    _hour.value = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm")) // Heure (à ajuster selon votre logique)
+                    _feelLike.value = "Feel like : ${(firstWeather.main?.feelsLike?.minus(273.15))?.toInt()} °C"
+                    _pressure.value = "${firstWeather.main?.pressure?.times(0.001)} Bar" // Pression
+
+                    // val sys = firstWeather.sys
                     _sunriseTime.value = data.city!!.sunrise?.let { convertTimestampToTime(it.toLong()) }
-                    _sunsetTime.value = data.city!!.sunset?.let { convertTimestampToTime(it.toLong()) }
+                    _sunsetTime.value =  data.city!!.sunset?.let { convertTimestampToTime(it.toLong()) }
+
 
                     val minTempKelvin = data.weatherList[0].main?.tempMin
                     val maxTempKelvin = data.weatherList[0].main?.tempMax
@@ -161,23 +184,27 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
                     }
 
                     val windSpeedMeterSecond = firstWeather.wind?.speed
-                    _windSpeed.value = "${(windSpeedMeterSecond?.times(3.6))?.toInt()} Km/h"
-                    _humidity.value = "${firstWeather.main?.humidity}%"
-                    _pressure.value = "${(firstWeather.main?.pressure?.times(0.001))?.toInt()} Bar"
+                    // val windSpeedKmHour = windSpeedMeterSecond?.times(3.6)
+                    _windSpeed.value = "${(windSpeedMeterSecond?.times(3.6))?.toInt()} Km/h" // Vitesse du vent
+                    _humidity.value = "${firstWeather.main?.humidity}%" // Humidité
+                    //_weatherImageResourceId.value = getWeather(firstForecast.weather?.get(0)?.id) // ID de l'image
+                    _pressure.value = "${(firstWeather.main?.pressure?.times(0.001))?.toInt()} Bar" // Pression
                     _weatherCondition.value = firstWeather.weather[0].description ?: "Erreur"
 
                     val temperatureKelvin = data.weatherList[0].main?.temp
                     val temperatureCelsius = (temperatureKelvin?.minus(273.15))
                     if (temperatureCelsius != null) {
-                        _maintemperature.value = "${temperatureCelsius.toInt()}°C"
+                        _maintemperature.value = "${temperatureCelsius.toInt()}°C" // main temperature
                     }
 
                     _rain.value = "${(firstWeather.pop?.times(100))?.toInt()}%"
+
                     _visibility.value = "${(firstWeather.visibility?.times(0.001))?.toInt()} Km"
+
                     _cloudiness.value = "${(firstWeather.clouds?.all)}%"
+
                     _weatherCondition.value = firstWeather.weather[0].description ?: "Erreur"
-                    _weatherImageResourceId.value = getWeatherImageResourceId(_weatherCondition.value ?: "")
-                    Log.d("ViewModel", "Getting weather for location: $latitude, $longitude")
+                    _weatherImageResourceId.value = Repository().getWeatherImageResourceId(_weatherCondition.value ?: "")
                 }
             }
         }

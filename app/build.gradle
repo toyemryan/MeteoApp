@@ -120,7 +120,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.libraries.places:places:3.2.0'
-
     //Preferences
     implementation "androidx.preference:preference-ktx:1.2.0"
 

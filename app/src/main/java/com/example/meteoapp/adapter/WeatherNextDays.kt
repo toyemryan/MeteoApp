@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
-import com.example.meteoapp.repository.ResourceImage
+import com.example.meteoapp.repository.Repository
 import com.example.meteoapp.repository.calculMaxMinTemperature
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -32,7 +32,7 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
 
 
         val imageResourceId =
-            ResourceImage.getWeatherImageResourceId(nextDaysForecastObject.weather[0].description.orEmpty())
+            Repository().getWeatherImageResourceId(nextDaysForecastObject.weather[0].description.orEmpty())
         holder.weatherImageView.setImageResource(imageResourceId)
 
         val dateInputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())

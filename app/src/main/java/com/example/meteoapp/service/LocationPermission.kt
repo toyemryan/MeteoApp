@@ -1,6 +1,7 @@
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -16,13 +17,13 @@ import com.google.android.gms.location.LocationServices
 import android.provider.Settings
 import android.util.Log
 
-class LocationPermission(private val activity: Activity) {
+class LocationPermission(private val activity: Context) {
 
     private val fusedLocationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(activity)
     }
 
-    fun isLocationPermissionGranted(): Boolean {
+    private fun isLocationPermissionGranted(): Boolean {
         return ContextCompat.checkSelfPermission(
             activity,
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -36,7 +37,7 @@ class LocationPermission(private val activity: Activity) {
         } else {
             // Demande la permission de localisation
             ActivityCompat.requestPermissions(
-                activity,
+                activity as Activity,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 LOCATION_PERMISSION_REQUEST_CODE
             )
