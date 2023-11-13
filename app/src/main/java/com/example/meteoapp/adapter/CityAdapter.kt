@@ -19,15 +19,17 @@ class CityAdapter(private val cityList: List<Place>, private val clickListener: 
         return ViewHolder(itemView)
     }
 
+    // Metodo che restituisce la dimensione della lista delle città
     override fun getItemCount(): Int {
        return cityList.size
     }
 
+    // Metodo chiamato per visualizzare i dati nella posizione specificata
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentCity = cityList[position]
         holder.cityName.text = currentCity.name
 
-        //Détecte le long click
+        // Rileva il clic lungo
         holder.itemView.setOnClickListener{
             clickListener.onCityLongClick(currentCity)
             true
@@ -36,6 +38,7 @@ class CityAdapter(private val cityList: List<Place>, private val clickListener: 
 
 }
 
-interface CityItemClickListener{
-    fun onCityLongClick(place: Place)
-}
+// Interfaccia per gestire gli eventi di clic lungo sulla città nella RecyclerView
+//interface CityItemClickListener{
+ //   fun onCityLongClick(place: Place)
+//}
