@@ -47,20 +47,8 @@ class MainMeteoFragment : Fragment() {
     ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_meteo, container, false)
-        locationPermission = LocationPermission(requireContext()) // LocationPermission(requireActivity())
-        viewModel.setLocationPermission(locationPermission)
 
-        locationPermission.requestLocationPermission { granted ->
-            if (granted) {
-                locationPermission.requestLocationUpdates { location ->
-                    location?.let {
-                       // Log.d("preferenceChange", "latitude is ${it.latitude}, longitude is ${it.longitude}")
-                        Log.d("preferenceChange", " ${getCityName(it.latitude, it.longitude)} latitude is ${it.latitude}, longitude is ${it.longitude}")
-                    }
-                }
-            }
-        }
-
+        location()
         fresh()
         swipeRefresh()
         return binding.root
@@ -76,7 +64,7 @@ class MainMeteoFragment : Fragment() {
         return cityName
     }
 
-    @Deprecated("Deprecated in Java")
+    /*@Deprecated("Deprecated in Java")
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -88,6 +76,23 @@ class MainMeteoFragment : Fragment() {
                 locationPermission.requestLocationUpdates { location ->
                     location.let {
                         Log.d("preferenceChange", "2 latitude is ${it.latitude}, longitude is ${it.longitude}")
+                    }
+                }
+            }
+        }
+    }*/
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    private fun location(){
+        locationPermission = LocationPermission(requireContext()) // LocationPermission(requireActivity())
+        viewModel.setLocationPermission(locationPermission)
+
+        locationPermission.requestLocationPermission { granted ->
+            if (granted) {
+                locationPermission.requestLocationUpdates { location ->
+                    location?.let {
+                        // Log.d("preferenceChange", "latitude is ${it.latitude}, longitude is ${it.longitude}")
+                        Log.d("preferenceChange", " ${getCityName(it.latitude, it.longitude)} latitude is ${it.latitude}, longitude is ${it.longitude}")
                     }
                 }
             }
