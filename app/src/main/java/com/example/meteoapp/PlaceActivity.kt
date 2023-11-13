@@ -76,8 +76,8 @@ class  PlaceActivity : AppCompatActivity() {
 
     private fun showConfirmationDialog(place: Place) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Cancellare")
-            .setMessage("sei sicuro di voler cancelare la città di ${place.name} ?")
+        builder.setTitle("Delete")
+            .setMessage("Sei sicuro di voler cancelare la città di ${place.name} ?")
             .setPositiveButton("si"){_, _ -> removeCity(place)}
             .setNegativeButton("No"){dialog, _ -> dialog.dismiss()}.show()
     }
@@ -118,8 +118,8 @@ class  PlaceActivity : AppCompatActivity() {
                     val place = Autocomplete.getPlaceFromIntent(intent)
                     addCity(place)
 
-                    Log.i(TAG, "Place: ${place.name}, ${place.id}")
-                    Toast.makeText(this, "ID: " + place.id + "Adresse: " + place.address + "Nome: " + place.name + "Latitude/Longitude: " + place.latLng, Toast.LENGTH_LONG).show()
+                    //Log.i(TAG, "Place: ${place.name}, ${place.id}")
+                    //Toast.makeText(this, "ID: " + place.id + "Adresse: " + place.address + "Nome: " + place.name + "Latitude/Longitude: " + place.latLng, Toast.LENGTH_LONG).show()
                 }
             }else if (result.resultCode == Activity.RESULT_CANCELED){
                 Log.i(TAG, "L'utilisateur a annulé l'autocomplétion")
