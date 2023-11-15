@@ -37,7 +37,7 @@ class AboutFragment : Fragment() {
         }
         ss.setSpan(clickableSpan, 0, 10, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
-        val sss = SpannableString("Djouaka Lionel")
+        val sss = SpannableString("Djouaka Kelefack Lionel")
         val clickableSpann: ClickableSpan = object : ClickableSpan() {
 
             override fun onClick(textView: View) {

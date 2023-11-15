@@ -16,6 +16,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import android.provider.Settings
 import android.util.Log
+import com.example.meteoapp.R
 
 class LocationPermission(private val activity: Context) {
 
@@ -56,10 +57,10 @@ class LocationPermission(private val activity: Context) {
         when (requestCode) {
             LOCATION_PERMISSION_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d("LocationPermission", "Location permission granted")
+                    Log.d("LocationPermission", R.string.location_good.toString())
                     callback(true)
                 } else {
-                    Log.e("LocationPermission", "Location permission denied")
+                    Log.e("LocationPermission", R.string.location_bad.toString())
                     callback(false)
                 }
             }
@@ -88,7 +89,7 @@ class LocationPermission(private val activity: Context) {
                 }
             }
             fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
-            Log.d("LocationPermission", "Location updates requested")
+            Log.d("LocationPermission", R.string.access_location.toString())
         }
     }
 }

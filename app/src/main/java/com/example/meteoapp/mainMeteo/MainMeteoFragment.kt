@@ -179,7 +179,7 @@ class MainMeteoFragment : Fragment() {
                 viewModel.getWeather()
                 //setupRecyclerView()
             }else{
-                Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.error_network, Toast.LENGTH_SHORT).show()
             }
             //val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
             swipe.isRefreshing = false
@@ -190,7 +190,7 @@ class MainMeteoFragment : Fragment() {
             viewModel.getWeather()
             //setupRecyclerView()
         }else{
-            Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.error_network, Toast.LENGTH_SHORT).show()
         }
     }
 

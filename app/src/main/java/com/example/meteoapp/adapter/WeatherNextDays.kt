@@ -44,17 +44,6 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         val dayMonthFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
         holder.dayMonth.text = dayMonthFormat.format(date)
 
-        /*
-        val minTemperature = nextDaysForecastObject.main?.tempMin
-        val maxTemperature = nextDaysForecastObject.main?.tempMax
-
-        val minTemperatureCelsius = ((minTemperature?.minus(273.15))?.toInt())
-        val maxTemperatureCelsius = ((maxTemperature?.minus(273.15))?.toInt())
-
-        holder.minTemperature.text = " $minTemperatureCelsius °C"
-        holder.maxTemperature.text = " $maxTemperatureCelsius °C"
-
-         */
          listOfNextDaysWeather.map { it.main!!.temp }
         val maxMinTemperature = calculMaxMinTemperature(listOfNextDaysWeather)
 

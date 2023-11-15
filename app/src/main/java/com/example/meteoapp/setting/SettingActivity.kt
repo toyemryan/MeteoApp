@@ -50,6 +50,11 @@ class SettingActivity : AppCompatActivity(),
                     lang.setCurrentLocale("fr")
                     recreate()
                 }
+                3 ->{
+                    Log.d("preferenceChange", "è stato selezionato il 3")
+                    lang.setCurrentLocale("en")
+                    recreate()
+                }
             }
         }
     }

@@ -45,6 +45,7 @@ class  PlaceActivity : AppCompatActivity() {
 
         val apiKey = getString(R.string.api_key)
 
+
         if (!Places.isInitialized()) {
             Places.initialize(this, apiKey)
         }
@@ -76,10 +77,11 @@ class  PlaceActivity : AppCompatActivity() {
 
     private fun showConfirmationDialog(place: Place) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Delete")
-            .setMessage("Sei sicuro di voler cancelare la città di ${place.name} ?")
-            .setPositiveButton("si"){_, _ -> removeCity(place)}
-            .setNegativeButton("No"){dialog, _ -> dialog.dismiss()}.show()
+        val deleteMessage = getString(R.string.deletecity, place.name)
+        builder.setTitle(R.string.deletecity1)
+            .setMessage(deleteMessage)
+            .setPositiveButton(R.string.yes){_, _ -> removeCity(place)}
+            .setNegativeButton(R.string.no){dialog, _ -> dialog.dismiss()}.show()
     }
 
     private fun removeCity(place: Place) {
@@ -122,7 +124,7 @@ class  PlaceActivity : AppCompatActivity() {
                     //Toast.makeText(this, "ID: " + place.id + "Adresse: " + place.address + "Nome: " + place.name + "Latitude/Longitude: " + place.latLng, Toast.LENGTH_LONG).show()
                 }
             }else if (result.resultCode == Activity.RESULT_CANCELED){
-                Log.i(TAG, "L'utilisateur a annulé l'autocomplétion")
+                Log.i(TAG, R.string.cancel_1.toString())
                 Toast.makeText(this, getString(R.string.result_cancel), Toast.LENGTH_LONG).show()
             }
         }

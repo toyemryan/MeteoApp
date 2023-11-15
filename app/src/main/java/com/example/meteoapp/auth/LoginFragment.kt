@@ -37,6 +37,7 @@ class LoginFragment : Fragment() {
 
         // metodo spannable per rendere clickabile solo la parola registrati
         val ss = SpannableString("Non sei registrato ? Registrati")
+        //val ss = SpannableString(R.string.action_register.toString())
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
 
             override fun onClick(textView: View) {
@@ -74,11 +75,11 @@ class LoginFragment : Fragment() {
                          myActivity.gotomainmeteo() // la chiamata al metodo onBookChanged nel activity, che è stato anche creato nel interfaccia Coordinator
                      }
                      }else{
-                         Toast.makeText(requireActivity(),"Lutente non esiste", Toast.LENGTH_SHORT).show()
+                         Toast.makeText(requireActivity(),R.string.login_failed, Toast.LENGTH_SHORT).show()
                      }
                  }
              }else{
-                 Toast.makeText( requireActivity(), "Devi compilare tutti i campi !!", Toast.LENGTH_SHORT).show()
+                 Toast.makeText( requireActivity(), R.string.tutti_campi_richiesti, Toast.LENGTH_SHORT).show()
              }
 
      }

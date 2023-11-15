@@ -257,7 +257,7 @@
               android:id="@+id/alltoday"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:text="Durante la giornata"
+              android:text="@string/day"
               android:alpha="1"
               android:layout_marginTop="8dp"
               android:layout_marginBottom="3dp"
@@ -281,7 +281,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="3dp"
                 android:alpha="1"
-                android:text="Previsioni 5 giorni"
+                android:text="@string/nex_day"
                 android:textAlignment="center"
                 android:textSize="15sp" />
 
@@ -314,7 +314,7 @@
               android:id="@+id/moreparamday"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:text="Maggiori informazioni sulla giornata"
+              android:text="@string/hours"
               android:textAlignment="center"
               android:alpha="1"
               android:layout_marginTop="8dp"

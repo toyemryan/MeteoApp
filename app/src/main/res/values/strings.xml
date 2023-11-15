@@ -8,20 +8,25 @@
     <string name="logout">Esci</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="accedi">Accedi</string>
     <string name="login_failed">"L'utente non existe"</string>
     <string name="invalid_email_login">L\'email non è valido</string>
     <string name="invalid_password_login">password non valido</string>
-    <string name="action_login">Hai un account ?</string>
+    <string name="action_register">Non sei Registrato ?</string>
 
     <!-- Strings related to register -->
     <string name="Register">Registrati</string>
-    <string name="action_register">Non sei Registrato ?</string>
+    <string name="action_login">Hai un account ?</string>
     <string name="confirm_password">Conferma Password</string>
     <string name="invalid_email">Nome utente non valido</string>
     <string name="invalid_password">La password deve contenere 6 carateri </string>
     <string name="welcome">"Welcome!"</string>
     <string name="Crea_account">Crea account</string>
+    <string name="password_non_corrisponde">Password non Corrisponde</string>
+    <string name="tutti_campi_richiesti">Devi compilare tutti i campi !!</string>
+    <string name="succes">Registrazione completata con successo</string>
+
+
+
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
@@ -56,6 +61,29 @@
     <string name="live_data_background_explain">Image di fondo legato alla temperatura</string>
     <string name="language">lingua</string>
 
+    <!-- Strings related to network and location-->
+    <string name="error_network">pas de connexion réseau</string>
+    <string name="location_good">Autorizzazione alla posizione concessa</string>
+    <string name="location_bad">Autorizzazione alla posizione negata</string>
+    <string name="access_location">Aggiornamenti sulla posizione richiesti</string>
+
+    <!-- Strings related to delete city -->
+    <string name="deletecity">Sei sicuro di voler cancelare la città di %1$s ? </string>
+    <string name="deletecity1">Delete</string>
+    <string name="cancel_1">Completamento automatico annullato dall\'utente</string>
+
+
+    <!-- Strings related to exit -->
+    <string name="exit">Confirmazione !</string>
+    <string name="exit_1">Sei sicuro di voler uscire ?</string>
+    <string name="exit_2">Cancelli</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+
+    <!-- Strings related to meteo -->
+    <string name="day">Durante la giornata</string>
+    <string name="nex_day">Previsioni 5 giorni</string>
+    <string name="hours">Maggiori informazioni sulla giornata</string>
 
     <string-array name="pref_temperature">
         <item>°C</item>

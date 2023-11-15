@@ -116,17 +116,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun showLogoutConfirmDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Confirmazione !")
-        builder.setMessage("Sei sicuro di voler uscire ? ")
-        builder.setPositiveButton("Si") { dialogInterface: DialogInterface, id: Int ->
+        builder.setTitle(R.string.exit)
+        builder.setMessage(R.string.exit_1)
+        builder.setPositiveButton(R.string.yes) { dialogInterface: DialogInterface, id: Int ->
             val intent = Intent(this, MainLoginActivity::class.java)
             startActivity(intent)
             finish()
         }
-        builder.setNegativeButton("No"){ dialogInterface: DialogInterface, id: Int ->
+        builder.setNegativeButton(R.string.no){ dialogInterface: DialogInterface, id: Int ->
             dialogInterface.dismiss()
         }
-        builder.setNeutralButton("Cancelli"){ dialogInterface: DialogInterface, id: Int ->
+        builder.setNeutralButton(R.string.exit_2){ dialogInterface: DialogInterface, id: Int ->
             dialogInterface.cancel()
         }
         val alertDialog : AlertDialog = builder.create()

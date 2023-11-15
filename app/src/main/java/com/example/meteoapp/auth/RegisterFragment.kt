@@ -38,6 +38,7 @@ class RegisterFragment : Fragment() {
 
 
         val ss = SpannableString("Hai un account ? Accedi")
+        //val ss = SpannableString( R.string.action_login.toString())
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
 
             override fun onClick(textView: View) {
@@ -60,7 +61,7 @@ class RegisterFragment : Fragment() {
                 if (password == confirmPassword){
                     firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
                         if (it.isSuccessful){
-                            Toast.makeText(requireActivity(), "Registrazione completata con successo", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireActivity(), R.string.succes, Toast.LENGTH_SHORT).show()
                             view?.findNavController()?.navigate(R.id.action_registerFragment_to_loginFragment)
                           //  view?.findNavController()?.navigate(R.id.action_registerFragment_to_navigation)
                         }else{
@@ -68,10 +69,10 @@ class RegisterFragment : Fragment() {
                         }
                     }
                 }else{
-                    Toast.makeText(requireActivity(), "Password non Corrisponde", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(), R.string.password_non_corrisponde, Toast.LENGTH_SHORT).show()
                 }
             }else{
-                Toast.makeText(requireActivity(), "Devi compilare tutti i campi !!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), R.string.tutti_campi_richiesti, Toast.LENGTH_SHORT).show()
             }
         }
 
