@@ -59,7 +59,7 @@ class RegisterFragment : Fragment() {
                     showToast(R.string.password_non_corrisponde)
                 }
                 !isInternetAvailable(requireContext()) -> {
-                    showToast("Nessuna connesione Internet")
+                    showToast(R.string.no_network_connection)
                 }
                 else -> {
                     createUserWithEmailAndPassword(email, password)

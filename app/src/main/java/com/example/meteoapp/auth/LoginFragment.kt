@@ -72,7 +72,7 @@ class LoginFragment : Fragment() {
          }
 
          if (!isInternetAvailable(requireContext())) {
-             Toast.makeText(requireActivity(), "Nessuna connesione Internet", Toast.LENGTH_SHORT).show()
+             Toast.makeText(requireActivity(), R.string.no_network_connection, Toast.LENGTH_SHORT).show()
              return
          }
 

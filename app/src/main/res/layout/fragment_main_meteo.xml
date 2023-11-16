@@ -171,7 +171,7 @@
                           <TextView
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
-                              android:text="Pioggia"
+                              android:text="@string/pioggia"
                               android:textAlignment="center"
                               android:textColor="@color/text" />
 
@@ -205,7 +205,7 @@
 
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
-                              android:text="velocità del vento"
+                              android:text="@string/velocita_vento"
                               android:textAlignment="center"
                               android:textColor="@color/text" />
 
@@ -238,7 +238,7 @@
                           <TextView
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
-                              android:text="Humidità"
+                              android:text="@string/humidita"
                               android:textAlignment="center"
                               android:textColor="@color/text" />
 
@@ -361,7 +361,7 @@
                           android:layout_marginStart="25dp"
                           android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
-                          android:text="Visibilità"
+                          android:text="@string/visibilita"
                           android:textColor="@color/text"/>
 
                       <TextView
@@ -397,7 +397,7 @@
                           android:layout_marginStart="25dp"
                           android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
-                          android:text="nuvolosità"
+                          android:text="@string/nuvolosita"
                           android:textColor="@color/text"/>
 
                       <TextView
@@ -434,7 +434,7 @@
                           android:layout_marginStart="25dp"
                           android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
-                          android:text="sunrise"
+                          android:text="@string/sunrise"
                           android:textColor="@color/text"/>
 
                       <TextView
@@ -471,7 +471,7 @@
                           android:layout_marginStart="25dp"
                           android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
-                          android:text="sunset"
+                          android:text="@string/sunset"
                           android:textColor="@color/text"/>
 
                       <TextView
@@ -508,7 +508,7 @@
                           android:layout_marginStart="25dp"
                           android:layout_marginEnd="25dp"
                           android:layout_marginTop="14dp"
-                          android:text="pressione"
+                          android:text="@string/pressione"
                           android:textColor="@color/text"/>
 
                       <TextView

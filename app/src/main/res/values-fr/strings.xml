@@ -81,6 +81,20 @@
     <string name="nex_day">Prévisions 5 jours</string>
     <string name="hours">Plus d\'informations sur la journée</string>
 
+    <!-- Strings related to network -->
+    <string name="no_network_connection">Pas de connection Internet</string>
+
+    <!-- Strings related to meteo -->
+    <string name="pioggia">Pluie</string>
+    <string name="velocita_vento">Vitesse du vent</string>
+    <string name="humidita">Humidité</string>
+    <string name="visibilita">Visibilité</string>
+    <string name="nuvolosita">Nébulosité</string>
+    <string name="sunrise">Lever du soleil</string>
+    <string name="sunset">Coucher de soleil</string>
+    <string name="pressione">Pression</string>
+
+
     <string-array name="pref_temperature">
         <item>°C</item>
         <item>°F</item>
