@@ -12,18 +12,21 @@
     <string name="invalid_email_login">L\'email non è valido</string>
     <string name="invalid_password_login">password non valido</string>
     <string name="action_register">Non sei Registrato ?</string>
+    <string name="password_required">Imetti una pasword</string>
+    <string name="email_required">Inserire un indirizzo email</string>
 
     <!-- Strings related to register -->
     <string name="Register">Registrati</string>
     <string name="action_login">Hai un account ?</string>
     <string name="confirm_password">Conferma Password</string>
-    <string name="invalid_email">Nome utente non valido</string>
+    <string name="invalid_user">Nome utente non valido</string>
     <string name="invalid_password">La password deve contenere 6 carateri </string>
     <string name="welcome">"Welcome!"</string>
     <string name="Crea_account">Crea account</string>
     <string name="password_non_corrisponde">Password non Corrisponde</string>
     <string name="tutti_campi_richiesti">Devi compilare tutti i campi !!</string>
     <string name="succes">Registrazione completata con successo</string>
+    <string name="password_length_error">La passwort deve contenere almeno 8 carateri</string>
 
 
 

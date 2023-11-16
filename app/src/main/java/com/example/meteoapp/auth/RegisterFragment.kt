@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 class RegisterFragment : Fragment() {
 
     private lateinit var firebaseAuth: FirebaseAuth
+    private val EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,11 +53,18 @@ class RegisterFragment : Fragment() {
             val confirmPassword = binding.confermaPassword.text.toString()
 
             when {
+                email.trim().isEmpty()|| !email.matches(EMAIL_PATTERN.toRegex()) ->{
+                    binding.email.error = getString(R.string.invalid_email_login)
+                }
+
                 email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() -> {
-                    showToast(R.string.tutti_campi_richiesti)
+                    binding.password.error = getString(R.string.tutti_campi_richiesti)
                 }
                 password != confirmPassword -> {
-                    showToast(R.string.password_non_corrisponde)
+                    binding.password.error = getString(R.string.password_non_corrisponde)
+                }
+                password.trim().length < 8 -> {
+                    binding.password.error = getString(R.string.password_length_error)
                 }
                 !isInternetAvailable(requireContext()) -> {
                     showToast(R.string.no_network_connection)
