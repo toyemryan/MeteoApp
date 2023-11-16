@@ -8,16 +8,21 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.meteoapp.WeatherData
 import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.Repository
 import com.example.meteoapp.service.RetrofitInstance
 import com.example.meteoapp.service.RetrofitInstance.api
+import com.google.android.libraries.places.api.model.Place
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.HttpException
+import retrofit2.Response
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
@@ -255,4 +260,30 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
     }
+
+    private suspend fun loadWeatherForCity(place: Place) {
+        ApiCall{
+            val call = api.getCurrentWeatherByCity(city)
+            val response = call.execute()
+            call.enqueue(object : Callback<WeatherData> {
+                override fun onResponse(call: Call<WeatherData>, response: Response<WeatherData>) {
+                    if (response.isSuccessful) {
+                        val weatherData = response.body()
+
+                    } else {
+
+                    }
+                }
+
+                override fun onFailure(call: Call<WeatherData>, t: Throwable) {
+
+                }
+            })
+        }
+
+    }
+}
+
+private fun <T> Call<T>.enqueue(callback: Callback<WeatherData>) {
+
 }

@@ -1,6 +1,9 @@
 package com.example.meteoapp.auth
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -60,28 +63,34 @@ class LoginFragment : Fragment() {
 
      @SuppressLint("SuspiciousIndentation")
      private fun registrati() {
-
          val email = binding.email.text.toString()
          val password = binding.password.text.toString()
 
-             if (email.trim().isNotEmpty() && password.trim().isNotEmpty()){
-                 firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener {
-                     if (it.isSuccessful){
-                       /*  val intent = Intent(this, MainActivity::class.java)
-                         startActivity(intent) */
-                        // view?.findNavController()?.navigate(R.id.action_loginFragment2_to_navigation)
-                         val myActivity = activity
-                         if(myActivity is Coordinator){
-                         myActivity.gotomainmeteo() // la chiamata al metodo onBookChanged nel activity, che è stato anche creato nel interfaccia Coordinator
-                     }
-                     }else{
-                         Toast.makeText(requireActivity(),R.string.login_failed, Toast.LENGTH_SHORT).show()
-                     }
+         if (email.trim().isEmpty() || password.trim().isEmpty()) {
+             Toast.makeText(requireActivity(), R.string.tutti_campi_richiesti, Toast.LENGTH_SHORT).show()
+             return
+         }
+
+         if (!isInternetAvailable(requireContext())) {
+             Toast.makeText(requireActivity(), "Nessuna connesione Internet", Toast.LENGTH_SHORT).show()
+             return
+         }
+
+         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+             if (task.isSuccessful) {
+                 val myActivity = activity
+                 if (myActivity is Coordinator) {
+                     myActivity.gotomainmeteo()
                  }
-             }else{
-                 Toast.makeText( requireActivity(), R.string.tutti_campi_richiesti, Toast.LENGTH_SHORT).show()
+             } else {
+                 Toast.makeText(requireActivity(), R.string.login_failed, Toast.LENGTH_SHORT).show()
              }
-
+         }
      }
-
+     private fun isInternetAvailable(context: Context): Boolean{
+         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+         val network = connectivityManager.activeNetwork ?: return false
+         val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+         return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+     }
 }

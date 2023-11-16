@@ -7,28 +7,38 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class SharedPreferences(context: Context) {
-    private val sharedPreferences: SharedPreferences? = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
+    private val sharedPreferences: SharedPreferences? =
+        context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
 
-    fun saveCityList(cityList: List<Place>){
-        // Otenere un éditore per modificare le i dati delle preferenze condivise
+    fun saveCityList(cityList: List<Place>) {
+        val currentCityList = loadCityList().toMutableSet()
+
+        cityList.forEach { city ->
+            currentCityList.add(city)
+        }
+        /*
+        for (city in cityList) {
+            if (!currentCityList.any { it.id == city.id }) {
+                currentCityList.add(city)
+            }
+        }
+         */
+
         val editor = sharedPreferences!!.edit()
-        // Convertire la lista delle città in una lista sérialisato di SerializablePlace
-        val serializableList = cityList.map { SerializablePlace(it) }
-        // Salva la lista sérialisato dentro le scharedPreferences
+        val serializableList = currentCityList.map { SerializablePlace(it) }
         editor.putString("cityList", Gson().toJson(serializableList))
         editor.apply()
     }
 
-    // Funzione per caricare una lista di città dalle preferenze condivise
+
+
     fun loadCityList(): List<Place> {
         val savedCityList = sharedPreferences?.getString("cityList", null)
-        return  if (savedCityList != null){
-            // Deserializzazione della lista serializzata in una lista di SerializablePlace
-            val type = object : TypeToken<List<SerializablePlace>>(){}.type
+        return if (savedCityList != null) {
+            val type = object : TypeToken<List<SerializablePlace>>() {}.type
             val serializableList = Gson().fromJson<List<SerializablePlace>>(savedCityList, type)
-            // Mappatura della lista di SerializablePlace a una lista di Place
             serializableList.map { Place.builder().setName(it.name).setId(it.id).setAddress(it.address).build() }
-        }else{
+        } else {
             emptyList()
         }
     }

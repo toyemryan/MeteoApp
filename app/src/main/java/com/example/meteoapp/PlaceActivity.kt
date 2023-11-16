@@ -13,14 +13,24 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoapp.adapter.CityAdapter
 import com.example.meteoapp.databinding.ActivityPlaceBinding
+import com.example.meteoapp.service.RetrofitInstance
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class  PlaceActivity : AppCompatActivity() {
 
@@ -68,11 +78,6 @@ class  PlaceActivity : AppCompatActivity() {
         onSearchCalled()
 
         //setContentView(binding.root)
-    }
-
-    fun onCityLongClick(place: Place){
-        showConfirmationDialog(place)
-        //removeCity(place)
     }
 
     private fun showConfirmationDialog(place: Place) {
@@ -151,5 +156,17 @@ class  PlaceActivity : AppCompatActivity() {
         toolbarTitle.text = getString(R.string.favorite_place)
 
     }
+
+    fun onCityLongClick(place: Place){
+        showConfirmationDialog(place)
+        //removeCity(place)
+    }
+    fun onCityClick(currentCity: Place) {
+
+    }
+
+}
+
+class WeatherData {
 
 }
