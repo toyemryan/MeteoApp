@@ -28,4 +28,8 @@ class MainLoginActivity : AppCompatActivity(), Coordinator {
         startActivity(intent)
         finish()
     }
+
+    fun navigateToProfileFragment(userEmail: String?) {
+
+    }
 }

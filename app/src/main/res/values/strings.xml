@@ -6,6 +6,7 @@
     <!-- Strings related to login -->
     <string name="login">Login</string>
     <string name="logout">Esci</string>
+    <string name="profile">Profilo</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login_failed">"L'utente non existe"</string>
@@ -29,7 +30,6 @@
     <string name="password_length_error">La passwort deve contenere almeno 8 carateri</string>
 
 
-
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
@@ -50,7 +50,6 @@
     <string name="title_activity_place">PlaceActivity</string>
 
 
-
     <!-- Strings related to about page -->
     <string name="info_app">Siamo lieti di presentare il nostro progetto universitario "Un'applicazione Meteo", progettato, idealizzato e programmato da due studenti dell\'Università Politecnica delle Marche sotto la supervisione del professor Emanuele Storti.</string>
     <string name="toyemgit" translatable="false">https://github.com/toyemryan/MeteoApp</string>
@@ -64,6 +63,8 @@
     <string name="live_data_background_explain">Image di fondo legato alla temperatura</string>
     <string name="language">lingua</string>
 
+    <string name="title_activity_profile">ProfileActivity</string>
+
     <!-- Strings related to network and location-->
     <string name="error_network">pas de connexion réseau</string>
     <string name="location_good">Autorizzazione alla posizione concessa</string>
@@ -74,14 +75,15 @@
     <string name="deletecity">Sei sicuro di voler cancelare la città di %1$s ? </string>
     <string name="deletecity1">Delete</string>
     <string name="cancel_1">Completamento automatico annullato dall\'utente</string>
-
+    <string name="exist">Questa città esiste già nella lista</string>
+    <string name="yes">SI</string>
+    <string name="no">NO</string>
 
     <!-- Strings related to exit -->
     <string name="exit">Confirmazione !</string>
     <string name="exit_1">Sei sicuro di voler uscire ?</string>
     <string name="exit_2">Cancelli</string>
-    <string name="yes">Si</string>
-    <string name="no">No</string>
+
 
     <!-- Strings related to meteo -->
     <string name="day">Durante la giornata</string>
@@ -102,6 +104,15 @@
     <string name="sunset">sunset</string>
     <string name="pressione">pressione</string>
 
+    <!-- Strings related to profile -->
+    <string name="confirm">Sei sicuro di voler eliminare il tuo profilo ?</string>
+    <string name="sip">SI</string>
+    <string name="nop">NO</string>
+    <string name="success">Profilo eliminato con successo.</string>
+    <string name="error">Impossibile eliminare il profilo.</string>
+    <string name="cancell">Elimina profilo</string>
+    <string name="btn">Elimina</string>
+    <string name="profileU">Profilo Utente</string>
 
     <string-array name="pref_temperature">
         <item>°C</item>
@@ -117,7 +128,6 @@
         <item>it</item>
         <item>fr</item>
     </string-array>
-
 
 
 </resources>

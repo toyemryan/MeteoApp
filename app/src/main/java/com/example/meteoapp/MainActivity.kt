@@ -19,6 +19,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.example.meteoapp.auth.MainLoginActivity
+import com.example.meteoapp.auth.ProfileActivity
 import com.example.meteoapp.databinding.ActivityMainBinding
 import com.example.meteoapp.setting.SettingActivity
 import com.example.meteoapp.setting.languageChange.DefaultLocaleHelper
@@ -94,6 +95,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 currentUser = null
                 showLogoutConfirmDialog()
             }
+            R.id.profile -> {
+                val userEmail = currentUser?.email // Obtenez l'email de l'utilisateur connecté
+                val intent = Intent(this, ProfileActivity::class.java).apply {
+                    putExtra("userEmail", userEmail)
+                }
+                startActivity(intent)
+            }
+
             R.id.setting -> {
                 val intent = Intent(this, SettingActivity::class.java)
                 startActivity(intent)

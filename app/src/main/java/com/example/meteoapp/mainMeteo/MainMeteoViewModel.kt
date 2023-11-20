@@ -11,7 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.meteoapp.WeatherData
 import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.Repository
-import com.example.meteoapp.service.RetrofitInstance
+
 import com.example.meteoapp.service.RetrofitInstance.api
 import com.google.android.libraries.places.api.model.Place
 import kotlinx.coroutines.DelicateCoroutinesApi

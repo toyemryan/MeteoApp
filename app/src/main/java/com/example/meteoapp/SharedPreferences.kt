@@ -13,24 +13,21 @@ class SharedPreferences(context: Context) {
     fun saveCityList(cityList: List<Place>) {
         val currentCityList = loadCityList().toMutableSet()
 
+        //Metode pour supprimer les villes qui ne sont plus dans la liste affichée
+        val citiesToRemove = currentCityList.filter { city -> !cityList.contains(city) }
+        currentCityList.removeAll(citiesToRemove)
+
+        //Metode pour ajouter les nouvelles villes
         cityList.forEach { city ->
             currentCityList.add(city)
         }
-        /*
-        for (city in cityList) {
-            if (!currentCityList.any { it.id == city.id }) {
-                currentCityList.add(city)
-            }
-        }
-         */
+
 
         val editor = sharedPreferences!!.edit()
         val serializableList = currentCityList.map { SerializablePlace(it) }
         editor.putString("cityList", Gson().toJson(serializableList))
         editor.apply()
     }
-
-
 
     fun loadCityList(): List<Place> {
         val savedCityList = sharedPreferences?.getString("cityList", null)

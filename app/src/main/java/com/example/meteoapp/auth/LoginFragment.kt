@@ -94,9 +94,28 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireActivity(), R.string.login_failed, Toast.LENGTH_SHORT).show()
             }
         }
+
+        // Dans votre LoginFragment, après la connexion réussie
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val currentUser = firebaseAuth.currentUser
+                    if (currentUser != null) {
+                        //val userName = currentUser.displayName
+                        val userEmail = currentUser.email // Récupérer l'email de l'utilisateur
+                        if (activity is MainLoginActivity) {
+                            (activity as MainLoginActivity).navigateToProfileFragment(userEmail)
+                        }
+                    }
+                } else {
+                    // Gérer l'échec de la connexion
+                }
+            }
+
     }
 
-    private fun isInternetAvailable(context: Context): Boolean {
+
+    fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val network = connectivityManager.activeNetwork ?: return false

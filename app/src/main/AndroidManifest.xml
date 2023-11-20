@@ -38,6 +38,14 @@
             android:label="@string/title_activity_setting"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".auth.ProfileActivity"
+            android:exported="false"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

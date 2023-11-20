@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.preference.PreferenceManager
 import com.example.meteoapp.R
+import com.example.meteoapp.Utility.TemperatureConverter.convertToCelsius
 import com.example.meteoapp.databinding.ActivitySettingBinding
 import com.example.meteoapp.setting.languageChange.DefaultLocaleHelper
 
@@ -48,11 +49,6 @@ class SettingActivity : AppCompatActivity(),
                 2 ->{
                     Log.d("preferenceChange", "è stato selezionato il 2")
                     lang.setCurrentLocale("fr")
-                    recreate()
-                }
-                3 ->{
-                    Log.d("preferenceChange", "è stato selezionato il 3")
-                    lang.setCurrentLocale("en")
                     recreate()
                 }
             }

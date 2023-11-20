@@ -4,6 +4,7 @@
     <!-- Strings related to login -->
     <string name="login">Connection</string>
     <string name="logout">Déconnexion</string>
+    <string name="profile">Profile</string>
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
     <string name="login_failed">L\'tilisateur n\'éxiste pas</string>
@@ -62,6 +63,8 @@
     <string name="live_data_background_explain">Image de fond d\'écran liée à la temperature</string>
     <string name="language">Langue</string>
 
+    <string name="title_activity_profile">ProfileActivity</string>
+
     <!-- Strings related to login and location-->
     <string name="error_network">pas de connexion réseau</string>
     <string name="location_good">Autorisation de localisation accordée</string>
@@ -77,13 +80,10 @@
     <string name="deletecity">Etes-vous sûr de vouloir supprimer la ville de/u %1$s ? </string>
     <string name="deletecity1">Supprimer</string>
     <string name="cancel_1">L\'utilisateur a annulé l\'autocomplétion</string>
-    <string name="yes">Oui</string>
-    <string name="no">Non</string>
+    <string name="yes">OUI</string>
+    <string name="no">NON</string>
+    <string name="exist">Cette ville est dejà présente dans la liste</string>
 
-    <!-- Strings related to meteo -->
-    <string name="day">Pendant la journée</string>
-    <string name="nex_day">Prévisions 5 jours</string>
-    <string name="hours">Plus d\'informations sur la journée</string>
 
     <!-- Strings related to network -->
     <string name="no_network_connection">Pas de connection Internet</string>
@@ -97,7 +97,20 @@
     <string name="sunrise">Lever du soleil</string>
     <string name="sunset">Coucher de soleil</string>
     <string name="pressione">Pression</string>
+    <string name="day">Pendant la journée</string>
+    <string name="nex_day">Prévisions 5 jours</string>
+    <string name="hours">Plus d\'informations sur la journée</string>
 
+
+    <!-- Strings related to profile -->
+    <string name="confirm">Êtes-vous sûr de vouloir supprimer votre profil ?</string>
+    <string name="sip">OUI</string>
+    <string name="nop">NON</string>
+    <string name="success">Profil supprimé avec succès.</string>
+    <string name="error">Impossible de supprimer le profil.</string>
+    <string name="cancell">Supprimer le profil</string>
+    <string name="btn">Supprimer</string>
+    <string name="profileU">Profile Utilisateur</string>
 
     <string-array name="pref_temperature">
         <item>°C</item>
