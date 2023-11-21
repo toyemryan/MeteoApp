@@ -11,6 +11,7 @@ import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.Repository
 import com.example.meteoapp.repository.calculMaxMinTemperature
+import com.google.android.play.integrity.internal.c
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -47,6 +48,22 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
          listOfNextDaysWeather.map { it.main!!.temp }
         val maxMinTemperature = calculMaxMinTemperature(listOfNextDaysWeather)
 
+        /*
+           listOfNextDaysWeather.map { it.main!!.temp }
+            val maxMinTemp = calculMaxMinTemperature(listOfNextDaysWeather)
+
+            if (maxMinTemp != null) {
+                val maxTempFahrenheit = maxMinTemp.first
+                val minTempFahrenheit = maxMinTemp.second
+
+                val minTempCelsius = minTempFahrenheit?.let { convertFahrenheitToCelsius(it) }
+                val maxTempCelsius = maxTempFahrenheit?.let { convertFahrenheitToCelsius(it) }
+
+                holder.minTemperature.text = " $minTempCelsius °C"
+                holder.maxTemperature.text = " $maxTempCelsius °C"
+            }
+         */
+
         if (maxMinTemperature != null) {
             val maxTemperature = maxMinTemperature.first
             val minTemperature = maxMinTemperature.second
@@ -58,8 +75,6 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
             holder.maxTemperature.text = " $maxTemperatureCelsius °C"
         }
     }
-
-
         @SuppressLint("NotifyDataSetChanged")
     fun setForecastList(weatherList: List<WeatherList>?) {
         listOfNextDaysWeather = weatherList ?: emptyList()

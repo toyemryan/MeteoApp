@@ -27,12 +27,12 @@ class Utility {
     }
 
     object TemperatureConverter {
-        fun convertToFahrenheit(celsiusTemperature: Double): Double {
+        fun convertCelsiusToFahrenheit(celsiusTemperature: Double): Double {
             return (celsiusTemperature * 9 / 5) + 32
         }
 
-        fun convertToCelsius(fahrenheitTemperature: Double): Double {
-            return (fahrenheitTemperature - 32) * 5 / 9
+        fun convertFahrenheitToCelsius(fahrenheitTemperature: Double): Int {
+            return( (fahrenheitTemperature - 32) * 5 / 9).toInt()
         }
     }
 
