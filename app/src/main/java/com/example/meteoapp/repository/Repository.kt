@@ -51,6 +51,8 @@ open class Repository {
             "Moderate Rain" ->  R.drawable.moderate_rain
             "Torrential Rain" ->  R.drawable.torrential_rain
             "heavy intensity rain" -> R.drawable.heavy_intensity_rain
+            "moderate rain" -> R.drawable.moderate_rain
+            "mist" -> R.drawable.mist
             else -> {
                 Log.d("WeatherNextDays", "Using default image for condition: $condition")
                 R.drawable.unknown
