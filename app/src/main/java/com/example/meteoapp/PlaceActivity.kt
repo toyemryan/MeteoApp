@@ -1,6 +1,5 @@
 package com.example.meteoapp
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
@@ -18,11 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoapp.adapter.CityAdapter
 import com.example.meteoapp.databinding.ActivityPlaceBinding
-import com.example.meteoapp.repository.Repository
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+
 
 class  PlaceActivity : AppCompatActivity() {
 
@@ -35,7 +34,6 @@ class  PlaceActivity : AppCompatActivity() {
 
       private lateinit var sharedPreferences: SharedPreferences
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,6 +45,7 @@ class  PlaceActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val apiKey = getString(R.string.api_key)
+
 
         if (!Places.isInitialized()) {
             Places.initialize(this, apiKey)
@@ -72,26 +71,15 @@ class  PlaceActivity : AppCompatActivity() {
         //setContentView(binding.root)
     }
 
-   fun onCityLongClick(place: Place){
-        showConfirmationDialog(place)
-        //removeCity(place)
-    }
-
-    fun onCityClick(place: Place){
-        Repository.cityname = place.name?.toString()
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-    }
-
     private fun showConfirmationDialog(place: Place) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Delete")
-            .setMessage("Sei sicuro di voler cancelare la città di ${place.name} ?")
-            .setPositiveButton("si"){_, _ -> removeCity(place)}
-            .setNegativeButton("No"){dialog, _ -> dialog.dismiss()}.show()
+        val deleteMessage = getString(R.string.deletecity, place.name)
+        builder.setTitle(R.string.deletecity1)
+            .setMessage(deleteMessage)
+            .setPositiveButton(R.string.yes){_, _ -> removeCity(place)}
+            .setNegativeButton(R.string.no){dialog, _ -> dialog.dismiss()}.show()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun removeCity(place: Place) {
         cityList.remove(place)
         cityAdapter.notifyDataSetChanged()
@@ -132,17 +120,21 @@ class  PlaceActivity : AppCompatActivity() {
                     //Toast.makeText(this, "ID: " + place.id + "Adresse: " + place.address + "Nome: " + place.name + "Latitude/Longitude: " + place.latLng, Toast.LENGTH_LONG).show()
                 }
             }else if (result.resultCode == Activity.RESULT_CANCELED){
-                Log.i(TAG, "L'utilisateur a annulé l'autocomplétion")
+                Log.i(TAG, R.string.cancel_1.toString())
                 Toast.makeText(this, getString(R.string.result_cancel), Toast.LENGTH_LONG).show()
             }
         }
     }
 
     private fun addCity(place: Place) {
-        cityList.add(place)
-        cityAdapter.notifyItemInserted(cityList.size - 1)
-
-        sharedPreferences.saveCityList(cityList)
+        val isCityExist = cityList.any{it.id == place.id}
+        if (!isCityExist){
+            cityList.add(place)
+            cityAdapter.notifyItemInserted(cityList.size - 1)
+            sharedPreferences.saveCityList(cityList)
+        }else{
+            Toast.makeText(this, R.string.exist, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun startPlaceAutocomplete() {
@@ -159,5 +151,17 @@ class  PlaceActivity : AppCompatActivity() {
         toolbarTitle.text = getString(R.string.favorite_place)
 
     }
+
+    fun onCityLongClick(place: Place){
+        showConfirmationDialog(place)
+        //removeCity(place)
+    }
+    fun onCityClick(currentCity: Place) {
+
+    }
+
+}
+
+class WeatherData {
 
 }

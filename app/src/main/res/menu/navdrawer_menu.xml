@@ -22,6 +22,11 @@
         android:icon="@drawable/location_city"
         android:title="@string/city"/>
     -->
+
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_acount"
+        android:title="@string/profile"/>
     <item
         android:id="@+id/logout"
         android:icon="@drawable/exit_to_app_black_24dp"

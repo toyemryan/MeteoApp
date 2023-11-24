@@ -55,7 +55,34 @@ open class Repository {
             "warm" -> R.drawable.warm
             "winds" -> R.drawable.wind
             "feels like" -> R.drawable.feels_like
+            "cloud" -> R.drawable.cloud
             "overcast clouds" -> R.drawable.overcast_clouds
+            "moisture" -> R.drawable.moisture
+            "night overcast" -> R.drawable.night_overcast
+            "overcast" -> R.drawable.overcast
+            "overcast fog" ->R.drawable.overcast_fog
+            "overcast mist" -> R.drawable.overcast_mist
+            "partly cloudy" -> R.drawable.partly_cloudy
+            "rain cloud" -> R.drawable.rain_cloud
+            "rainbow" -> R.drawable.rainbow
+            "raindrop" -> R.drawable.raindrop
+            "rainfall" -> R.drawable.rainfall
+            "rainy night" -> R.drawable.rainy_night
+            "sky" -> R.drawable.sky
+            "sleet" -> R.drawable.sleet
+            "snowy" -> R.drawable.snowy
+            "storm" -> R.drawable.storm
+            "summer" -> R.drawable.summer
+            "sun" -> R.drawable.sun
+            "sunny" -> R.drawable.sunny
+            "Storm With Heavy Rain" ->  R.drawable.storm_with_heavy_rain
+            "Heavy Rain" ->  R.drawable.heavy_rain
+            "Sun Behind Rain Cloud" ->  R.drawable.sun_behind_rain_cloud
+            "Moderate Rain" ->  R.drawable.moderate_rain
+            "Torrential Rain" ->  R.drawable.torrential_rain
+            "heavy intensity rain" -> R.drawable.heavy_intensity_rain
+            "moderate rain" -> R.drawable.moderate_rain
+            "mist" -> R.drawable.mist
             else -> {
                 Log.d("WeatherNextDays", "Using default image for condition: $condition")
                 R.drawable.unknown
@@ -167,7 +194,6 @@ open class Repository {
     }
 
 }
-
 fun calculMaxMinTemperature(weathers: List<WeatherList>): Pair<Double?, Double?>? {
     if (weathers.isEmpty()) {
         return null

@@ -1,18 +1,18 @@
 package com.example.meteoapp.auth
-
-import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.meteoapp.Coordinator
 import com.example.meteoapp.R
@@ -24,21 +24,16 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var firebaseAuth: FirebaseAuth
 
+    private val EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
 
-     /*   binding.textView.setOnClickListener{  view : View ->
-            view.findNavController().navigate(R.id.action_loginFragment_to_registerFragment) } */
-
-        // metodo spannable per rendere clickabile solo la parola registrati
         val ss = SpannableString("Non sei registrato ? Registrati")
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
-
             override fun onClick(textView: View) {
                 view?.findNavController()?.navigate(R.id.action_loginFragment_to_registerFragment)
             }
@@ -47,40 +42,85 @@ class LoginFragment : Fragment() {
 
         val textView = binding.textView
         textView.text = ss
-        textView.movementMethod = LinkMovementMethod.getInstance() // metodo che formalizza il link della parola
-
-
-        binding.btnLogin.setOnClickListener{registrati()}
-
+        textView.movementMethod = LinkMovementMethod.getInstance()
+        binding.btnLogin.setOnClickListener { registrati() }
         firebaseAuth = FirebaseAuth.getInstance()
-
         return binding.root
     }
 
-     @SuppressLint("SuspiciousIndentation")
-     private fun registrati() {
+    private fun registrati() {
+        val email = binding.email.text.toString()
+        val password = binding.password.text.toString()
 
-         val email = binding.email.text.toString()
-         val password = binding.password.text.toString()
 
-             if (email.trim().isNotEmpty() && password.trim().isNotEmpty()){
-                 firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener {
-                     if (it.isSuccessful){
-                       /*  val intent = Intent(this, MainActivity::class.java)
-                         startActivity(intent) */
-                        // view?.findNavController()?.navigate(R.id.action_loginFragment2_to_navigation)
-                         val myActivity = activity
-                         if(myActivity is Coordinator){
-                         myActivity.gotomainmeteo() // la chiamata al metodo onBookChanged nel activity, che è stato anche creato nel interfaccia Coordinator
-                     }
-                     }else{
-                         Toast.makeText(requireActivity(),"Lutente non esiste", Toast.LENGTH_SHORT).show()
-                     }
-                 }
-             }else{
-                 Toast.makeText( requireActivity(), "Devi compilare tutti i campi !!", Toast.LENGTH_SHORT).show()
-             }
+        if (email.trim().isEmpty() || !email.matches(EMAIL_PATTERN.toRegex())) {
+            binding.email.error = getString(R.string.invalid_email_login)
+            return
+        } else {
+            binding.email.error = null
+        }
 
-     }
+        if (password.trim().isEmpty()) {
+            binding.password.error = getString(R.string.password_required)
+            return
+        } else if (password.trim().length < 8) {
+            binding.password.error = getString(R.string.password_length_error)
+            return
+        } else {
+            binding.password.error = null
+        }
 
+        if (email.trim().isEmpty() && password.trim().isEmpty()) {
+            binding.email.error = getString(R.string.email_required)
+            binding.password.error = getString(R.string.password_required)
+            return
+        } else {
+            binding.email.error = null
+            binding.password.error = null
+        }
+
+        if (!isInternetAvailable(requireContext())) {
+            Toast.makeText(requireActivity(), R.string.no_network_connection, Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val myActivity = activity
+                if (myActivity is Coordinator) {
+                    myActivity.gotomainmeteo()
+                }
+            } else {
+                Toast.makeText(requireActivity(), R.string.login_failed, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Dans votre LoginFragment, après la connexion réussie
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val currentUser = firebaseAuth.currentUser
+                    if (currentUser != null) {
+                        //val userName = currentUser.displayName
+                        val userEmail = currentUser.email // Récupérer l'email de l'utilisateur
+                        if (activity is MainLoginActivity) {
+                            (activity as MainLoginActivity).navigateToProfileFragment(userEmail)
+                        }
+                    }
+                } else {
+                    // Gérer l'échec de la connexion
+                }
+            }
+
+    }
+
+
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val networkCapabilities =
+            connectivityManager.getNetworkCapabilities(network) ?: return false
+        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
 }

@@ -16,6 +16,7 @@
             app:navGraph = "@navigation/navigation_login"
             app:defaultNavHost = "true"
             />
+
     </LinearLayout>
 
 </layout>
