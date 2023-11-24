@@ -21,6 +21,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.meteoapp.R
@@ -179,7 +180,7 @@ class MainMeteoFragment : Fragment() {
                 viewModel.getWeather()
                 //setupRecyclerView()
             }else{
-                Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.error_network, Toast.LENGTH_SHORT).show()
             }
             //val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
             swipe.isRefreshing = false
@@ -190,7 +191,7 @@ class MainMeteoFragment : Fragment() {
             viewModel.getWeather()
             //setupRecyclerView()
         }else{
-            Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.error_network, Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -1,5 +1,7 @@
 package com.example.meteoapp
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -17,13 +19,15 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.example.meteoapp.auth.MainLoginActivity
+import com.example.meteoapp.auth.ProfileActivity
 import com.example.meteoapp.databinding.ActivityMainBinding
 import com.example.meteoapp.setting.SettingActivity
+import com.example.meteoapp.setting.languageChange.DefaultLocaleHelper
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
@@ -32,6 +36,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var currentUser : FirebaseUser? = null
 
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -88,17 +93,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.logout -> {
                 firebaseAuth.signOut()
                 currentUser = null
-                val intent = Intent(this, MainLoginActivity::class.java)
-                //startActivity(intent)
                 showLogoutConfirmDialog()
-                //finish()
             }
+            R.id.profile -> {
+                val userEmail = currentUser?.email // Obtenez l'email de l'utilisateur connecté
+                val intent = Intent(this, ProfileActivity::class.java).apply {
+                    putExtra("userEmail", userEmail)
+                }
+                startActivity(intent)
+            }
+
             R.id.setting -> {
                 val intent = Intent(this, SettingActivity::class.java)
                 startActivity(intent)
             }
             R.id.placeFragment -> {
-               //navController.navigate(R.id.action_mainMeteoFragment_to_placeFragment)
                val intent = Intent(this, PlaceActivity::class.java)
                 startActivity(intent)
             }
@@ -110,22 +119,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(DefaultLocaleHelper.getInstance(newBase!!).onAttach())
+    }
+
     private fun showLogoutConfirmDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Confirmazione !")
-        builder.setMessage("Sei sicuro di voler uscire ? ")
-        builder.setPositiveButton("Si") { dialogInterface: DialogInterface, id: Int ->
+        builder.setTitle(R.string.exit)
+        builder.setMessage(R.string.exit_1)
+        builder.setPositiveButton(R.string.yes) { dialogInterface: DialogInterface, id: Int ->
+            val intent = Intent(this, MainLoginActivity::class.java)
+            startActivity(intent)
             finish()
         }
-        builder.setNegativeButton("No"){ dialogInterface: DialogInterface, id: Int ->
+        builder.setNegativeButton(R.string.no){ dialogInterface: DialogInterface, id: Int ->
             dialogInterface.dismiss()
         }
-        builder.setNeutralButton("Cancelli"){ dialogInterface: DialogInterface, id: Int ->
+        builder.setNeutralButton(R.string.exit_2){ dialogInterface: DialogInterface, id: Int ->
             dialogInterface.cancel()
         }
         val alertDialog : AlertDialog = builder.create()
         alertDialog.show()
     }
-
 
 }

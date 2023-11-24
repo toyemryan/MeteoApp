@@ -1,6 +1,7 @@
 package com.example.meteoapp
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
@@ -12,45 +13,79 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.meteoapp.adapter.CityAdapter
 import com.example.meteoapp.databinding.ActivityPlaceBinding
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
-class PlaceActivity : AppCompatActivity() {
+
+class  PlaceActivity : AppCompatActivity() {
 
       private lateinit var binding: ActivityPlaceBinding
       private lateinit var startAutocomplete: ActivityResultLauncher<Intent>
 
+      private val cityList:MutableList<Place> = mutableListOf()
+      private lateinit var recyclerView: RecyclerView
+      private lateinit var cityAdapter: CityAdapter
+
+      private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_place)
+        //setContentView(R.layout.activity_place)
 
         binding = ActivityPlaceBinding.inflate(layoutInflater)
         setSupportActionBar(binding.toolbar2)
+        setContentView(binding.root)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        /**
-         * Initialize Places. For simplicity, the API key is hard-coded. In a production
-         * environment we recommend using a secure mechanism to manage API keys.
-         */
+
         val apiKey = getString(R.string.api_key)
 
-        /**
-         * Initialize Places. For simplicity, the API key is hard-coded. In a production
-         * environment we recommend using a secure mechanism to manage API keys.
-         */
+
         if (!Places.isInitialized()) {
             Places.initialize(this, apiKey)
         }
         // Create a new Places client instance.
         val placesClient = Places.createClient(this)
 
+
+        recyclerView = binding.recyclerviewCity
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        cityAdapter = CityAdapter(cityList, this)
+        recyclerView.adapter = cityAdapter
+
+        //Inizialise SharedPreferences
+        sharedPreferences = SharedPreferences(this)
+
+        //inieta i date salvati dalla classe SharedPreferences
+        cityList.addAll(sharedPreferences.loadCityList())
+        cityAdapter.notifyDataSetChanged()
+
         onSearchCalled()
 
-        setContentView(binding.root)
+        //setContentView(binding.root)
+    }
+
+    private fun showConfirmationDialog(place: Place) {
+        val builder = AlertDialog.Builder(this)
+        val deleteMessage = getString(R.string.deletecity, place.name)
+        builder.setTitle(R.string.deletecity1)
+            .setMessage(deleteMessage)
+            .setPositiveButton(R.string.yes){_, _ -> removeCity(place)}
+            .setNegativeButton(R.string.no){dialog, _ -> dialog.dismiss()}.show()
+    }
+
+    private fun removeCity(place: Place) {
+        cityList.remove(place)
+        cityAdapter.notifyDataSetChanged()
+
+        // Sauvegarde la liste mise à jour dans ScharedPreferences
+        sharedPreferences.saveCityList(cityList)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -73,25 +108,42 @@ class PlaceActivity : AppCompatActivity() {
         }
     }
 
-        private fun onSearchCalled() {
+    private fun onSearchCalled(){
+        startAutocomplete = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK){
+                val intent = result.data
+                if (intent != null){
+                    val place = Autocomplete.getPlaceFromIntent(intent)
+                    addCity(place)
 
-            startAutocomplete =
-                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                    if (result.resultCode == Activity.RESULT_OK) {
-                        val intent = result.data
-                        if (intent != null) {
-                            val place = Autocomplete.getPlaceFromIntent(intent)
-                            Log.i(TAG, "Place: ${place.name}, ${place.id}")
-                            Toast.makeText(this, "ID: " + place.id + "address:" + place.address + "Name:" + place.name + " latlong: " + place.latLng, Toast.LENGTH_LONG).show()
-                        }
-                    } else if (result.resultCode == Activity.RESULT_CANCELED) {
-                        // The user canceled the operation.
-                        Log.i(TAG, "User canceled autocomplete")
-                        Toast.makeText(this, getString(R.string.result_cancel), Toast.LENGTH_LONG).show()
-                    }
+                    //Log.i(TAG, "Place: ${place.name}, ${place.id}")
+                    //Toast.makeText(this, "ID: " + place.id + "Adresse: " + place.address + "Nome: " + place.name + "Latitude/Longitude: " + place.latLng, Toast.LENGTH_LONG).show()
                 }
-
+            }else if (result.resultCode == Activity.RESULT_CANCELED){
+                Log.i(TAG, R.string.cancel_1.toString())
+                Toast.makeText(this, getString(R.string.result_cancel), Toast.LENGTH_LONG).show()
+            }
+        }
     }
+
+    private fun addCity(place: Place) {
+        val isCityExist = cityList.any{it.id == place.id}
+        if (!isCityExist){
+            cityList.add(place)
+            cityAdapter.notifyItemInserted(cityList.size - 1)
+            sharedPreferences.saveCityList(cityList)
+        }else{
+            Toast.makeText(this, R.string.exist, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun startPlaceAutocomplete() {
+        val fields = listOf(Place.Field.ID, Place.Field.NAME)
+        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+            .build(this)
+        startAutocomplete.launch(intent)
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -99,5 +151,17 @@ class PlaceActivity : AppCompatActivity() {
         toolbarTitle.text = getString(R.string.favorite_place)
 
     }
+
+    fun onCityLongClick(place: Place){
+        showConfirmationDialog(place)
+        //removeCity(place)
+    }
+    fun onCityClick(currentCity: Place) {
+
+    }
+
+}
+
+class WeatherData {
 
 }

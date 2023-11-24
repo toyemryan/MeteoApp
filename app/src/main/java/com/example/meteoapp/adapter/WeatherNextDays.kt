@@ -11,6 +11,7 @@ import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.Repository
 import com.example.meteoapp.repository.calculMaxMinTemperature
+import com.google.android.play.integrity.internal.c
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -44,19 +45,24 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         val dayMonthFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
         holder.dayMonth.text = dayMonthFormat.format(date)
 
-        /*
-        val minTemperature = nextDaysForecastObject.main?.tempMin
-        val maxTemperature = nextDaysForecastObject.main?.tempMax
-
-        val minTemperatureCelsius = ((minTemperature?.minus(273.15))?.toInt())
-        val maxTemperatureCelsius = ((maxTemperature?.minus(273.15))?.toInt())
-
-        holder.minTemperature.text = " $minTemperatureCelsius °C"
-        holder.maxTemperature.text = " $maxTemperatureCelsius °C"
-
-         */
          listOfNextDaysWeather.map { it.main!!.temp }
         val maxMinTemperature = calculMaxMinTemperature(listOfNextDaysWeather)
+
+        /*
+           listOfNextDaysWeather.map { it.main!!.temp }
+            val maxMinTemp = calculMaxMinTemperature(listOfNextDaysWeather)
+
+            if (maxMinTemp != null) {
+                val maxTempFahrenheit = maxMinTemp.first
+                val minTempFahrenheit = maxMinTemp.second
+
+                val minTempCelsius = minTempFahrenheit?.let { convertFahrenheitToCelsius(it) }
+                val maxTempCelsius = maxTempFahrenheit?.let { convertFahrenheitToCelsius(it) }
+
+                holder.minTemperature.text = " $minTempCelsius °C"
+                holder.maxTemperature.text = " $maxTempCelsius °C"
+            }
+         */
 
         if (maxMinTemperature != null) {
             val maxTemperature = maxMinTemperature.first
@@ -69,8 +75,6 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
             holder.maxTemperature.text = " $maxTemperatureCelsius °C"
         }
     }
-
-
         @SuppressLint("NotifyDataSetChanged")
     fun setForecastList(weatherList: List<WeatherList>?) {
         listOfNextDaysWeather = weatherList ?: emptyList()

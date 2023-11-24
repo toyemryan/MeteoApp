@@ -1,5 +1,8 @@
 package com.example.meteoapp.auth
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -18,28 +21,22 @@ import com.google.firebase.auth.FirebaseAuth
 
 class RegisterFragment : Fragment() {
 
-  //  private lateinit var binding: FragmentRegisterBinding
     private lateinit var firebaseAuth: FirebaseAuth
-
+    private val EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
 
         val binding = DataBindingUtil.inflate<FragmentRegisterBinding>(
-            inflater, R.layout.fragment_register, container, false)
+            inflater, R.layout.fragment_register, container, false
+        )
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        /*binding.textView.setOnClickListener{
-            view?.findNavController()?.navigate(R.id.action_registerFragment_to_loginFragment) } */
-
-
         val ss = SpannableString("Hai un account ? Accedi")
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
-
             override fun onClick(textView: View) {
                 view?.findNavController()?.navigate(R.id.action_registerFragment_to_loginFragment)
             }
@@ -50,33 +47,65 @@ class RegisterFragment : Fragment() {
         textView.text = ss
         textView.movementMethod = LinkMovementMethod.getInstance()
 
-
-        binding.btnRegister.setOnClickListener{
+        binding.btnRegister.setOnClickListener {
             val email = binding.email.text.toString()
             val password = binding.password.text.toString()
             val confirmPassword = binding.confermaPassword.text.toString()
 
-            if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()){
-                if (password == confirmPassword){
-                    firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
-                        if (it.isSuccessful){
-                            Toast.makeText(requireActivity(), "Registrazione completata con successo", Toast.LENGTH_SHORT).show()
-                            view?.findNavController()?.navigate(R.id.action_registerFragment_to_loginFragment)
-                          //  view?.findNavController()?.navigate(R.id.action_registerFragment_to_navigation)
-                        }else{
-                            Toast.makeText(requireActivity(), it.exception.toString(), Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }else{
-                    Toast.makeText(requireActivity(), "Password non Corrisponde", Toast.LENGTH_SHORT).show()
+            when {
+                email.trim().isEmpty()|| !email.matches(EMAIL_PATTERN.toRegex()) ->{
+                    binding.email.error = getString(R.string.invalid_email_login)
                 }
-            }else{
-                Toast.makeText(requireActivity(), "Devi compilare tutti i campi !!", Toast.LENGTH_SHORT).show()
+
+                email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() -> {
+                    binding.password.error = getString(R.string.tutti_campi_richiesti)
+                }
+                password != confirmPassword -> {
+                    binding.password.error = getString(R.string.password_non_corrisponde)
+                }
+                password.trim().length < 8 -> {
+                    binding.password.error = getString(R.string.password_length_error)
+                }
+                !isInternetAvailable(requireContext()) -> {
+                    showToast(R.string.no_network_connection)
+                }
+                else -> {
+                    createUserWithEmailAndPassword(email, password)
+                }
             }
         }
 
         return binding.root
     }
 
+    private fun createUserWithEmailAndPassword(email: String, password: String) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                showToast(R.string.succes)
+                view?.findNavController()?.navigate(R.id.action_registerFragment_to_loginFragment)
+            } else {
+                showToast(task.exception.toString())
+            }
+        }
+    }
 
+    private fun showToast(message: String) {
+        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showToast(messageResId: Int) {
+        showToast(getString(messageResId))
+    }
+
+    private fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        return if (connectivityManager != null) {
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
+        } else {
+            false
+        }
+    }
 }
