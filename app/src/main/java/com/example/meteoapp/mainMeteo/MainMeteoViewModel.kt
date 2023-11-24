@@ -1,8 +1,8 @@
 package com.example.meteoapp.mainMeteo
 
 import LocationPermission
-import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -282,7 +282,7 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
 
 
     @RequiresApi(Build.VERSION_CODES.S)
-    fun fresh(activity: Activity?){
+    fun fresh(activity: Context){
         if (activity?.let { Repository().isNetworkAvailable(it) } == true && Repository.cityname != null){
             getWeather()
             viewModelScope.launch {

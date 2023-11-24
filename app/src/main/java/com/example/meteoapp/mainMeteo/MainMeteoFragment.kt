@@ -2,6 +2,7 @@ package com.example.meteoapp.mainMeteo
 
 import LocationPermission
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -89,7 +90,7 @@ class MainMeteoFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
-    private fun locationRefresh(){
+    fun locationRefresh(){
             location()
             locationPermission.requestLocationUpdates { location ->
                 location.let {
@@ -105,6 +106,11 @@ class MainMeteoFragment : Fragment() {
                 }
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    fun refresh(){
+        viewModel.fresh(requireActivity())
     }
 
 

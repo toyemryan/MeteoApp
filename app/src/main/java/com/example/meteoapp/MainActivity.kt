@@ -1,14 +1,15 @@
 package com.example.meteoapp
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -23,6 +24,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.meteoapp.auth.MainLoginActivity
 import com.example.meteoapp.auth.ProfileActivity
 import com.example.meteoapp.databinding.ActivityMainBinding
+import com.example.meteoapp.mainMeteo.MainMeteoFragment
 import com.example.meteoapp.repository.Repository
 import com.example.meteoapp.setting.SettingActivity
 import com.example.meteoapp.setting.languageChange.DefaultLocaleHelper
@@ -87,6 +89,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     // cette fonction permet de linker les menu du navView afin d'implementer un clickListener
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
@@ -97,7 +100,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.actualLocation -> {
                 if (Repository().isNetworkAvailable(this) && Repository.citynow != null){
                     Repository.cityname = Repository.citynow
+                    /*val frag = MainMeteoFragment()*/
                     drawerLayout.closeDrawer(GravityCompat.START)
+
                 }
                 else  {
                     Toast.makeText(this, "There is no network connection", Toast.LENGTH_SHORT).show()
