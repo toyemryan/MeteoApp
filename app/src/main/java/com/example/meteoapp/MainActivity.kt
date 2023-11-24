@@ -1,12 +1,14 @@
 package com.example.meteoapp
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -20,6 +22,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.example.meteoapp.auth.MainLoginActivity
 import com.example.meteoapp.databinding.ActivityMainBinding
+import com.example.meteoapp.repository.Repository
 import com.example.meteoapp.setting.SettingActivity
 import com.example.meteoapp.setting.languageChange.DefaultLocaleHelper
 import com.google.android.material.navigation.NavigationView
@@ -89,9 +92,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navController = navHostFragment.navController
 
         when (item.itemId) {
+
+            R.id.actualLocation -> {
+                if (Repository().isNetworkAvailable(this) && Repository.citynow != null){
+                    Repository.cityname = Repository.citynow
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                }
+                else  {
+                    Toast.makeText(this, "There is no network connection", Toast.LENGTH_SHORT).show()
+                }
+            }
             R.id.logout -> {
-                firebaseAuth.signOut()
-                currentUser = null
                 showLogoutConfirmDialog()
             }
             R.id.setting -> {
@@ -119,6 +130,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         builder.setTitle("Confirmazione !")
         builder.setMessage("Sei sicuro di voler uscire ? ")
         builder.setPositiveButton("Si") { dialogInterface: DialogInterface, id: Int ->
+            firebaseAuth.signOut()
+            currentUser = null
             val intent = Intent(this, MainLoginActivity::class.java)
             startActivity(intent)
             finish()
@@ -126,7 +139,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         builder.setNegativeButton("No"){ dialogInterface: DialogInterface, id: Int ->
             dialogInterface.dismiss()
         }
-        builder.setNeutralButton("Cancelli"){ dialogInterface: DialogInterface, id: Int ->
+       builder.setNeutralButton("Cancelli"){ dialogInterface: DialogInterface, id: Int ->
             dialogInterface.cancel()
         }
         val alertDialog : AlertDialog = builder.create()

@@ -31,7 +31,7 @@ class WeatherToday : RecyclerView.Adapter<WeatherToday.TodayHolder>() {
     }
 
     // Metodo chiamato per visualizzare i dati in una posizione specifica
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onBindViewHolder(holder: TodayHolder, position: Int) {
         val todayForeCast = listOfTodayWeather[position]
 

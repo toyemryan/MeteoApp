@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/actualLocation"
+        android:icon="@drawable/location_pin"
+        android:title="@string/actual_location"/>
+
+    <item
         android:id="@+id/placeFragment"
         android:icon="@android:drawable/ic_menu_mylocation"
         android:title="@string/favorite_place"/>

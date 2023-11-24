@@ -34,19 +34,17 @@ class SettingActivity : AppCompatActivity(),
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        Log.d("preferenceChange", "il listener che funziona come un callback")
+        Log.d("onSharedPreferenceChanged", "il listener che funziona come un callback")
 
         if(key == "lingua"){
             val prefs = sharedPreferences?.getString(key, "1")
             val lang = DefaultLocaleHelper.getInstance(this)
             when(prefs?.toInt()){
                 1 ->{
-                    Log.d("preferenceChange", "è stato selezionato il 1")
                     lang.setCurrentLocale("it")
                     recreate()
                     }
                 2 ->{
-                    Log.d("preferenceChange", "è stato selezionato il 2")
                     lang.setCurrentLocale("fr")
                     recreate()
                 }

@@ -1,5 +1,6 @@
 package com.example.meteoapp
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoapp.adapter.CityAdapter
 import com.example.meteoapp.databinding.ActivityPlaceBinding
+import com.example.meteoapp.repository.Repository
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -33,6 +35,7 @@ class  PlaceActivity : AppCompatActivity() {
 
       private lateinit var sharedPreferences: SharedPreferences
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -69,9 +72,15 @@ class  PlaceActivity : AppCompatActivity() {
         //setContentView(binding.root)
     }
 
-    fun onCityLongClick(place: Place){
+   fun onCityLongClick(place: Place){
         showConfirmationDialog(place)
         //removeCity(place)
+    }
+
+    fun onCityClick(place: Place){
+        Repository.cityname = place.name?.toString()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     private fun showConfirmationDialog(place: Place) {
@@ -82,6 +91,7 @@ class  PlaceActivity : AppCompatActivity() {
             .setNegativeButton("No"){dialog, _ -> dialog.dismiss()}.show()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun removeCity(place: Place) {
         cityList.remove(place)
         cityAdapter.notifyDataSetChanged()

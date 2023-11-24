@@ -34,11 +34,17 @@ class CityAdapter(private val cityList: List<Place>, private val clickListener: 
             clickListener.onCityLongClick(currentCity)
             true
         }
+
+        holder.itemView.setOnClickListener{
+            clickListener.onCityClick(currentCity)
+        }
     }
+
+
 
 }
 
 // Interfaccia per gestire gli eventi di clic lungo sulla città nella RecyclerView
-interface CityItemClickListener{
+/*interface CityItemClickListener{
     fun onCityLongClick(place: Place)
-   }
+   }*/

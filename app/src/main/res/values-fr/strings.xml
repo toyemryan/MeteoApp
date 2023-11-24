@@ -30,7 +30,8 @@
 
 
     <!-- Strings related to menu -->
-    <string name="favorite_place">Lieu préféré</string>
+    <string name="actual_location">Lieu actuel</string>
+    <string name="favorite_place">Lieux préférés</string>
     <string name="api_key" translatable="false">AIzaSyDehNTD6QrfIyAFNR-LoRdLFJIyeqVFlnA</string>
     <string name="developer">Développeur</string>
     <string name="about">A propos</string>
