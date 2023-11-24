@@ -49,6 +49,7 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         holder.maxTemperature.text = " $maxTemperatureCelsius °C"
     }
 
+        @SuppressLint("NotifyDataSetChanged")
         fun setForecastList(weatherList: List<FinalListNextDay>?) {
             listOfNextDaysWeather = weatherList ?: emptyList()
             notifyDataSetChanged()

@@ -83,8 +83,10 @@ class LocationPermission(private val activity: Context) {
             val locationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     locationResult.lastLocation?.let { location ->
-                        locationListener.invoke(location)
-                        Log.d("LocationPermission", "Location updated: $location")
+                       // if (activity != null){
+                            locationListener.invoke(location)
+                            Log.d("LocationPermission", "Location updated: $location")
+                      //  }
                     }
                 }
             }

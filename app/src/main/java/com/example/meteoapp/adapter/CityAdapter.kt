@@ -44,7 +44,7 @@ class CityAdapter(private val cityList: List<Place>, private val clickListener: 
 }
 
 // Interfaccia per gestire gli eventi di clic lungo sulla città nella RecyclerView
-interface CityItemClickListener{
+/*interface CityItemClickListener{
     fun onCityLongClick(place: Place)
     fun onCityClick(place: Place)
-   }
+   }*/

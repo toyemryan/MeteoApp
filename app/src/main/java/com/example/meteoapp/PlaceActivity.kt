@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoapp.adapter.CityAdapter
 import com.example.meteoapp.databinding.ActivityPlaceBinding
+import com.example.meteoapp.repository.Repository
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -156,8 +157,10 @@ class  PlaceActivity : AppCompatActivity() {
         showConfirmationDialog(place)
         //removeCity(place)
     }
-    fun onCityClick(currentCity: Place) {
-
+    fun onCityClick(place: Place){
+        Repository.cityname = place.name?.toString()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
 }

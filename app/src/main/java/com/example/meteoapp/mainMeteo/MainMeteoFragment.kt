@@ -74,8 +74,9 @@ class MainMeteoFragment : Fragment() {
                                     }
                                     if (Repository.cityname == null) {
                                         Repository.cityname = Repository.citynow
+                                        viewModel.fresh(requireActivity())
                                     }
-                                    viewModel.fresh(requireActivity())
+                                   // viewModel.fresh(requireActivity())
                                 }
                             }
                         }
@@ -89,10 +90,10 @@ class MainMeteoFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.S)
     private fun locationRefresh(){
-        if(activity != null && isAdded){
             location()
             locationPermission.requestLocationUpdates { location ->
                 location.let {
+                    if(activity != null && isAdded){
                     getCity = Repository().getCityName(it.latitude, it.longitude, requireActivity())
                     Log.d("preferenceChange", " $getCity latitude is ${it.latitude}, longitude is ${it.longitude}")
                     if(getCity != null){

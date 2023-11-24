@@ -128,6 +128,8 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
         return withContext(Dispatchers.IO){
             try {
                 api.invoke()
+                Log.d("preferenceChangess", " connection api weather")
+
             } catch (e: IOException) {
                 Log.e("Flux error", "Error: ${e.message}")
             } catch (e: HttpException) {
@@ -140,6 +142,7 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
 
     @OptIn(DelicateCoroutinesApi::class)
     fun getWeather() {
+        // da scorporare
         GlobalScope.launch(Dispatchers.IO) {
             val call = try {
                 Repository.cityname?.let { api.getCurrentWeatherByCity(it) } //api.getCurrentWeatherByCity(city)
@@ -149,14 +152,18 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
             } catch (e: HttpException) {
                 Log.e("Connection error", "Error: ${e.message}")
                 return@launch
-            }
+            } catch (e: SocketTimeoutException) {
+            Log.e("Timeoutconnection", "Error: ${e.message}")
+                return@launch
+        }
+
 
             val response = call?.execute()
             if (response != null) {
                 if (response.isSuccessful && response.body() != null) {
                     withContext(Dispatchers.Main) {
 
-                        val data = response.body()!!
+                        val data = response.body()!! // scorporare ici
 
                         _cityName.value= data.city!!.name.toString()// name
 
@@ -227,7 +234,7 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
             if (response != null) {
                 if (response.isSuccessful && response.body() != null) {
                     withContext(Dispatchers.Main) {
-                        val data = response.body()!!
+                        val data = response.body()!!   // scorporare ici
                         _weathernexhour.value = data.weatherList.take(10)
                     }
                 }
@@ -244,7 +251,7 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
             if (response != null) {
                 if (response.isSuccessful && response.body() != null) {
                     withContext(Dispatchers.Main) {
-                        val data = response.body()!!
+                        val data = response.body()!!   // scorpore ici
                         val currentDate = LocalDate.now()
                         val futureDates = (1..5).map { currentDate.plusDays(it.toLong()) }
 
