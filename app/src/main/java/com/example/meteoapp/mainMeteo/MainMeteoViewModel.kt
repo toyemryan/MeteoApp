@@ -251,6 +251,7 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
                         )
                     }
                     _weatherNextDays.postValue(futureData)
+
                 }
             }
         }
