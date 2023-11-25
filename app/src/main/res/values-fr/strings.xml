@@ -4,6 +4,7 @@
     <!-- Strings related to login -->
     <string name="login">Connection</string>
     <string name="logout">Déconnexion</string>
+    <string name="chiudi">FERMER</string>
     <string name="profile">Profile</string>
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
@@ -25,7 +26,7 @@
     <string name="password_non_corrisponde">Le mot de passe ne correspond pas</string>
     <string name="tutti_campi_richiesti">Tous les champs sont requis</string>
     <string name="succes">Inscription terminée avec succès</string>
-
+    <string name="accedi">Avez-vous un compte ? Se connecter</string>
     <string name="password_length_error">Le mot de passe doit contenir au moins 8 caractères</string>
 
 
@@ -49,8 +50,6 @@
     <string name="result_cancel">Aucun lieu n\'a été selectionné</string>
     <string name="title_activity_place">PlaceActivity</string>
 
-
-
     <!-- Strings related to about page -->
     <string name="info_app">Nous sommes heureux de vous présenter notre projet universitaire "Une application Meteo", conçu et programmé par deux étudiants de l\'Université Politechnique des Marche sous la supervision du professeur Emanuele Storti.</string>
     <string name="toyemgit" translatable="false">https://github.com/toyemryan/MeteoApp</string>
@@ -63,14 +62,19 @@
     <string name="live_data_background">Fond d\'écran en direct</string>
     <string name="live_data_background_explain">Image de fond d\'écran liée à la temperature</string>
     <string name="language">Langue</string>
-
     <string name="title_activity_profile">ProfileActivity</string>
 
-    <!-- Strings related to login and location-->
+    <!-- Strings related to network and location-->
     <string name="error_network">pas de connexion réseau</string>
     <string name="location_good">Autorisation de localisation accordée</string>
     <string name="location_bad">Location permission denied</string>
     <string name="access_location">Mises à jour de la position requises</string>
+    <string name="no_network_connection">Pas de connection Internet</string>
+    <string name="active_connection">Merci d\'activer votre connexion</string>
+    <string name="error_gps">GPS non pris en charge</string>
+    <string name="gps_non_abilitato">GPS non activé</string>
+    <string name="gps_enabled">GPS déjà activé</string>
+    <string name="refresh">Mettre à jour à nouveau</string>
 
     <!-- Strings related to exit -->
     <string name="exit">Confirmation !</string>
@@ -85,9 +89,6 @@
     <string name="no">NON</string>
     <string name="exist">Cette ville est dejà présente dans la liste</string>
 
-
-    <!-- Strings related to network -->
-    <string name="no_network_connection">Pas de connection Internet</string>
 
     <!-- Strings related to meteo -->
     <string name="pioggia">Pluie</string>
@@ -112,6 +113,8 @@
     <string name="cancell">Supprimer le profil</string>
     <string name="btn">Supprimer</string>
     <string name="profileU">Profile Utilisateur</string>
+
+
 
     <string-array name="pref_temperature">
         <item>°C</item>

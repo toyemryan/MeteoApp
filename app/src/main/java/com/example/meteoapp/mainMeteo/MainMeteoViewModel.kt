@@ -10,6 +10,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.preference.PreferenceManager
+import com.example.meteoapp.NotificationHelper
 import com.example.meteoapp.adapter.FinalListNextDay
 import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.Repository
@@ -32,6 +34,7 @@ import java.util.Locale
 class MainMeteoViewModel(application: Application) : AndroidViewModel(application) {
 
     private var _finalListNextDay = MutableLiveData<List<FinalListNextDay>?>()
+
     val finalListNextDay: MutableLiveData<List<FinalListNextDay>?>
         get() = _finalListNextDay
 
@@ -153,9 +156,9 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
                 Log.e("Connection error", "Error: ${e.message}")
                 return@launch
             } catch (e: SocketTimeoutException) {
-            Log.e("Timeoutconnection", "Error: ${e.message}")
+                Log.e("Timeoutconnection", "Error: ${e.message}")
                 return@launch
-        }
+            }
 
 
             val response = call?.execute()
@@ -220,16 +223,18 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
 
                         _weatherCondition.value = firstWeather.weather[0].description ?: "Erreur"
                         _weatherImageResourceId.value = Repository().getWeatherImageResourceId(_weatherCondition.value ?: "")
+
                     }
                 }
             }
         }
+
     }
 
     suspend fun getWeatherNexHour() = viewModelScope.launch {
         ApiCall {
             val call =
-                Repository.cityname?.let { api.getCurrentWeatherByCity(it) } //cityname?.let { api.getCurrentWeatherByCity(it) }  // val call = api.getCurrentWeatherByCity(city)
+                Repository.cityname?.let { api.getCurrentWeatherByCity(it) }
             val response = call?.execute()
             if (response != null) {
                 if (response.isSuccessful && response.body() != null) {
@@ -256,8 +261,8 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
                         val futureDates = (1..5).map { currentDate.plusDays(it.toLong()) }
 
                         for(i in 0..4){
-                          val futureDataa = data.weatherList.filter {
-                              it.dtTxt?.split(" ")?.get(0).toString() in futureDates[i].toString() }
+                            val futureDataa = data.weatherList.filter {
+                                it.dtTxt?.split(" ")?.get(0).toString() in futureDates[i].toString() }
 
                             // si puo scorporare dentro repository()
                             if(futureDataa.isNotEmpty()){
@@ -267,13 +272,13 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
                                         tempMin = futureDataa.minBy { it.main!!.temp!! }.main?.temp,
                                         tempMax = futureDataa.maxBy { it.main!!.temp!! }.main?.temp,
                                         description = futureDataa.map { it.weather[0].description }.groupBy { it }.maxBy{ it.value.size }.key
-                                )
+                                    )
                                 )
                             }else{
                                 break
                             }
                         }
-                       _finalListNextDay.postValue(listOfNextDay)
+                        _finalListNextDay.postValue(listOfNextDay)
                     }
                 }
             }
@@ -291,5 +296,4 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
     }
-
 }

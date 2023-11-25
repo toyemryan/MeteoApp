@@ -2,10 +2,8 @@ package com.example.meteoapp.mainMeteo
 
 import LocationPermission
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,11 +53,12 @@ class MainMeteoFragment : Fragment() {
         return binding.root
     }
 
+
     @SuppressLint("SuspiciousIndentation")
     @RequiresApi(Build.VERSION_CODES.S)
     private fun location(){
         if(activity != null && isAdded){
-            locationPermission = LocationPermission(requireContext()) // LocationPermission(requireActivity())
+            locationPermission = LocationPermission(requireContext())
             viewModel.setLocationPermission(locationPermission)
             locationPermission.requestLocationPermission { granted ->
                 if (granted) {
@@ -69,7 +68,7 @@ class MainMeteoFragment : Fragment() {
                             location.let { it ->
                                 if (activity?.let { Repository().isNetworkAvailable(it) } == true){
                                     getCity = Repository().getCityName(it.latitude, it.longitude, requireActivity())
-                                    Log.d("preferenceChange", " $getCity latitude is ${it.latitude}, longitude is ${it.longitude}")
+                                    //Log.d("preferenceChange", " $getCity latitude is ${it.latitude}, longitude is ${it.longitude}")
                                     if(getCity != null){
                                         Repository.citynow = getCity
                                     }
@@ -77,12 +76,11 @@ class MainMeteoFragment : Fragment() {
                                         Repository.cityname = Repository.citynow
                                         viewModel.fresh(requireActivity())
                                     }
-                                   // viewModel.fresh(requireActivity())
                                 }
                             }
                         }
                     }else{
-                        Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), R.string.no_network_connection, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -96,7 +94,7 @@ class MainMeteoFragment : Fragment() {
                 location.let {
                     if(activity != null && isAdded){
                     getCity = Repository().getCityName(it.latitude, it.longitude, requireActivity())
-                    Log.d("preferenceChange", " $getCity latitude is ${it.latitude}, longitude is ${it.longitude}")
+                    //Log.d("preferenceChange", " $getCity latitude is ${it.latitude}, longitude is ${it.longitude}")
                     if(getCity != null){
                         Repository.citynow = getCity
                     }
@@ -125,10 +123,10 @@ class MainMeteoFragment : Fragment() {
         viewModel.weatherImageResourceId.observe(viewLifecycleOwner) { imageResourceId ->
             // Aggiornare l'imagine
             imageView.setImageResource(imageResourceId)
-        }// bizzare
+        }
 
         //Next Hours
-        val weatherNextHourAdapter = WeatherNextHour()
+        val weatherNextHourAdapter = WeatherNextHour(requireContext())
         binding.recyclerViewNexHour.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewNexHour.adapter = weatherNextHourAdapter
 
@@ -136,22 +134,16 @@ class MainMeteoFragment : Fragment() {
         // Observe les changements dans la liste de prévisions météorologiques
         viewModel.weatherNexHour.observe(viewLifecycleOwner) { weatherList ->
             weatherNextHourAdapter.setForecastList(weatherList)
-           // weatherNextHourAdapter.notifyDataSetChanged()
         }
 
         //Next Days
         val weatherNextDaysAdapter = WeatherNextDays()
         binding.recyclerviewNexDay.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerviewNexDay.adapter = weatherNextDaysAdapter
-
-
-        // Observe les changements dans la liste de prévisions météorologiques pour les prochains jours
-       /* viewModel.weatherNextDays.observe(viewLifecycleOwner) { weatherList ->
-            weatherNextDaysAdapter.setForecastList(weatherList)
-        }*/
         viewModel.finalListNextDay.observe(viewLifecycleOwner) { finalListNextDay ->
             weatherNextDaysAdapter.setForecastList(finalListNextDay)
         }
+
     }
 
         @RequiresApi(Build.VERSION_CODES.S)
@@ -167,14 +159,14 @@ class MainMeteoFragment : Fragment() {
         swipe.setOnRefreshListener {
             locationRefresh()
             if (activity?.let { Repository().isNetworkAvailable(it) } == true){
-                Log.d("city value", "${Repository.cityname}")
+                //Log.d("city value", "${Repository.cityname}")
                 viewModel.getWeather()
                 lifecycleScope.launch {
                     viewModel.getWeatherNextDays()
                     viewModel.getWeatherNexHour()
                 }
             }else{
-                Toast.makeText(requireContext(), "There is no network connection", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.no_network_connection, Toast.LENGTH_SHORT).show()
             }
             swipe.isRefreshing = false
         }

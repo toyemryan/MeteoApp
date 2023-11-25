@@ -6,6 +6,7 @@
     <!-- Strings related to login -->
     <string name="login">Login</string>
     <string name="logout">Esci</string>
+    <string name="chiudi">Chiudi</string>
     <string name="profile">Profilo</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -28,6 +29,7 @@
     <string name="tutti_campi_richiesti">Devi compilare tutti i campi !!</string>
     <string name="succes">Registrazione completata con successo</string>
     <string name="password_length_error">La passwort deve contenere almeno 8 carateri</string>
+    <string name="accedi">Hai un account ? Accedi</string>
 
 
     <!-- Preference Titles -->
@@ -63,7 +65,6 @@
     <string name="live_data_background">Fondo in diretto</string>
     <string name="live_data_background_explain">Image di fondo legato alla temperatura</string>
     <string name="language">lingua</string>
-
     <string name="title_activity_profile">ProfileActivity</string>
 
     <!-- Strings related to network and location-->
@@ -71,6 +72,12 @@
     <string name="location_good">Autorizzazione alla posizione concessa</string>
     <string name="location_bad">Autorizzazione alla posizione negata</string>
     <string name="access_location">Aggiornamenti sulla posizione richiesti</string>
+    <string name="no_network_connection">Nessuna connessione internet</string>
+    <string name="active_connection">Per favore attiva la tua connessione</string>
+    <string name="error_gps">GPS non supportato</string>
+    <string name="gps_non_abilitato">GPS non abilitato</string>
+    <string name="gps_enabled">GPS già attivato</string>
+    <string name="refresh">Aggiorna di nuovo</string>
 
     <!-- Strings related to delete city -->
     <string name="deletecity">Sei sicuro di voler cancelare la città di %1$s ? </string>
@@ -91,8 +98,7 @@
     <string name="nex_day">Previsioni 5 giorni</string>
     <string name="hours">Maggiori informazioni sulla giornata</string>
 
-    <!-- Strings related to network -->
-    <string name="no_network_connection">Nessuna connessione internet</string>
+
 
 
     <!-- Strings related to meteo -->
@@ -114,6 +120,11 @@
     <string name="cancell">Elimina profilo</string>
     <string name="btn">Elimina</string>
     <string name="profileU">Profilo Utente</string>
+
+
+
+
+
 
     <string-array name="pref_temperature">
         <item>°C</item>

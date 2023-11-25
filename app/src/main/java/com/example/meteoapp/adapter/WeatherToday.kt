@@ -55,7 +55,7 @@ class WeatherToday : RecyclerView.Adapter<WeatherToday.TodayHolder>() {
         val partafterspace = timeofapi[1]
 
         // Logga l'orario attuale e l'orario dalle previsioni meteorologiche
-        Log.e("time" , " formatted time:${formattedTime}")
+        //Log.e("time" , " formatted time:${formattedTime}")
     }
 
     // Metodo per impostare la lista delle previsioni meteorologiche di oggi nell'adapter

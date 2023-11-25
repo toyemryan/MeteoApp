@@ -28,7 +28,6 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
     override fun onBindViewHolder(holder: NextDaysHolder, position: Int) {
         val nextDaysForecastObject = listOfNextDaysWeather[position]
 
-
         val imageResourceId =
             Repository().getWeatherImageResourceId(nextDaysForecastObject.description.orEmpty())
         holder.weatherImageView.setImageResource(imageResourceId)
@@ -49,11 +48,11 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         holder.maxTemperature.text = " $maxTemperatureCelsius °C"
     }
 
-        @SuppressLint("NotifyDataSetChanged")
-        fun setForecastList(weatherList: List<FinalListNextDay>?) {
-            listOfNextDaysWeather = weatherList ?: emptyList()
-            notifyDataSetChanged()
-        }
+    @SuppressLint("NotifyDataSetChanged")
+    fun setForecastList(weatherList: List<FinalListNextDay>?) {
+        listOfNextDaysWeather = weatherList ?: emptyList()
+        notifyDataSetChanged()
+    }
 
 }
 class NextDaysHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -64,4 +63,3 @@ class NextDaysHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val minTemperature: TextView = itemView.findViewById(R.id.minTemperature)
     val maxTemperature: TextView = itemView.findViewById(R.id.maxTemperature)
 }
-

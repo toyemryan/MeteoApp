@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.Task
 import java.io.IOException
 import java.util.Locale
 
+
 open class Repository {
     companion object {
         var cityname : String? = null
@@ -130,9 +131,9 @@ open class Repository {
             // All location settings are satisfied. The client can initialize
             // location requests here.
             // ...
-            Log.d("preferenceChange", "gps activé")
+            //Log.d("preferenceChange", "gps activé")
             if (!activity.let { Repository().isNetworkAvailable(it) }){
-                Toast.makeText(activity,"Please put on your connection", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity,R.string.active_connection, Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -145,8 +146,7 @@ open class Repository {
                     // Show the dialog by calling startResolutionForResult(),
                     // and check the result in onActivityResult().
                     exception.startResolutionForResult(
-                        activity,
-                        100
+                        activity, 100
                     )
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error.
@@ -159,20 +159,20 @@ open class Repository {
 
         val manager = activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && Repository().hasGPSDevice(activity)) {
-            Log.e("TAG","Gps already enabled")
+            //Log.e("TAG","Gps already enabled")
             //Toast.makeText(requireContext(), "Gps already enabled", Toast.LENGTH_SHORT).show()
         }
         if(!Repository().hasGPSDevice(activity)){
-            Toast.makeText(activity,"Gps not Supported",Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity,R.string.error_gps,Toast.LENGTH_SHORT).show()
         }
 
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && Repository().hasGPSDevice(activity)) {
             //Log.e("TAG","Gps already enabled");
-            Toast.makeText(activity,"Gps not enabled",Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity,R.string.gps_non_abilitato,Toast.LENGTH_SHORT).show()
             enableLoc(activity)
         }else{
-            Log.e("TAG","Gps already enabled")
-            //Toast.makeText(requireContext(),"Gps already enabled",Toast.LENGTH_SHORT).show()
+            //Log.e("TAG","Gps already enabled")
+            Toast.makeText(activity,R.string.gps_enabled,Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -185,14 +185,14 @@ open class Repository {
             cityName = adress?.get(0)?.locality
         }
         catch (e: IOException){
-            Log.e("TAG","Problema di network")
+            //Log.e("TAG","Problema di network")
+            Toast.makeText(activity, R.string.error_network, Toast.LENGTH_SHORT).show()
         }
         catch (e: NullPointerException){
-            Toast.makeText(activity, "Please Refresh Again", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, R.string.refresh, Toast.LENGTH_SHORT).show()
         }
         return cityName
     }
-
 }
 fun calculMaxMinTemperature(weathers: List<WeatherList>): Pair<Double?, Double?>? {
     if (weathers.isEmpty()) {

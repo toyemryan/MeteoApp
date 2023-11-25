@@ -9,12 +9,7 @@ import com.google.gson.reflect.TypeToken
 class SharedPreferences(context: Context) {
     private val sharedPreferences: SharedPreferences? = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
 
-   /* companion object {
-        var cityname : String? = null
-    }*/
-
     fun saveCityList(cityList: List<Place>){
-        // Otenere un éditore per modificare le i dati delle preferenze condivise
         val editor = sharedPreferences!!.edit()
         // Convertire la lista delle città in una lista sérialisato di SerializablePlace
         val serializableList = cityList.map { SerializablePlace(it) }
@@ -46,6 +41,16 @@ class SharedPreferences(context: Context) {
 
     fun loadCityName(): String? {
         return sharedPreferences?.getString("cityName", null)
+    }
+
+    fun saveNotificationState(enabled: Boolean) {
+        val editor = sharedPreferences!!.edit()
+        editor.putBoolean("notification_enabled", enabled)
+        editor.apply()
+    }
+
+    fun isNotificationEnabled(): Boolean {
+        return sharedPreferences?.getBoolean("notification_enabled", false) ?: false
     }
 
 }

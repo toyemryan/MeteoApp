@@ -1,7 +1,7 @@
 package com.example.meteoapp.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +12,8 @@ import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.Repository
 
-class WeatherNextHour: RecyclerView.Adapter<NextHourHolder>() {
+
+class WeatherNextHour (private  val context: Context):  RecyclerView.Adapter<NextHourHolder>() {
     private var listOfNextHourWeather = listOf<WeatherList>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NextHourHolder {

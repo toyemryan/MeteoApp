@@ -2,7 +2,6 @@ package com.example.meteoapp.setting
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.preference.PreferenceManager
@@ -34,10 +33,7 @@ class SettingActivity : AppCompatActivity(),
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        Log.d("onSharedPreferenceChanged", "il listener che funziona come un callback")
-
-
-
+        //Log.d("onSharedPreferenceChanged", "il listener che funziona come un callback")
         if(key == "lingua"){
             val prefs = sharedPreferences?.getString(key, "1")
             val lang = DefaultLocaleHelper.getInstance(this)
@@ -52,6 +48,8 @@ class SettingActivity : AppCompatActivity(),
                 }
             }
         }
+
+
     }
 
     override fun onDestroy() {
