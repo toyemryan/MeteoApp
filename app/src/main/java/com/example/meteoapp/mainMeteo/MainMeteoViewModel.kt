@@ -124,6 +124,11 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
         return sdf.format(date)
     }
+
+    fun updateTemperature(updatedTemperature: Int) {
+        _maintemperature.value = "$updatedTemperature °C"
+    }
+
     fun setLocationPermission(permission: LocationPermission) {
         locationPermission = permission
     }
@@ -284,8 +289,6 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
     }
-
-
     @RequiresApi(Build.VERSION_CODES.S)
     fun fresh(activity: Context){
         if (activity?.let { Repository().isNetworkAvailable(it) } == true && Repository.cityname != null){

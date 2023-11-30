@@ -159,7 +159,6 @@ class MainMeteoFragment : Fragment() {
         swipe.setOnRefreshListener {
             locationRefresh()
             if (activity?.let { Repository().isNetworkAvailable(it) } == true){
-                //Log.d("city value", "${Repository.cityname}")
                 viewModel.getWeather()
                 lifecycleScope.launch {
                     viewModel.getWeatherNextDays()

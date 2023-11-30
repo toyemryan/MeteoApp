@@ -16,6 +16,7 @@ import java.util.Locale
 class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
 
     private var listOfNextDaysWeather: List<FinalListNextDay> = listOf()
+    private var temperatureUnit: Int = 1
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NextDaysHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_nexdays, parent, false)
         return NextDaysHolder(view)
@@ -48,10 +49,19 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         holder.maxTemperature.text = " $maxTemperatureCelsius °C"
     }
 
+    fun updateTemperatureUnit(unit: Int) {
+        temperatureUnit = unit
+        notifyDataSetChanged() // Mise à jour l'adaptateur après le changement d'unité
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     fun setForecastList(weatherList: List<FinalListNextDay>?) {
-        listOfNextDaysWeather = weatherList ?: emptyList()
+        listOfNextDaysWeather = (weatherList ?: emptyList()) as List<FinalListNextDay>
         notifyDataSetChanged()
+    }
+
+    fun getListOfNextDays(): List<FinalListNextDay> {
+        return listOfNextDaysWeather
     }
 
 }
