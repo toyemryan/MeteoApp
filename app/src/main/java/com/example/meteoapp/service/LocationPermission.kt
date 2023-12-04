@@ -16,6 +16,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import android.provider.Settings
 import android.util.Log
+import android.widget.Toast
 import com.example.meteoapp.R
 
 class LocationPermission(private val activity: Context) {
@@ -57,10 +58,12 @@ class LocationPermission(private val activity: Context) {
         when (requestCode) {
             LOCATION_PERMISSION_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d("LocationPermission", R.string.location_good.toString())
+                    //Log.d("LocationPermission", R.string.location_good.toString())
+                    Toast.makeText(activity, R.string.location_good, Toast.LENGTH_SHORT).show()
                     callback(true)
                 } else {
-                    Log.e("LocationPermission", R.string.location_bad.toString())
+                    //Log.e("LocationPermission", R.string.location_bad.toString())
+                    Toast.makeText(activity, R.string.location_bad, Toast.LENGTH_SHORT).show()
                     callback(false)
                 }
             }
@@ -83,13 +86,16 @@ class LocationPermission(private val activity: Context) {
             val locationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     locationResult.lastLocation?.let { location ->
-                        locationListener.invoke(location)
-                        Log.d("LocationPermission", "Location updated: $location")
+                       // if (activity != null){
+                            locationListener.invoke(location)
+                            //Log.d("LocationPermission", "Location updated: $location")
+                      //  }
                     }
                 }
             }
             fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
-            Log.d("LocationPermission", R.string.access_location.toString())
+            //Log.d("LocationPermission", R.string.access_location.toString())
+            Toast.makeText(activity, R.string.access_location, Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.example.meteoapp.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +16,7 @@ class WeatherToday : RecyclerView.Adapter<WeatherToday.TodayHolder>() {
 
     // Lista delle previsioni meteorologiche di oggi
     private var listOfTodayWeather = listOf<WeatherList>()
+    private var temperatureList = listOf<Double>()
 
     // Metodo chiamato quando viene creato un nuovo ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodayHolder {
@@ -31,9 +31,11 @@ class WeatherToday : RecyclerView.Adapter<WeatherToday.TodayHolder>() {
     }
 
     // Metodo chiamato per visualizzare i dati in una posizione specifica
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onBindViewHolder(holder: TodayHolder, position: Int) {
         val todayForeCast = listOfTodayWeather[position]
+
+        holder.tempDisplay.text = "${temperatureList[position]} °C"
 
         // Imposta l'ora nel formato HH:mm dalla data e ora fornite dalle previsioni meteorologiche
         holder.timeDisplay.text = todayForeCast.dtTxt!!.substring(11, 16).toRegex().toString()
@@ -54,8 +56,7 @@ class WeatherToday : RecyclerView.Adapter<WeatherToday.TodayHolder>() {
         val timeofapi = todayForeCast.dtTxt!!.split(" ")
         val partafterspace = timeofapi[1]
 
-        // Logga l'orario attuale e l'orario dalle previsioni meteorologiche
-        Log.e("time" , " formatted time:${formattedTime}")
+        holder.tempDisplay.text = todayForeCast.main?.temp.toString()
     }
 
     // Metodo per impostare la lista delle previsioni meteorologiche di oggi nell'adapter
@@ -70,5 +71,12 @@ class WeatherToday : RecyclerView.Adapter<WeatherToday.TodayHolder>() {
         val timeDisplay: TextView = itemView.findViewById(R.id.day)
         val weatherImageView: ImageView = itemView.findViewById(R.id.ImageMain)
     }
+/*
+    fun updateTemperatureList(updatedTemperatureList: List<Double>) {
+        temperatureList = updatedTemperatureList
+        notifyDataSetChanged()
+    }
+
+ */
 }
 

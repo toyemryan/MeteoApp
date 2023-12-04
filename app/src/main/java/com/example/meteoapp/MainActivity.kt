@@ -4,9 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -21,6 +24,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.meteoapp.auth.MainLoginActivity
 import com.example.meteoapp.auth.ProfileActivity
 import com.example.meteoapp.databinding.ActivityMainBinding
+import com.example.meteoapp.mainMeteo.MainMeteoFragment
+import com.example.meteoapp.repository.Repository
 import com.example.meteoapp.setting.SettingActivity
 import com.example.meteoapp.setting.languageChange.DefaultLocaleHelper
 import com.google.android.material.navigation.NavigationView
@@ -84,16 +89,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     // cette fonction permet de linker les menu du navView afin d'implementer un clickListener
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
 
         when (item.itemId) {
-            R.id.logout -> {
-                firebaseAuth.signOut()
-                currentUser = null
-                showLogoutConfirmDialog()
+
+            R.id.actualLocation -> {
+                if (Repository().isNetworkAvailable(this) && Repository.citynow != null){
+                    Repository.cityname = Repository.citynow
+                    /*val frag = MainMeteoFragment()*/
+                    drawerLayout.closeDrawer(GravityCompat.START)
+
+                }
+                else  {
+                    Toast.makeText(this, R.string.no_network_connection, Toast.LENGTH_SHORT).show()
+                }
             }
             R.id.profile -> {
                 val userEmail = currentUser?.email // Obtenez l'email de l'utilisateur connecté
@@ -102,7 +115,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
                 startActivity(intent)
             }
-
+            R.id.logout -> {
+                showLogoutConfirmDialog()
+            }
             R.id.setting -> {
                 val intent = Intent(this, SettingActivity::class.java)
                 startActivity(intent)
@@ -125,9 +140,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun showLogoutConfirmDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle(R.string.exit)
+        builder.setTitle(R.string.logout)
         builder.setMessage(R.string.exit_1)
         builder.setPositiveButton(R.string.yes) { dialogInterface: DialogInterface, id: Int ->
+            firebaseAuth.signOut()
+            currentUser = null
             val intent = Intent(this, MainLoginActivity::class.java)
             startActivity(intent)
             finish()
@@ -135,7 +152,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         builder.setNegativeButton(R.string.no){ dialogInterface: DialogInterface, id: Int ->
             dialogInterface.dismiss()
         }
-        builder.setNeutralButton(R.string.exit_2){ dialogInterface: DialogInterface, id: Int ->
+       builder.setNeutralButton(R.string.chiudi){ dialogInterface: DialogInterface, id: Int ->
             dialogInterface.cancel()
         }
         val alertDialog : AlertDialog = builder.create()

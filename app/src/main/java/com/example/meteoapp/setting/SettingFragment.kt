@@ -1,10 +1,12 @@
 package com.example.meteoapp.setting
 
+
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
 import com.example.meteoapp.R
+
 
 
 class SettingFragment : PreferenceFragmentCompat() {
@@ -17,6 +19,7 @@ class SettingFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
         addPreferencesFromResource(R.xml.preferences)
+
     }
 
 }

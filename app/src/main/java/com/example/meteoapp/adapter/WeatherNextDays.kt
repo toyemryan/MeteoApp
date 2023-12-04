@@ -8,17 +8,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoapp.R
-import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.Repository
-import com.example.meteoapp.repository.calculMaxMinTemperature
-import com.google.android.play.integrity.internal.c
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 
 class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
 
-    private var listOfNextDaysWeather: List<WeatherList> = listOf()
+    private var listOfNextDaysWeather: List<FinalListNextDay> = listOf()
+    private var temperatureUnit: Int = 1
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NextDaysHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_nexdays, parent, false)
         return NextDaysHolder(view)
@@ -31,9 +29,8 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
     override fun onBindViewHolder(holder: NextDaysHolder, position: Int) {
         val nextDaysForecastObject = listOfNextDaysWeather[position]
 
-
         val imageResourceId =
-            Repository().getWeatherImageResourceId(nextDaysForecastObject.weather[0].description.orEmpty())
+            Repository().getWeatherImageResourceId(nextDaysForecastObject.description.orEmpty())
         holder.weatherImageView.setImageResource(imageResourceId)
 
         val dateInputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
@@ -45,49 +42,34 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         val dayMonthFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
         holder.dayMonth.text = dayMonthFormat.format(date)
 
-         listOfNextDaysWeather.map { it.main!!.temp }
-        val maxMinTemperature = calculMaxMinTemperature(listOfNextDaysWeather)
+        val minTemperatureCelsius = (nextDaysForecastObject.tempMin?.minus(273.15))?.toInt()
+        val maxTemperatureCelsius = (nextDaysForecastObject.tempMax?.minus(273.15))?.toInt()
 
-        /*
-           listOfNextDaysWeather.map { it.main!!.temp }
-            val maxMinTemp = calculMaxMinTemperature(listOfNextDaysWeather)
-
-            if (maxMinTemp != null) {
-                val maxTempFahrenheit = maxMinTemp.first
-                val minTempFahrenheit = maxMinTemp.second
-
-                val minTempCelsius = minTempFahrenheit?.let { convertFahrenheitToCelsius(it) }
-                val maxTempCelsius = maxTempFahrenheit?.let { convertFahrenheitToCelsius(it) }
-
-                holder.minTemperature.text = " $minTempCelsius °C"
-                holder.maxTemperature.text = " $maxTempCelsius °C"
-            }
-         */
-
-        if (maxMinTemperature != null) {
-            val maxTemperature = maxMinTemperature.first
-            val minTemperature = maxMinTemperature.second
-
-            val minTemperatureCelsius = (minTemperature?.minus(273.15))?.toInt()
-            val maxTemperatureCelsius = (maxTemperature?.minus(273.15))?.toInt()
-
-            holder.minTemperature.text = " $minTemperatureCelsius °C"
-            holder.maxTemperature.text = " $maxTemperatureCelsius °C"
-        }
+        holder.minTemperature.text = " $minTemperatureCelsius °C"
+        holder.maxTemperature.text = " $maxTemperatureCelsius °C"
     }
-        @SuppressLint("NotifyDataSetChanged")
-    fun setForecastList(weatherList: List<WeatherList>?) {
-        listOfNextDaysWeather = weatherList ?: emptyList()
+
+    fun updateTemperatureUnit(unit: Int) {
+        temperatureUnit = unit
+        notifyDataSetChanged() // Mise à jour l'adaptateur après le changement d'unité
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setForecastList(weatherList: List<FinalListNextDay>?) {
+        listOfNextDaysWeather = (weatherList ?: emptyList()) as List<FinalListNextDay>
         notifyDataSetChanged()
     }
+
+    fun getListOfNextDays(): List<FinalListNextDay> {
+        return listOfNextDaysWeather
+    }
+
 }
 class NextDaysHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     val day: TextView = itemView.findViewById(R.id.day)
     val dayMonth: TextView = itemView.findViewById(R.id.dateDisplay)
     val weatherImageView: ImageView = itemView.findViewById(R.id.ImageMain)
-    //val temp: TextView = itemView.findViewById(R.id.temperature)
     val minTemperature: TextView = itemView.findViewById(R.id.minTemperature)
     val maxTemperature: TextView = itemView.findViewById(R.id.maxTemperature)
 }
-
