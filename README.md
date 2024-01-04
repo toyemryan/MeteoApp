@@ -13,6 +13,8 @@ L'Applicazione si adatta alle preferenze individuali (la scelta della lingua , l
 
 ## Diagrama dei casi d'uso
 
+![usecase](https://github.com/toyemryan/MeteoApp/assets/90463687/911553bb-e7ca-40c0-b8c8-434524392d51)
+
 ### Visualizzazione dati meteo:
 
 - Previsioni per l'attuale giornata.
