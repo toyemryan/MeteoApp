@@ -291,7 +291,7 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
     }
     @RequiresApi(Build.VERSION_CODES.S)
     fun fresh(activity: Context){
-        if (activity?.let { Repository().isNetworkAvailable(it) } == true && Repository.cityname != null){
+        if (activity.let { Repository().isNetworkAvailable(it) } && Repository.cityname != null){
             getWeather()
             viewModelScope.launch {
                 getWeatherNextDays()

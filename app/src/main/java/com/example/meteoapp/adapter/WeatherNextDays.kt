@@ -49,6 +49,7 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         holder.maxTemperature.text = " $maxTemperatureCelsius °C"
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateTemperatureUnit(unit: Int) {
         temperatureUnit = unit
         notifyDataSetChanged() // Mise à jour l'adaptateur après le changement d'unité

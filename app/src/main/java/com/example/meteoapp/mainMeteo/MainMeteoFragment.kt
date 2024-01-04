@@ -153,7 +153,7 @@ class MainMeteoFragment : Fragment() {
         toolbarTitle.text = null
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
+   /* @RequiresApi(Build.VERSION_CODES.S)
     private fun swipeRefresh(){
         val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
         swipe.setOnRefreshListener {
@@ -168,6 +168,24 @@ class MainMeteoFragment : Fragment() {
                 Toast.makeText(requireContext(), R.string.no_network_connection, Toast.LENGTH_SHORT).show()
             }
             swipe.isRefreshing = false
+        }
+    } */
+
+    @RequiresApi(Build.VERSION_CODES.S) // pour gerer le problème du swipe rapide
+    private fun swipeRefresh(){
+        val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
+        swipe.setOnRefreshListener {
+            lifecycleScope.launch{ // le coeur
+                locationRefresh()
+                if (activity?.let { Repository().isNetworkAvailable(it) } == true){
+                    viewModel.getWeather()
+                        viewModel.getWeatherNextDays()
+                        viewModel.getWeatherNexHour()
+                }else{
+                    Toast.makeText(requireContext(), R.string.no_network_connection, Toast.LENGTH_SHORT).show()
+                }
+                swipe.isRefreshing = false
+            }
         }
     }
 
