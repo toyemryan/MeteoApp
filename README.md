@@ -17,6 +17,13 @@ L'Applicazione si adatta alle preferenze individuali (la scelta della lingua , l
 
 ![usecase](https://github.com/toyemryan/MeteoApp/assets/90463687/70724211-329f-4203-95c4-0e47b4447677)
 
+## Architectura
+
+## Mockup
+
+## Testing
+
+## Funzionalità
 ### Visualizzazione dati meteo:
 
 - Previsioni per l'attuale giornata.
