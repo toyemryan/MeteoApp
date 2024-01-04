@@ -13,7 +13,7 @@ L'Applicazione si adatta alle preferenze individuali (la scelta della lingua , l
 
 ## Diagrama dei casi d'uso
 
-![usecase](https://github.com/toyemryan/MeteoApp/assets/90463687/911553bb-e7ca-40c0-b8c8-434524392d51)
+![usecase](https://github.com/toyemryan/MeteoApp/assets/90463687/70724211-329f-4203-95c4-0e47b4447677)
 
 ### Visualizzazione dati meteo:
 
