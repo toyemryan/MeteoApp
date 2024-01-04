@@ -11,6 +11,8 @@ L'Applicazione si adatta alle preferenze individuali (la scelta della lingua , l
 
 ## Presentazione dei requisiti funzionli e non funzionali 
 
+![requisiti](https://github.com/toyemryan/MeteoApp/assets/90463687/c4768ef9-60fc-4c1d-b17d-40a59cfee426)
+
 ## Diagrama dei casi d'uso
 
 ![usecase](https://github.com/toyemryan/MeteoApp/assets/90463687/70724211-329f-4203-95c4-0e47b4447677)
