@@ -11,7 +11,6 @@ import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.Repository
 
-
 class WeatherNextHour :  RecyclerView.Adapter<NextHourHolder>() {
     private var listOfNextHourWeather = listOf<WeatherList>()
 

@@ -8,9 +8,9 @@ import java.util.Locale
 
 /**
  * implementazione per default del [LocaleHelperKt].
- * questa pagina contenente più classe ci permette di salvare il cambiamento di lingua
+ * questa pagina contenente più classe, ci permette di salvare il cambiamento di lingua
  * scelto dall'utente
- * ovviamente la cosa piu importante è il onAttach nel Mainactivity che ricordo all'avvio dell'app
+ * ovviamente la cosa piu importante è il onAttach nel Mainactivity che ricorda all'avvio dell'app
  * della lingua scelta
  */
 open class DefaultLocaleHelper private constructor(context: Context) : BaseLocaleHelpe(context) {
