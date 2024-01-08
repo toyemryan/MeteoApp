@@ -16,11 +16,12 @@ import java.util.Locale
 class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
 
     private var listOfNextDaysWeather: List<FinalListNextDay> = listOf()
-    private var temperatureUnit: Int = 1
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NextDaysHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_nexdays, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.list_item_nexdays, parent, false)
         return NextDaysHolder(view)
     }
+
     override fun getItemCount(): Int {
         return listOfNextDaysWeather.size
     }
@@ -45,24 +46,23 @@ class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
         val minTemperatureCelsius = (nextDaysForecastObject.tempMin?.minus(273.15))?.toInt()
         val maxTemperatureCelsius = (nextDaysForecastObject.tempMax?.minus(273.15))?.toInt()
 
-        holder.minTemperature.text = " $minTemperatureCelsius °C"
-        holder.maxTemperature.text = " $maxTemperatureCelsius °C"
-    }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateTemperatureUnit(unit: Int) {
-        temperatureUnit = unit
-        notifyDataSetChanged() // Mise à jour l'adaptateur après le changement d'unité
+        val mintemperatureFahrenheit = ((minTemperatureCelsius)?.times(1.8))?.plus(32)
+        val maxtemperatureFahrenheit = ((maxTemperatureCelsius)?.times(1.8))?.plus(32)
+
+        if (Repository.preftemp == "1") {
+            holder.minTemperature.text = " $minTemperatureCelsius °C"
+            holder.maxTemperature.text = " $maxTemperatureCelsius °C"
+        } else {
+            holder.minTemperature.text = " $mintemperatureFahrenheit °F"
+            holder.maxTemperature.text = " $maxtemperatureFahrenheit °F"
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun setForecastList(weatherList: List<FinalListNextDay>?) {
-        listOfNextDaysWeather = (weatherList ?: emptyList()) as List<FinalListNextDay>
+        listOfNextDaysWeather = (weatherList ?: emptyList())
         notifyDataSetChanged()
-    }
-
-    fun getListOfNextDays(): List<FinalListNextDay> {
-        return listOfNextDaysWeather
     }
 
 }

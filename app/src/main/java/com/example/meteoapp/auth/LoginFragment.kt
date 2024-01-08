@@ -1,7 +1,4 @@
 package com.example.meteoapp.auth
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -17,6 +14,7 @@ import androidx.navigation.findNavController
 import com.example.meteoapp.Coordinator
 import com.example.meteoapp.R
 import com.example.meteoapp.databinding.FragmentLoginBinding
+import com.example.meteoapp.repository.Repository
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginFragment : Fragment() {
@@ -79,7 +77,7 @@ class LoginFragment : Fragment() {
             binding.password.error = null
         }
 
-        if (!isInternetAvailable(requireContext())) {
+        if (!Repository().isNetworkAvailable(requireContext())) {
             Toast.makeText(requireActivity(), R.string.no_network_connection, Toast.LENGTH_SHORT).show()
             return
         }
@@ -95,32 +93,7 @@ class LoginFragment : Fragment() {
             }
         }
 
-        // Dans votre LoginFragment, après la connexion réussie
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val currentUser = firebaseAuth.currentUser
-                    if (currentUser != null) {
-                        //val userName = currentUser.displayName
-                        val userEmail = currentUser.email // Récupérer l'email de l'utilisateur
-                        if (activity is MainLoginActivity) {
-                            (activity as MainLoginActivity).navigateToProfileFragment(userEmail)
-                        }
-                    }
-                } else {
-                    // Gérer l'échec de la connexion
-                }
-            }
 
     }
 
-
-    fun isInternetAvailable(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork ?: return false
-        val networkCapabilities =
-            connectivityManager.getNetworkCapabilities(network) ?: return false
-        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-    }
 }

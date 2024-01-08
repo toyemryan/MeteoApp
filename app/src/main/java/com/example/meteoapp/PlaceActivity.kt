@@ -1,5 +1,6 @@
 package com.example.meteoapp
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
@@ -31,6 +32,7 @@ class  PlaceActivity : AppCompatActivity() {
       private lateinit var cityAdapter: CityAdapter
       private lateinit var sharedPreferences: SharedPreferences
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlaceBinding.inflate(layoutInflater)
@@ -70,6 +72,7 @@ class  PlaceActivity : AppCompatActivity() {
             .setNegativeButton(R.string.no){dialog, _ -> dialog.dismiss()}.show()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun removeCity(place: Place) {
         cityList.remove(place)
         cityAdapter.notifyDataSetChanged()
@@ -83,6 +86,9 @@ class  PlaceActivity : AppCompatActivity() {
         return true
     }
 
+    /** qua facciamo un intent alla pagina che fa la ricerca da l'API PLACE di google
+     * @param item
+     */
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.app_bar_search -> {
             val fields = listOf(Place.Field.ID, Place.Field.NAME)
@@ -96,6 +102,8 @@ class  PlaceActivity : AppCompatActivity() {
         }
     }
 
+    /** funzione di call back che recupera i dati da ritornati dall'API
+     */
     private fun onSearchCalled(){
         startAutocomplete = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK){

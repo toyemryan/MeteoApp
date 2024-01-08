@@ -10,8 +10,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.preference.PreferenceManager
-import com.example.meteoapp.NotificationHelper
 import com.example.meteoapp.adapter.FinalListNextDay
 import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.Repository
@@ -42,13 +40,6 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
     val weatherNexHour: LiveData<List<WeatherList>>
         get() = _weathernexhour
 
-    private val _weatherNextDays = MutableLiveData<List<WeatherList>?>()
-    val weatherNextDays: MutableLiveData<List<WeatherList>?>
-        get() = _weatherNextDays
-
-    //private val city = "Ancona"
-
-    // LiveData pour le nom de la ville
     private val _cityName = MutableLiveData<String>()
     val cityName: LiveData<String>
         get() = _cityName
@@ -56,14 +47,6 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
     private val _maintemperature = MutableLiveData<String>()
     val maintempature: LiveData<String>
         get() = _maintemperature
-
-    private val _minTemp = MutableLiveData<String>()
-    val minTemp: LiveData<String>
-        get() = _minTemp
-
-    private val _maxTemp = MutableLiveData<String>()
-    val maxTemp: LiveData<String>
-        get() = _maxTemp
 
     private val _day = MutableLiveData<String?>()
     val day: MutableLiveData<String?>
@@ -119,14 +102,11 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
 
     private lateinit var locationPermission: LocationPermission
 
+
     private fun convertTimestampToTime(timestamp: Long): String {
         val date = Date(timestamp * 1000)
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
         return sdf.format(date)
-    }
-
-    fun updateTemperature(updatedTemperature: Int) {
-        _maintemperature.value = "$updatedTemperature °C"
     }
 
     fun setLocationPermission(permission: LocationPermission) {
@@ -182,32 +162,17 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
 
                         val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                         val localDateTime = LocalDateTime.parse(data.weatherList[0].dtTxt, dateTimeFormatter)
-                        _day.value = localDateTime.format(DateTimeFormatter.ofPattern("EEEE"))// Jour
-                        _hour.value = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm")) // Heure (à ajuster selon votre logique)
-                        _feelLike.value = "Feel like : ${(firstWeather.main?.feelsLike?.minus(273.15))?.toInt()} °C"
-                        _pressure.value = "${firstWeather.main?.pressure?.times(0.001)} Bar" // Pression
+                        _day.value = localDateTime.format(DateTimeFormatter.ofPattern("EEEE"))// Giorno
+                        _hour.value = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
 
-                        // val sys = firstWeather.sys
+                        _feelLike.value = "Feel like : ${(firstWeather.main?.feelsLike?.minus(273.15))?.toInt()} °C"
+
+                        _pressure.value = "${firstWeather.main?.pressure?.times(0.001)} Bar" // Pression
                         _sunriseTime.value = data.city!!.sunrise?.let { convertTimestampToTime(it.toLong()) }
                         _sunsetTime.value =  data.city!!.sunset?.let { convertTimestampToTime(it.toLong()) }
 
 
-                        val minTempKelvin = data.weatherList[0].main?.tempMin
-                        val maxTempKelvin = data.weatherList[0].main?.tempMax
-
-                        val minTempCelsius = (minTempKelvin?.minus(273.15))
-                        val maxTempCelsius = (maxTempKelvin?.minus(273.15))
-
-                        if (minTempCelsius != null) {
-                            _minTemp.value = "${minTempCelsius.toInt()}°C"
-                        }
-
-                        if (maxTempCelsius != null) {
-                            _maxTemp.value = "${maxTempCelsius.toInt()}°C"
-                        }
-
                         val windSpeedMeterSecond = firstWeather.wind?.speed
-                        // val windSpeedKmHour = windSpeedMeterSecond?.times(3.6)
                         _windSpeed.value = "${(windSpeedMeterSecond?.times(3.6))?.toInt()} Km/h" // Vitesse du vent
                         _humidity.value = "${firstWeather.main?.humidity}%" // Humidité
                         //_weatherImageResourceId.value = getWeather(firstForecast.weather?.get(0)?.id) // ID de l'image
@@ -216,8 +181,14 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
 
                         val temperatureKelvin = data.weatherList[0].main?.temp
                         val temperatureCelsius = (temperatureKelvin?.minus(273.15))
-                        if (temperatureCelsius != null) {
-                            _maintemperature.value = "${temperatureCelsius.toInt()}°C" // main temperature
+
+                        val temperatureFahrenheit = (((temperatureKelvin?.minus(273.15))?.times(1.8))?.plus(32))
+                        if (temperatureCelsius != null && temperatureFahrenheit != null) {
+                            if (Repository.preftemp == "1") {
+                                _maintemperature.value = "${temperatureCelsius.toInt()}°C" // main temperature
+                            } else {
+                                _maintemperature.value = "${temperatureFahrenheit.toInt()}°F"
+                            }
                         }
 
                         _rain.value = "${(firstWeather.pop?.times(100))?.toInt()}%"

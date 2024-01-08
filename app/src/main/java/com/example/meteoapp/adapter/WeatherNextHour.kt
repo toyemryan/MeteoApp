@@ -1,7 +1,6 @@
 package com.example.meteoapp.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.Repository
 
 
-class WeatherNextHour (private  val context: Context):  RecyclerView.Adapter<NextHourHolder>() {
+class WeatherNextHour :  RecyclerView.Adapter<NextHourHolder>() {
     private var listOfNextHourWeather = listOf<WeatherList>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NextHourHolder {
@@ -35,9 +34,15 @@ class WeatherNextHour (private  val context: Context):  RecyclerView.Adapter<Nex
         }
         holder.timeDisplay.text = nexhourForeCast.dtTxt?.substring(11, 16).toString()
 
-        val temperatureFahrenheit = nexhourForeCast.main?.temp
-        val temperatureCelsius = ((temperatureFahrenheit?.minus(273.15))?.toInt())
-        holder.tempDisplay.text = "$temperatureCelsius °C"
+        val temperatureKelvin = nexhourForeCast.main?.temp
+        val temperatureCelsius = ((temperatureKelvin?.minus(273.15))?.toInt())
+
+        val temperatureFahrenheit = (((temperatureKelvin?.minus(273.15))?.times(1.8))?.plus(32))
+            if (Repository.preftemp == "1") {
+                holder.tempDisplay.text = "$temperatureCelsius °C"
+            } else {
+                holder.tempDisplay.text = "${temperatureFahrenheit?.toInt()} °F"
+            }
     }
 
     @SuppressLint("NotifyDataSetChanged")

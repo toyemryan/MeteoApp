@@ -10,39 +10,18 @@
 
         <ListPreference
             app:iconSpaceReserved="false"
-            android:defaultValue="3"
+            android:defaultValue="1"
             android:dialogTitle="@string/temperature"
             android:entries="@array/pref_temperature"
             android:entryValues="@array/pref_num"
             android:key="Temperature"
             android:title="@string/temperature" />
 
-        <!--on below line we are creating a switch preference
-            default value is use to set switch on or off
-            key is use to set key
-            title is use to add title to our switch-->
-        <!--this switch preference option is to remind for a bed time-->
-        <SwitchPreference
-            app:iconSpaceReserved="false"
-            android:defaultValue="false"
-            android:key="Notification"
-            android:title="@string/notification" />
-
-        <!--below switch preference is
-            use for mobile data usage-->
-        <SwitchPreference
-            app:iconSpaceReserved="false"
-            android:defaultValue="false"
-            android:key="Fondo in diretto"
-            android:summary="@string/live_data_background_explain"
-            android:title="@string/live_data_background" />
-
 
         <ListPreference
             app:iconSpaceReserved="false"
             android:defaultValue="1"
             android:dialogTitle="@string/language"
-            app:defaultValue="1"
             android:entries="@array/pref_language"
             android:entryValues="@array/pref_num"
             android:key="lingua"

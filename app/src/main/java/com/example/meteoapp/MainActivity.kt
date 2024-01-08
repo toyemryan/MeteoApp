@@ -24,7 +24,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.meteoapp.auth.MainLoginActivity
 import com.example.meteoapp.auth.ProfileActivity
 import com.example.meteoapp.databinding.ActivityMainBinding
-import com.example.meteoapp.mainMeteo.MainMeteoFragment
 import com.example.meteoapp.repository.Repository
 import com.example.meteoapp.setting.SettingActivity
 import com.example.meteoapp.setting.languageChange.DefaultLocaleHelper
@@ -55,13 +54,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-
-        //put all the drawerlayout into the appbarconfiguration
-        //with layout_gravity we don't have the superposition of the view
         drawerLayout = binding.drawerLayout
         appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
 
-        // configurate the toolbar with the navView to be used by the navController
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
         NavigationUI.setupWithNavController(binding.navView, navController)
@@ -71,7 +66,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if(currentUser == null){
             val intent = Intent(this, MainLoginActivity::class.java)
-            startActivity(intent)// findNavController().navigate(R.id.action_fragment_to_navigation_login)
+            startActivity(intent)
             finish()
         }
 

@@ -11,8 +11,7 @@ import android.net.NetworkCapabilities
 import android.util.Log
 import android.widget.Toast
 import com.example.meteoapp.R
-import com.example.meteoapp.adapter.FinalListNextDay
-import com.example.meteoapp.modal.WeatherList
+import com.example.meteoapp.SharedPreferences
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -28,13 +27,9 @@ open class Repository {
     companion object {
         var cityname : String? = null
         var citynow : String? = null
-        var finalNextDay = FinalListNextDay()
+        var preftemp : String? = "1"
     }
 
-
-    fun listtt (): FinalListNextDay {
-        return finalNextDay
-    }
 
 
     fun getWeatherImageResourceId(condition: String): Int {
@@ -193,27 +188,7 @@ open class Repository {
         }
         return cityName
     }
+
 }
-fun calculMaxMinTemperature(weathers: List<WeatherList>): Pair<Double?, Double?>? {
-    if (weathers.isEmpty()) {
-        return null
-    }
 
-    var maxTemperature = weathers[0].main?.temp
-    var minTemperature = weathers[0].main?.temp
-
-    for (weather in weathers) {
-        val currentTemp = weather.main?.temp
-        if (currentTemp != null) {
-            if (currentTemp > (maxTemperature ?: Double.MIN_VALUE)) {
-                maxTemperature = currentTemp
-            }
-            if (currentTemp < (minTemperature ?: Double.MAX_VALUE)) {
-                minTemperature = currentTemp
-            }
-        }
-    }
-
-    return Pair(maxTemperature, minTemperature)
-}
 

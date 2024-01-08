@@ -18,8 +18,6 @@ class MainLoginActivity : AppCompatActivity(), Coordinator {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_login)
 
-        /*  val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
-          val navController = navHostFragment.navController */
     }
 
 
@@ -29,7 +27,4 @@ class MainLoginActivity : AppCompatActivity(), Coordinator {
         finish()
     }
 
-    fun navigateToProfileFragment(userEmail: String?) {
-
-    }
 }

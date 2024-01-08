@@ -1,22 +1,20 @@
 package com.example.meteoapp.auth
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.meteoapp.R
 import com.example.meteoapp.databinding.FragmentRegisterBinding
+import com.example.meteoapp.repository.Repository
 import com.google.firebase.auth.FirebaseAuth
 
 class RegisterFragment : Fragment() {
@@ -66,7 +64,7 @@ class RegisterFragment : Fragment() {
                 password.trim().length < 8 -> {
                     binding.password.error = getString(R.string.password_length_error)
                 }
-                !isInternetAvailable(requireContext()) -> {
+                !Repository().isNetworkAvailable(requireContext()) -> {
                     showToast(R.string.no_network_connection)
                 }
                 else -> {
@@ -97,15 +95,4 @@ class RegisterFragment : Fragment() {
         showToast(getString(messageResId))
     }
 
-    private fun isInternetAvailable(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        return if (connectivityManager != null) {
-            val capabilities =
-                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
-        } else {
-            false
-        }
-    }
 }

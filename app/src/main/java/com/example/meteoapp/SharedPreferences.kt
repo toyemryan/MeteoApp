@@ -18,12 +18,6 @@ class SharedPreferences(context: Context) {
         editor.apply()
     }
 
-    fun saveCityName(cityname : String?){
-        val editor = sharedPreferences!!.edit()
-        // Salva la lista sérialisato dentro le scharedPreferences
-        editor.putString("cityName", cityname)
-        editor.apply()
-    }
 
     // Funzione per caricare una lista di città dalle preferenze condivise
     fun loadCityList(): List<Place> {
@@ -39,18 +33,5 @@ class SharedPreferences(context: Context) {
         }
     }
 
-    fun loadCityName(): String? {
-        return sharedPreferences?.getString("cityName", null)
-    }
-
-    fun saveNotificationState(enabled: Boolean) {
-        val editor = sharedPreferences!!.edit()
-        editor.putBoolean("notification_enabled", enabled)
-        editor.apply()
-    }
-
-    fun isNotificationEnabled(): Boolean {
-        return sharedPreferences?.getBoolean("notification_enabled", false) ?: false
-    }
 
 }

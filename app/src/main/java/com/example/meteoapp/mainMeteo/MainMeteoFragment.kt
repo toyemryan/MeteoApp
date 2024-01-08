@@ -36,6 +36,7 @@ class MainMeteoFragment : Fragment() {
     private lateinit var binding: FragmentMainMeteoBinding
     private val viewModel: MainMeteoViewModel by viewModels()
 
+
     @RequiresApi(Build.VERSION_CODES.S)
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -54,6 +55,10 @@ class MainMeteoFragment : Fragment() {
     }
 
 
+    /**
+     * La logica dentro la funzione location e la localizzazione in maniera generale
+     * è l'aggiornamento di una variablie cityname che contiene la città che ci vuole informazioni
+     */
     @SuppressLint("SuspiciousIndentation")
     @RequiresApi(Build.VERSION_CODES.S)
     private fun location(){
@@ -68,7 +73,6 @@ class MainMeteoFragment : Fragment() {
                             location.let { it ->
                                 if (activity?.let { Repository().isNetworkAvailable(it) } == true){
                                     getCity = Repository().getCityName(it.latitude, it.longitude, requireActivity())
-                                    //Log.d("preferenceChange", " $getCity latitude is ${it.latitude}, longitude is ${it.longitude}")
                                     if(getCity != null){
                                         Repository.citynow = getCity
                                     }
@@ -87,12 +91,15 @@ class MainMeteoFragment : Fragment() {
         }
     }
 
+    /**
+     * qua se la variabile cityname contiene una città non farà nulla e la funzione swiperefresh proseguirà
+     */
     @RequiresApi(Build.VERSION_CODES.S)
     fun locationRefresh(){
             location()
             locationPermission.requestLocationUpdates { location ->
                 location.let {
-                    if(activity != null && isAdded){
+                    if(activity != null && isAdded){ // gestione del crash legato l'obbligo di avere un context
                     getCity = Repository().getCityName(it.latitude, it.longitude, requireActivity())
                     //Log.d("preferenceChange", " $getCity latitude is ${it.latitude}, longitude is ${it.longitude}")
                     if(getCity != null){
@@ -126,7 +133,7 @@ class MainMeteoFragment : Fragment() {
         }
 
         //Next Hours
-        val weatherNextHourAdapter = WeatherNextHour(requireContext())
+        val weatherNextHourAdapter = WeatherNextHour()
         binding.recyclerViewNexHour.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewNexHour.adapter = weatherNextHourAdapter
 
@@ -171,6 +178,12 @@ class MainMeteoFragment : Fragment() {
         }
     } */
 
+    /**
+     * funzione che gestisce il resfresh chiamando una funzione location modificato/simplificata
+     * per gestione del resfresh, è stato deciso che il resfresh non fa tornato la città richiesta alla
+     * città legato alla geo localizzazione
+     *
+     */
     @RequiresApi(Build.VERSION_CODES.S) // pour gerer le problème du swipe rapide
     private fun swipeRefresh(){
         val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
@@ -188,6 +201,7 @@ class MainMeteoFragment : Fragment() {
             }
         }
     }
+
 
 }
 
