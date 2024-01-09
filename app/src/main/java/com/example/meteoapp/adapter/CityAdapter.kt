@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 09/01/2024 Toyem Tezem Ryan Parfait & Djouaka Kelefack Lionel all rights reserved
+ */
+
 package com.example.meteoapp.adapter
 
 import android.view.LayoutInflater
@@ -8,6 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoapp.PlaceActivity
 import com.example.meteoapp.R
 import com.google.android.libraries.places.api.model.Place
+
+/**
+ * l'adapter del recycler view che contiene le città messe dall'utente via l'API Place dentro PlaceAtivity
+ */
 
 class CityAdapter(private val cityList: List<Place>, private val clickListener: PlaceActivity) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){

@@ -1,8 +1,13 @@
+/*
+ * Copyright (c) 09/01/2024 Toyem Tezem Ryan Parfait & Djouaka Kelefack Lionel all rights reserved
+ */
+
 package com.example.meteoapp
 
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -17,12 +22,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoapp.adapter.CityAdapter
 import com.example.meteoapp.databinding.ActivityPlaceBinding
 import com.example.meteoapp.repository.Repository
+import com.example.meteoapp.setting.languageChange.DefaultLocaleHelper
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
-
+/**
+ * Actività impostata per implementate l'API place di google salvare i dati con la chiamata alla pagina creata
+ * Sharedpreference, verifichiamo anche se città doppie
+ */
 class  PlaceActivity : AppCompatActivity() {
 
       private lateinit var binding: ActivityPlaceBinding
@@ -100,6 +109,10 @@ class  PlaceActivity : AppCompatActivity() {
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(DefaultLocaleHelper.getInstance(newBase!!).onAttach())
     }
 
     /** funzione di call back che recupera i dati da ritornati dall'API

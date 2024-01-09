@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 09/01/2024 Toyem Tezem Ryan Parfait & Djouaka Kelefack Lionel all rights reserved
+ */
+
 package com.example.meteoapp
 
 import android.content.Context
@@ -6,6 +10,10 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
+/**
+ * Classe SharedPreferences che gestisce la memorizzazione dei dati nei sharedPreference,
+ * Abbiamo deciso di scoporarlo, questa classe lavora con la pagina Place Activity, e memorizza le città
+ */
 class SharedPreferences(context: Context) {
     private val sharedPreferences: SharedPreferences? = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
 

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 09/01/2024 Toyem Tezem Ryan Parfait & Djouaka Kelefack Lionel all rights reserved
+ */
+
 package com.example.meteoapp.mainMeteo
 
 import LocationPermission
@@ -113,11 +117,6 @@ class MainMeteoFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
-    fun refresh(){
-        viewModel.fresh(requireActivity())
-    }
-
 
     @SuppressLint("NotifyDataSetChanged")
     override  fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -160,23 +159,6 @@ class MainMeteoFragment : Fragment() {
         toolbarTitle.text = null
     }
 
-   /* @RequiresApi(Build.VERSION_CODES.S)
-    private fun swipeRefresh(){
-        val swipe = (activity as AppCompatActivity).findViewById<SwipeRefreshLayout>(R.id.swiperefreshlayout)
-        swipe.setOnRefreshListener {
-            locationRefresh()
-            if (activity?.let { Repository().isNetworkAvailable(it) } == true){
-                viewModel.getWeather()
-                lifecycleScope.launch {
-                    viewModel.getWeatherNextDays()
-                    viewModel.getWeatherNexHour()
-                }
-            }else{
-                Toast.makeText(requireContext(), R.string.no_network_connection, Toast.LENGTH_SHORT).show()
-            }
-            swipe.isRefreshing = false
-        }
-    } */
 
     /**
      * funzione che gestisce il resfresh chiamando una funzione location modificato/simplificata

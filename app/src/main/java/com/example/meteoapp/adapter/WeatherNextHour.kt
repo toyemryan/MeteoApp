@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 09/01/2024 Toyem Tezem Ryan Parfait & Djouaka Kelefack Lionel all rights reserved
+ */
+
 package com.example.meteoapp.adapter
 
 import android.annotation.SuppressLint
@@ -11,6 +15,9 @@ import com.example.meteoapp.R
 import com.example.meteoapp.modal.WeatherList
 import com.example.meteoapp.repository.Repository
 
+/**
+ * l'adapter del recycler view che contiene i dati meteo in intervallo di 3 ore
+ */
 class WeatherNextHour :  RecyclerView.Adapter<NextHourHolder>() {
     private var listOfNextHourWeather = listOf<WeatherList>()
 

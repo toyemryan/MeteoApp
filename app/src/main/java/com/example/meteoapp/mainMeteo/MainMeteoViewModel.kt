@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 09/01/2024 Toyem Tezem Ryan Parfait & Djouaka Kelefack Lionel all rights reserved
+ */
+
 package com.example.meteoapp.mainMeteo
 
 import LocationPermission
@@ -112,6 +116,10 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
     fun setLocationPermission(permission: LocationPermission) {
         locationPermission = permission
     }
+
+    /**
+     * Qua abbiamo scoporato la logica di gestione degli errori
+     */
     private suspend fun <T> ApiCall(api: suspend () -> T) {
         return withContext(Dispatchers.IO){
             try {
@@ -128,6 +136,10 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
+    /**
+     * Funzione che fa la connessione e lavora i dati al fine di aggiornare i dati che saranno letti
+     * come livedata dal file XML, sono i dati attuali
+     */
     @OptIn(DelicateCoroutinesApi::class)
     fun getWeather() {
         // da scorporare
@@ -206,7 +218,10 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
         }
 
     }
-
+    /**
+     * Funzione che fa la connessione e lavora i dati al fine di aggiorni la variabile
+     * _weathernexhour contenente i 10 prossimi dati in intervallo di 3 ore
+     */
     suspend fun getWeatherNexHour() = viewModelScope.launch {
         ApiCall {
             val call =
@@ -223,6 +238,10 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
+    /**
+     * Funzione che fa la connessione e lavora i dati al fine di aggiorni la variabile
+     * _finalListNextDay contenente i 5 prossimi giorni
+     */
     suspend fun getWeatherNextDays() = viewModelScope.launch {
         val listOfNextDay  = mutableListOf<FinalListNextDay>()
 
@@ -260,6 +279,10 @@ class MainMeteoViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
     }
+
+    /**
+     * Piccola funzione che ci permette di aggiornare i dati chiamando i metodi qui sopra
+     */
     @RequiresApi(Build.VERSION_CODES.S)
     fun fresh(activity: Context){
         if (activity.let { Repository().isNetworkAvailable(it) } && Repository.cityname != null){

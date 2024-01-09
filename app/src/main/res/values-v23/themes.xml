@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 09/01/2024 Toyem Tezem Ryan Parfait & Djouaka Kelefack Lionel all rights reserved
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Base.AppTheme">

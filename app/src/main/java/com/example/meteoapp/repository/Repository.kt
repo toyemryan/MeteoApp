@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 09/01/2024 Toyem Tezem Ryan Parfait & Djouaka Kelefack Lionel all rights reserved
+ */
+
 package com.example.meteoapp.repository
 
 import android.annotation.SuppressLint
@@ -23,6 +27,10 @@ import java.io.IOException
 import java.util.Locale
 
 
+/**
+ * al fine de evitare che il viewmodel MainMeteoViewModel sia un god Object, abbiamo creato questa
+ * Classe che contiene certi metodi importanti
+ */
 open class Repository {
     companion object {
         var cityname : String? = null
@@ -92,6 +100,10 @@ open class Repository {
         return providers.contains(LocationManager.GPS_PROVIDER)
     }
 
+    /**
+     * Funzione che verifica se c'è internet, la particularità qua è che verifica se c'è la rete internet
+     * disponibile via WIFI, TELEPHONO, ETHERNET o BLUETOOTH
+     */
     fun isNetworkAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val nw = connectivityManager.activeNetwork ?: return false
@@ -107,7 +119,10 @@ open class Repository {
         }
     }
 
-
+    /**
+     * Questa funzione propone all'utente di attivare la geolocalizzazione, l'utente può accettare
+     * o rifiutare
+     */
     private fun enableLoc(activity : Activity){
 
         val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 100)
@@ -150,6 +165,11 @@ open class Repository {
         }
     }
 
+    /**
+     * Questa funzione si occupa di informare se la geolocalizzazione è attivata con la chiamata al
+     * metodo hasGPSDevice(),se non chiamiamo
+     * il metodo enableloc()
+     */
     fun requestDeviceLocationSettings(activity: Activity) {
 
         val manager = activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -171,6 +191,9 @@ open class Repository {
         }
     }
 
+    /**
+     * Questa funzione fa la conversione delle coordinate Longitude e latitude trovando la città
+     */
     @SuppressLint("SuspiciousIndentation")
     fun getCityName(lat: Double, long: Double, activity: Activity?): String? {
         var cityName: String? = null

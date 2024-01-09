@@ -1,5 +1,10 @@
+/*
+ * Copyright (c) 09/01/2024 Toyem Tezem Ryan Parfait & Djouaka Kelefack Lionel all rights reserved
+ */
+
 package com.example.meteoapp.setting
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -14,11 +19,13 @@ import com.example.meteoapp.databinding.ActivitySettingBinding
 import com.example.meteoapp.repository.Repository
 import com.example.meteoapp.setting.languageChange.DefaultLocaleHelper
 
-
+/**
+ * La best practice Setting Preference API, si basa su tre elementi, preference.xml dove implementiamo
+ * La UI, Setting Fragment dove si aggancia il file XML e SettingActivity che contiene la logica
+ */
 class SettingActivity : AppCompatActivity(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private lateinit var preftemp : com.example.meteoapp.SharedPreferences
     private lateinit var weatherNextDays:WeatherNextDays
     private lateinit var binding: ActivitySettingBinding
 
@@ -41,6 +48,10 @@ class SettingActivity : AppCompatActivity(),
         weatherNextDays = WeatherNextDays()
 
     }
+
+    /**
+     * Funzione di callback che gestisce la scelta dell'utente
+     */
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
 
         if(key == "lingua"){
@@ -80,6 +91,10 @@ class SettingActivity : AppCompatActivity(),
                 }
             }
         }
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(DefaultLocaleHelper.getInstance(newBase!!).onAttach())
     }
 
     override fun onDestroy() {

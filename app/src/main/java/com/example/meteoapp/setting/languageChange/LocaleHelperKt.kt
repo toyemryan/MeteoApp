@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 09/01/2024 Toyem Tezem Ryan Parfait & Djouaka Kelefack Lionel all rights reserved
+ */
+
 package com.example.meteoapp.setting.languageChange
 
 import android.content.Context
@@ -15,18 +19,10 @@ import java.util.Locale
  */
 open class DefaultLocaleHelper private constructor(context: Context) : BaseLocaleHelpe(context) {
     companion object {
-        /* Mark the instance as Volatile*/
         @Volatile
         private var instance: LocaleHelperKt? = null
         private var LOCK: Any = Any()
 
-        /**
-         * instance di [LocaleHelperKt].
-         *
-         * @param context [Context].
-         *
-         * @return instance di [LocaleHelperKt].
-         */
         fun getInstance(context: Context): LocaleHelperKt {
             synchronized(LOCK) {
                 if (instance == null) instance = DefaultLocaleHelper(context)
@@ -48,47 +44,24 @@ open class DefaultLocaleHelper private constructor(context: Context) : BaseLocal
         getPersistedLocale(Locale.getDefault().language)
 }
 
-/**
- * Base Locale Helper Class.
- *
- * This provide implementation of caching (SET, GET) selected/current locale by using [PreferenceManager].
- *
- * Also, provide implementation of setting new locale.
- *
- * @param context [Context].
- */
 abstract class BaseLocaleHelpe(internal val context: Context) :
     LocaleHelperKt {
     companion object {
         private const val SELECTED_LANGUAGE = "LocaleHelperKt_SelectedLanguage"
     }
 
-    /**
-     * Get persisted locale from [SharedPreferences].
-     *
-     * @param defaultLocale If persisted locale not found, return the [defaultLocale].
-     *
-     * @return Current locale ([String])
-     */
+
     internal fun getPersistedLocale(defaultLocale: String): String {
         return cacheStorage.getString(SELECTED_LANGUAGE, defaultLocale) ?: defaultLocale
     }
 
-    /* Provide lazy an instance of [SharedPreferences] */
     private val cacheStorage: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(
             context
         )
     }
 
-    /**
-     * Update resource configuration and [Context].
-     *
-     * @param context [Context]
-     * @param language [String]
-     *
-     * @return Context itself ([Context]])
-     */
+
     private fun updateResources(context: Context, language: String): Context {
         val locale = Locale(language)
         Locale.setDefault(locale)
@@ -97,14 +70,6 @@ abstract class BaseLocaleHelpe(internal val context: Context) :
         return context.createConfigurationContext(configuration)
     }
 
-    /**
-     * Set new locale to the resource based on API versions.
-     *
-     * @param context Application [Context].
-     * @param newLocale New locale to be set.
-     *
-     * @return Context itself ([Context]).
-     */
     private fun baseSetLocale(context: Context, newLocale: Locale): Context {
         var tmpContext = context
         val res = tmpContext.resources
@@ -130,9 +95,6 @@ abstract class BaseLocaleHelpe(internal val context: Context) :
     }
 }
 
-/**
- * Simple Locale Helper for Android.
- */
 interface LocaleHelperKt {
     fun onAttach(defaultLanguage: String? = null): Context
     fun getCurrentLocale(): String

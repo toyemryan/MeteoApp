@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 09/01/2024 Toyem Tezem Ryan Parfait & Djouaka Kelefack Lionel all rights reserved
+ */
+
 package com.example.meteoapp.adapter
 
 import android.annotation.SuppressLint
@@ -12,7 +16,9 @@ import com.example.meteoapp.repository.Repository
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-
+/**
+ * l'adapter del recycler view che contiene i dati dei 5 prossimi giorni
+ */
 class WeatherNextDays : RecyclerView.Adapter<NextDaysHolder>() {
 
     private var listOfNextDaysWeather: List<FinalListNextDay> = listOf()
