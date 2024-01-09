@@ -33,6 +33,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
+
 class MainMeteoViewModel(application: Application) : AndroidViewModel(application) {
 
     private var _finalListNextDay = MutableLiveData<List<FinalListNextDay>?>()
