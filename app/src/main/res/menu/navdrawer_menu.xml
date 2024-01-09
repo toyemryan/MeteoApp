@@ -13,6 +13,7 @@
         android:title="@string/favorite_place"/>
 
     <item
+
         android:id="@+id/setting"
         android:icon="@drawable/setting"
         android:title="@string/setting"/>
